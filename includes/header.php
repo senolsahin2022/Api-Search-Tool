@@ -27,11 +27,26 @@
             </a>
             <form action="/search" method="GET" class="search-bar">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" name="q" placeholder="Kullanıcı, hashtag veya içerik ara..." value="<?= e($_GET['q'] ?? '') ?>" required>
-                <button type="submit">Ara</button>
+                <input type="text" name="q" placeholder="<?= e(__('search_placeholder')) ?>" value="<?= e($_GET['q'] ?? '') ?>" required>
+                <button type="submit"><?= e(__('search_button')) ?></button>
             </form>
+            <div class="lang-selector">
+                <form action="<?= e($_SERVER['REQUEST_URI']) ?>" method="GET">
+                    <?php foreach ($_GET as $k => $v): if ($k !== 'lang'): ?>
+                        <input type="hidden" name="<?= e($k) ?>" value="<?= e($v) ?>">
+                    <?php endif; endforeach; ?>
+                    <select name="lang" onchange="this.form.submit()">
+                        <option value="tr" <?= $lang === 'tr' ? 'selected' : '' ?>>TR</option>
+                        <option value="en" <?= $lang === 'en' ? 'selected' : '' ?>>EN</option>
+                        <option value="ar" <?= $lang === 'ar' ? 'selected' : '' ?>>AR</option>
+                        <option value="zh" <?= $lang === 'zh' ? 'selected' : '' ?>>ZH</option>
+                        <option value="ru" <?= $lang === 'ru' ? 'selected' : '' ?>>RU</option>
+                        <option value="fa" <?= $lang === 'fa' ? 'selected' : '' ?>>FA</option>
+                    </select>
+                </form>
+            </div>
             <div class="nav-links">
-                <a href="/" class="<?= ($currentPage ?? '') === 'home' ? 'active' : '' ?>"><i class="fa-solid fa-fire-flame-curved"></i> Trendler</a>
+                <a href="/" class="<?= ($currentPage ?? '') === 'home' ? 'active' : '' ?>"><i class="fa-solid fa-fire-flame-curved"></i> <?= e(__('home')) ?></a>
             </div>
             <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('show')">
                 <i class="fa-solid fa-bars"></i>

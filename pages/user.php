@@ -50,8 +50,8 @@ if (!empty($userData) && is_array($userData)):
             </h1>
             <div class="profile-handle">@<?= e($screenName) ?></div>
             <div class="profile-stats-bar">
-                <?php if ($followers): ?><span class="profile-stat"><strong><?= formatNumber($followers) ?></strong> Takipçi</span><?php endif; ?>
-                <span class="profile-stat"><strong><?= formatNumber(count($tweets)) ?></strong> Gönderi</span>
+                <?php if ($followers): ?><span class="profile-stat"><strong><?= formatNumber($followers) ?></strong> <?= e(__('followers')) ?></span><?php endif; ?>
+                <span class="profile-stat"><strong><?= formatNumber(count($tweets)) ?></strong> <?= e(__('posts')) ?></span>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@ if (!empty($userData) && is_array($userData)):
 
 <?php if (!empty($tweets) && is_array($tweets)): ?>
 <section>
-    <h2 class="section-title"><i class="fa-regular fa-newspaper"></i> Son Gönderiler</h2>
+    <h2 class="section-title"><i class="fa-regular fa-newspaper"></i> <?= e(__('last_posts')) ?></h2>
     <div class="tweet-list">
         <?php foreach ($tweets as $tweet):
             require __DIR__ . '/../includes/tweet_card.php';
@@ -71,9 +71,9 @@ if (!empty($userData) && is_array($userData)):
 <?php else: ?>
     <div class="error-page">
         <i class="fa-solid fa-user-xmark"></i>
-        <h2>Kullanıcı bulunamadı</h2>
-        <p>"<?= e($username) ?>" kullanıcısı bulunamadı veya profil bilgileri alınamadı.</p>
-        <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+        <h2><?= e(__('user_not_found')) ?></h2>
+        <p>"<?= e($username) ?>" <?= e(__('user_not_found_text')) ?></p>
+        <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> <?= e(__('home_btn')) ?></a>
     </div>
 <?php endif; ?>
 

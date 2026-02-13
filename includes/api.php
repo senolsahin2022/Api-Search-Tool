@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/lang.php';
+
 define('API_BASE', 'https://autumn-bush-ac99.senolsahin2022.workers.dev/api');
 define('API_AUTH_HEADER', 'X-Pentest-Auth: authorized-pentest-2026');
 
@@ -51,12 +53,12 @@ function timeAgo($datetime) {
         $now = new DateTime();
         $diff = $now->diff($time);
 
-        if ($diff->y > 0) return $diff->y . ' yıl önce';
-        if ($diff->m > 0) return $diff->m . ' ay önce';
-        if ($diff->d > 0) return $diff->d . ' gün önce';
-        if ($diff->h > 0) return $diff->h . ' saat önce';
-        if ($diff->i > 0) return $diff->i . ' dakika önce';
-        return 'az önce';
+        if ($diff->y > 0) return $diff->y . ' ' . __('year_ago');
+        if ($diff->m > 0) return $diff->m . ' ' . __('month_ago');
+        if ($diff->d > 0) return $diff->d . ' ' . __('day_ago');
+        if ($diff->h > 0) return $diff->h . ' ' . __('hour_ago');
+        if ($diff->i > 0) return $diff->i . ' ' . __('minute_ago');
+        return __('just_now');
     } catch (Exception $e) {
         return $datetime;
     }

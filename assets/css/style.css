@@ -108,6 +108,19 @@ body {
 
 .search-bar button:hover { background: var(--primary-dark); }
 
+.lang-selector select {
+    background: var(--bg-secondary);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 50px;
+    outline: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.lang-selector select:focus { border-color: var(--primary); }
+
 .nav-links { display: flex; gap: 8px; }
 
 .nav-links a {

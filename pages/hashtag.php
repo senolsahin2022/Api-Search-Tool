@@ -18,7 +18,7 @@ require __DIR__ . '/../includes/header.php';
 ?>
 
 <h1 class="page-title"><span style="color:var(--primary)">#</span><?= e($tag) ?></h1>
-<p class="page-subtitle">Bu hashtag ile ilgili en son paylaşımlar</p>
+<p class="page-subtitle"><?= e(__('hashtag_subtitle')) ?></p>
 
 <?php if (!empty($results) && is_array($results)):
     $tweets = $results['tweets'] ?? $results['results'] ?? $results['data'] ?? $results['statuses'] ?? $results;

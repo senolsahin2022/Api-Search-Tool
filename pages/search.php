@@ -31,9 +31,9 @@ $canonicalUrl = '/search?q=' . urlencode($query);
 require __DIR__ . '/../includes/header.php';
 ?>
 
-<h1 class="page-title"><i class="fa-solid fa-magnifying-glass" style="color:var(--primary)"></i> "<?= e($query) ?>" Sonuçları</h1>
+<h1 class="page-title"><i class="fa-solid fa-magnifying-glass" style="color:var(--primary)"></i> "<?= e($query) ?>" <?= e(__('search_results')) ?></h1>
 <p class="page-subtitle">
-    Farklı aramalar dene:
+    <?= e(__('try_different')) ?>
     <a href="/hashtag/<?= urlencode($query) ?>" class="tag-link">#<?= e($query) ?></a>
 </p>
 
@@ -48,9 +48,9 @@ require __DIR__ . '/../includes/header.php';
 <?php else: ?>
     <div class="error-page">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <h2>Sonuç bulunamadı</h2>
-        <p>"<?= e($query) ?>" ile eşleşen içerik bulunamadı. Farklı bir arama deneyin.</p>
-        <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+        <h2><?= e(__('no_results')) ?></h2>
+        <p>"<?= e($query) ?>" <?= e(__('no_results_text')) ?></p>
+        <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> <?= e(__('home_btn')) ?></a>
     </div>
 <?php endif; ?>
 

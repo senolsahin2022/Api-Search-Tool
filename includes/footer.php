@@ -4,18 +4,18 @@
             <div class="footer-grid">
                 <div class="footer-section">
                     <h3><i class="fa-brands fa-x-twitter"></i> TwitExplorer</h3>
-                    <p>Sosyal medya dünyasını keşfet. Trendleri takip et, kullanıcıları bul, hashtag'leri incele.</p>
+                    <p><?= e(__('footer_desc')) ?></p>
                 </div>
                 <div class="footer-section">
-                    <h4>Hızlı Erişim</h4>
+                    <h4><?= e(__('quick_access')) ?></h4>
                     <ul>
-                        <li><a href="/">Trendler</a></li>
+                        <li><a href="/"><?= e(__('home')) ?></a></li>
                         <li><a href="/search?q=gündem">Gündem</a></li>
                         <li><a href="/hashtag/trending">Popüler Hashtag'ler</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Popüler Aramalar</h4>
+                    <h4><?= e(__('popular_searches')) ?></h4>
                     <ul>
                         <li><a href="/search?q=crypto">Kripto</a></li>
                         <li><a href="/search?q=technology">Teknoloji</a></li>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <?= date('Y') ?> TwitExplorer. Tüm hakları saklıdır.</p>
+                <p>&copy; <?= date('Y') ?> TwitExplorer. <?= e(__('all_rights')) ?></p>
             </div>
         </div>
     </footer>

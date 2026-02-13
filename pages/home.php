@@ -11,8 +11,8 @@ require __DIR__ . '/../includes/header.php';
 ?>
 
 <section class="hero">
-    <h1>Sosyal Medya Trendlerini Keşfet</h1>
-    <p>Gündemdeki konuları takip et, kullanıcı profillerini incele ve popüler hashtag'leri keşfet.</p>
+    <h1><?= e(__('hero_title')) ?></h1>
+    <p><?= e(__('hero_subtitle')) ?></p>
     <div class="quick-search-tags">
         <a href="/search?q=crypto" class="tag-link">#crypto</a>
         <a href="/search?q=bitcoin" class="tag-link">#bitcoin</a>
@@ -24,7 +24,7 @@ require __DIR__ . '/../includes/header.php';
 </section>
 
 <section>
-    <h2 class="section-title"><i class="fa-solid fa-fire-flame-curved"></i> Gündemdeki Konular</h2>
+    <h2 class="section-title"><i class="fa-solid fa-fire-flame-curved"></i> <?= e(__('trending_topics')) ?></h2>
     <?php if (!empty($trends) && is_array($trends)): ?>
         <div class="trends-grid">
             <?php
@@ -49,10 +49,10 @@ require __DIR__ . '/../includes/header.php';
                 $link = '/search?q=' . urlencode($searchName);
             ?>
             <a href="<?= e($link) ?>" class="trend-card">
-                <div class="trend-rank"><?= $rank ?> · Trend</div>
+                <div class="trend-rank"><?= $rank ?> · <?= e(__('trend')) ?></div>
                 <div class="trend-name"><?= e($name) ?></div>
                 <?php if ($volume): ?>
-                    <div class="trend-volume"><?= formatNumber($volume) ?> gönderi</div>
+                    <div class="trend-volume"><?= formatNumber($volume) ?> <?= e(__('posts')) ?></div>
                 <?php endif; ?>
             </a>
             <?php $rank++; endforeach; ?>
@@ -60,8 +60,8 @@ require __DIR__ . '/../includes/header.php';
     <?php else: ?>
         <div class="error-page">
             <i class="fa-solid fa-cloud-bolt"></i>
-            <h2>Trend verileri yüklenemedi</h2>
-            <p>Lütfen daha sonra tekrar deneyin.</p>
+            <h2><?= e(__('load_error')) ?></h2>
+            <p><?= e(__('retry')) ?></p>
         </div>
     <?php endif; ?>
 </section>
