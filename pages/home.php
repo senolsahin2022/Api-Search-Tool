@@ -14,12 +14,6 @@ require __DIR__ . '/../includes/header.php';
     <h1><?= e(__('hero_title')) ?></h1>
     <p><?= e(__('hero_subtitle')) ?></p>
     
-    <div style="margin-top: 25px;">
-        <a href="/twitexplorer.zip" class="btn-primary" style="display: inline-block; padding: 10px 20px; background: #1d9bf0; color: #fff; border-radius: 20px; text-decoration: none; font-weight: bold; border: 1px solid #1d9bf0;">
-            <i class="fa-solid fa-file-zipper"></i> Projeyi İndir (.zip)
-        </a>
-    </div>
-    
     <div class="bypass-info" style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: left;">
         <div class="trend-card" style="cursor: default; background: rgba(29, 155, 240, 0.1); border-color: var(--primary);">
             <div class="trend-name"><i class="fa-solid fa-shield-halved"></i> <?= e(__('bypass_title')) ?></div>
