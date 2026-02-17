@@ -7,7 +7,8 @@
     <meta name="description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta name="keywords" content="<?= e($pageKeywords ?? __('meta_keywords')) ?>">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <?php $baseUrl = 'https://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'); ?>
+    <?php $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    $baseUrl = $protocol . ($_SERVER['HTTP_HOST'] ?? 'localhost'); ?>
     <link rel="canonical" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
     <meta property="og:title" content="<?= e($pageTitle ?? __('meta_title')) ?>">
     <meta property="og:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
