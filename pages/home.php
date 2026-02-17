@@ -13,7 +13,19 @@ require __DIR__ . '/../includes/header.php';
 <section class="hero">
     <h1><?= e(__('hero_title')) ?></h1>
     <p><?= e(__('hero_subtitle')) ?></p>
-    <div class="quick-search-tags">
+    
+    <div class="bypass-info" style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: left;">
+        <div class="trend-card" style="cursor: default; background: rgba(29, 155, 240, 0.1); border-color: var(--primary);">
+            <div class="trend-name"><i class="fa-solid fa-shield-halved"></i> <?= e(__('bypass_title')) ?></div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;"><?= e(__('bypass_desc')) ?></p>
+        </div>
+        <div class="trend-card" style="cursor: default; background: rgba(0, 186, 124, 0.1); border-color: var(--success);">
+            <div class="trend-name"><i class="fa-solid fa-magnifying-glass-chart"></i> <?= e(__('seo_friendly')) ?></div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 10px;"><?= e(__('seo_desc')) ?></p>
+        </div>
+    </div>
+
+    <div class="quick-search-tags" style="margin-top: 30px;">
         <a href="/search?q=crypto" class="tag-link">#crypto</a>
         <a href="/search?q=bitcoin" class="tag-link">#bitcoin</a>
         <a href="/search?q=technology" class="tag-link">#technology</a>

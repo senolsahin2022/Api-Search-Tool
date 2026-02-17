@@ -27,9 +27,6 @@ switch (true) {
         $tag = $m[1];
         require __DIR__ . '/pages/hashtag.php';
         break;
-    case $requestUri === '/downloader':
-        require __DIR__ . '/pages/downloader.php';
-        break;
     default:
         http_response_code(404);
         require __DIR__ . '/pages/404.php';

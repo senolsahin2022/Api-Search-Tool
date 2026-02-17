@@ -54,7 +54,6 @@
             </div>
             <div class="nav-links">
                 <a href="/" class="<?= ($currentPage ?? '') === 'home' ? 'active' : '' ?>"><i class="fa-solid fa-fire-flame-curved"></i> <?= e(__('home')) ?></a>
-                <a href="/downloader" class="<?= ($currentPage ?? '') === 'downloader' ? 'active' : '' ?>"><i class="fa-solid fa-download"></i> Downloader</a>
             </div>
             <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('show')">
                 <i class="fa-solid fa-bars"></i>
