@@ -71,7 +71,9 @@ require __DIR__ . '/../includes/header.php';
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "TwitExplorer",
+  "alternateName": "Twitter Trend Explorer",
   "url": "<?= $baseUrl ?>",
+  "description": "<?= e(__('hero_subtitle')) ?>",
   "potentialAction": {
     "@type": "SearchAction",
     "target": "<?= $baseUrl ?>/search?q={search_term_string}",

@@ -6,12 +6,19 @@
     <title><?= e($pageTitle ?? 'TwitExplorer - Sosyal Medya Keşfet') ?></title>
     <meta name="description" content="<?= e($pageDescription ?? 'Sosyal medya trendlerini keşfet, kullanıcı profilleri ve hashtag araması yap.') ?>">
     <meta name="keywords" content="<?= e($pageKeywords ?? 'sosyal medya, twitter, trendler, hashtag, arama') ?>">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <?php $baseUrl = 'https://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'); ?>
     <link rel="canonical" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
     <meta property="og:title" content="<?= e($pageTitle ?? 'TwitExplorer') ?>">
     <meta property="og:description" content="<?= e($pageDescription ?? 'Sosyal medya trendlerini keşfet.') ?>">
+    <meta property="og:url" content="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
+    <meta property="og:site_name" content="TwitExplorer">
+    <meta property="og:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= e($pageTitle ?? 'TwitExplorer') ?>">
+    <meta name="twitter:description" content="<?= e($pageDescription ?? 'Sosyal medya trendlerini keşfet.') ?>">
+    <meta name="twitter:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
