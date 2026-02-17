@@ -20,12 +20,12 @@
     <meta name="twitter:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta name="twitter:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
     
-    <link rel="alternate" hreflang="tr" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=tr">
-    <link rel="alternate" hreflang="en" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=en">
-    <link rel="alternate" hreflang="ar" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=ar">
-    <link rel="alternate" hreflang="zh" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=zh">
-    <link rel="alternate" hreflang="ru" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=ru">
-    <link rel="alternate" hreflang="fa" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=fa">
+    <link rel="alternate" hreflang="tr" href="<?= e($baseUrl . ($canonicalUrl ?? '')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=tr">
+    <link rel="alternate" hreflang="en" href="<?= e($baseUrl . ($canonicalUrl ?? '')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=en">
+    <link rel="alternate" hreflang="ar" href="<?= e($baseUrl . ($canonicalUrl ?? '')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=ar">
+    <link rel="alternate" hreflang="zh" href="<?= e($baseUrl . ($canonicalUrl ?? '')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=zh">
+    <link rel="alternate" hreflang="ru" href="<?= e($baseUrl . ($canonicalUrl ?? '')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=ru">
+    <link rel="alternate" hreflang="fa" href="<?= e($baseUrl . ($canonicalUrl ?? '')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=fa">
     <link rel="alternate" hreflang="x-default" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
