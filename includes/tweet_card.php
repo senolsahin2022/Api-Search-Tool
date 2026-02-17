@@ -58,4 +58,9 @@ $linkedText = preg_replace(
         <?php if ($quotes): ?><span class="tweet-stat"><i class="fa-solid fa-quote-right"></i> <?= formatNumber($quotes) ?></span><?php endif; ?>
         <?php if ($views): ?><span class="tweet-stat"><i class="fa-solid fa-chart-simple"></i> <?= formatNumber($views) ?></span><?php endif; ?>
     </div>
+    <div class="share-buttons" style="margin-top: 15px; display: flex; gap: 10px;">
+        <a href="https://twitter.com/intent/tweet?text=<?= urlencode($text) ?>&url=<?= urlencode($baseUrl . '/user/' . $screenName) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem;"><i class="fa-brands fa-x-twitter"></i> Paylaş</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($baseUrl . '/user/' . $screenName) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem;"><i class="fa-brands fa-facebook"></i> Facebook</a>
+        <a href="https://wa.me/?text=<?= urlencode($text . ' ' . $baseUrl . '/user/' . $screenName) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+    </div>
 </article>

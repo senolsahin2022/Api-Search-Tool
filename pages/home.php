@@ -66,4 +66,28 @@ require __DIR__ . '/../includes/header.php';
     <?php endif; ?>
 </section>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "TwitExplorer",
+  "url": "<?= $baseUrl ?>",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "<?= $baseUrl ?>/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<section style="margin-top: 50px;">
+    <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> <?= e(__('popular_searches')) ?> FAQ</h2>
+    <div class="faq-container">
+        <div class="trend-card" style="margin-bottom: 10px; cursor: default;">
+            <div class="trend-name"><?= e(__('hero_title')) ?>?</div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;"><?= e(__('hero_subtitle')) ?></p>
+        </div>
+    </div>
+</section>
+
 <?php require __DIR__ . '/../includes/footer.php'; ?>
