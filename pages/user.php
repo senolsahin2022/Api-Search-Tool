@@ -66,6 +66,20 @@ if (!empty($userData) && is_array($userData)):
         endforeach; ?>
     </div>
 </section>
+
+<section style="margin-top: 50px;">
+    <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> @<?= e($screenName) ?> FAQ</h2>
+    <div class="faq-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+            <div class="trend-name">@<?= e($screenName) ?> profili güncel mi?</div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Evet, bu sayfada @<?= e($screenName) ?> kullanıcısının anlık paylaşımları gösterilmektedir.</p>
+        </div>
+        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+            <div class="trend-name">@<?= e($screenName) ?> tweetlerini nasıl takip ederim?</div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">TwitExplorer üzerinden bu sayfayı yer imlerine ekleyerek X erişime kapalı olsa dahi takip edebilirsiniz.</p>
+        </div>
+    </div>
+</section>
 <?php endif; ?>
 
 <?php else: ?>

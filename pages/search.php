@@ -45,6 +45,20 @@ require __DIR__ . '/../includes/header.php';
             require __DIR__ . '/../includes/tweet_card.php';
         endforeach; ?>
     </div>
+
+    <section style="margin-top: 50px;">
+        <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> FAQ</h2>
+        <div class="faq-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+            <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+                <div class="trend-name">"<?= e($query) ?>" araması güvenli mi?</div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Evet, TwitExplorer üzerinden yapılan tüm aramalar anonimdir ve güvenli bağlantı üzerinden gerçekleşir.</p>
+            </div>
+            <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+                <div class="trend-name">En son "<?= e($query) ?>" haberlerini nasıl görürüm?</div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Bu sayfa anlık olarak güncellenerek "<?= e($query) ?>" hakkındaki en taze içerikleri sunar.</p>
+            </div>
+        </div>
+    </section>
 <?php else: ?>
     <div class="error-page">
         <i class="fa-solid fa-magnifying-glass"></i>

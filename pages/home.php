@@ -96,12 +96,61 @@ require __DIR__ . '/../includes/header.php';
 
 <section style="margin-top: 50px;">
     <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> <?= e(__('popular_searches')) ?> FAQ</h2>
-    <div class="faq-container">
-        <div class="trend-card" style="margin-bottom: 10px; cursor: default;">
-            <div class="trend-name"><?= e(__('hero_title')) ?>?</div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;"><?= e(__('hero_subtitle')) ?></p>
+    <div class="faq-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+            <div class="trend-name"><?= e(__('faq_q1')) ?></div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;"><?= e(__('faq_a1')) ?></p>
+        </div>
+        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+            <div class="trend-name"><?= e(__('faq_q2')) ?></div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;"><?= e(__('faq_a2')) ?></p>
+        </div>
+        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+            <div class="trend-name"><?= e(__('faq_q3')) ?></div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;"><?= e(__('faq_a3')) ?></p>
+        </div>
+        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+            <div class="trend-name"><?= e(__('faq_q4')) ?></div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;"><?= e(__('faq_a4')) ?></p>
+        </div>
+        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
+            <div class="trend-name"><?= e(__('faq_q5')) ?></div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;"><?= e(__('faq_a5')) ?></p>
         </div>
     </div>
 </section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "<?= e(__('faq_q1')) ?>",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "<?= e(__('faq_a1')) ?>"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "<?= e(__('faq_q2')) ?>",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "<?= e(__('faq_a2')) ?>"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "<?= e(__('faq_q5')) ?>",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "<?= e(__('faq_a5')) ?>"
+      }
+    }
+  ]
+}
+</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
