@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="<?= e($lang) ?>" dir="<?= in_array($lang, ['ar', 'fa']) ? 'rtl' : 'ltr' ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +19,15 @@
     <meta name="twitter:title" content="<?= e($pageTitle ?? __('meta_title')) ?>">
     <meta name="twitter:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta name="twitter:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
+    
+    <link rel="alternate" hreflang="tr" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=tr">
+    <link rel="alternate" hreflang="en" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=en">
+    <link rel="alternate" hreflang="ar" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=ar">
+    <link rel="alternate" hreflang="zh" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=zh">
+    <link rel="alternate" hreflang="ru" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=ru">
+    <link rel="alternate" hreflang="fa" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>?lang=fa">
+    <link rel="alternate" hreflang="x-default" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
