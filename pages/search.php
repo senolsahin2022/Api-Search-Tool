@@ -23,9 +23,9 @@ if ($isHashSearch) {
 
 $results = searchPosts($query);
 
-$pageTitle = '"' . $query . '" Arama Sonuçları - TwitExplorer';
-$pageDescription = $query . ' hakkındaki en güncel paylaşımları ve içerikleri keşfet.';
-$pageKeywords = $query . ', twitter arama, sosyal medya, paylaşımlar';
+$pageTitle = sprintf(__('search_title'), $query);
+$pageDescription = sprintf(__('search_desc'), $query);
+$pageKeywords = sprintf(__('search_keywords'), $query);
 $canonicalUrl = '/search?q=' . urlencode($query);
 
 require __DIR__ . '/../includes/header.php';

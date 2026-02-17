@@ -9,8 +9,8 @@ if (empty($username)) {
 
 $userData = getUser($username);
 
-$pageTitle = '@' . $username . ' Profili - TwitExplorer';
-$pageDescription = $username . ' kullanıcısının sosyal medya profili ve son paylaşımları.';
+$pageTitle = sprintf(__('user_title'), $username);
+$pageDescription = sprintf(__('user_desc'), $username);
 $pageKeywords = $username . ', twitter profil, kullanıcı, sosyal medya';
 $canonicalUrl = '/user/' . urlencode($username);
 

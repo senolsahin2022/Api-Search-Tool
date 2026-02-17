@@ -9,8 +9,8 @@ if (empty($tag)) {
 
 $results = getHashtag($tag);
 
-$pageTitle = '#' . $tag . ' Hashtag Gönderileri - TwitExplorer';
-$pageDescription = '#' . $tag . ' hashtag\'ine sahip en güncel paylaşımlar ve içerikler.';
+$pageTitle = sprintf(__('hashtag_title'), $tag);
+$pageDescription = sprintf(__('hashtag_desc'), $tag);
 $pageKeywords = $tag . ', hashtag, twitter, sosyal medya, paylaşımlar';
 $canonicalUrl = '/hashtag/' . urlencode($tag);
 
