@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e($pageTitle ?? 'TwitExplorer - Sosyal Medya Keşfet') ?></title>
-    <meta name="description" content="<?= e($pageDescription ?? 'Sosyal medya trendlerini keşfet, kullanıcı profilleri ve hashtag araması yap.') ?>">
-    <meta name="keywords" content="<?= e($pageKeywords ?? 'sosyal medya, twitter, trendler, hashtag, arama') ?>">
+    <title><?= e($pageTitle ?? __('meta_title')) ?></title>
+    <meta name="description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
+    <meta name="keywords" content="<?= e($pageKeywords ?? __('meta_keywords')) ?>">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <?php $baseUrl = 'https://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'); ?>
     <link rel="canonical" href="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
-    <meta property="og:title" content="<?= e($pageTitle ?? 'TwitExplorer') ?>">
-    <meta property="og:description" content="<?= e($pageDescription ?? 'Sosyal medya trendlerini keşfet.') ?>">
+    <meta property="og:title" content="<?= e($pageTitle ?? __('meta_title')) ?>">
+    <meta property="og:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta property="og:url" content="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
     <meta property="og:site_name" content="TwitExplorer">
     <meta property="og:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?= e($pageTitle ?? 'TwitExplorer') ?>">
-    <meta name="twitter:description" content="<?= e($pageDescription ?? 'Sosyal medya trendlerini keşfet.') ?>">
+    <meta name="twitter:title" content="<?= e($pageTitle ?? __('meta_title')) ?>">
+    <meta name="twitter:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta name="twitter:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
