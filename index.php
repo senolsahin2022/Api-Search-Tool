@@ -27,6 +27,32 @@ switch (true) {
         $tag = $m[1];
         require __DIR__ . '/pages/hashtag.php';
         break;
+    case $requestUri === '/twitexplorer.zip':
+        $file = __DIR__ . '/twitexplorer.zip';
+        if (file_exists($file)) {
+            header('Content-Type: application/zip');
+            header('Content-Disposition: attachment; filename="twitexplorer.zip"');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+            exit;
+        }
+        http_response_code(404);
+        require __DIR__ . '/pages/404.php';
+        break;
+    case $requestUri === '/sitemap.xml':
+        header('Content-Type: application/xml');
+        require __DIR__ . '/sitemap.xml.php';
+        break;
+    case $requestUri === '/robots.txt':
+        $file = __DIR__ . '/robots.txt';
+        if (file_exists($file)) {
+            header('Content-Type: text/plain');
+            readfile($file);
+            exit;
+        }
+        http_response_code(404);
+        require __DIR__ . '/pages/404.php';
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/pages/404.php';
