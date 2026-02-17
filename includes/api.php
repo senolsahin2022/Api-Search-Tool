@@ -2,11 +2,26 @@
 
 require_once __DIR__ . '/lang.php';
 
-define('API_BASE', 'https://autumn-bush-ac99.senolsahin2022.workers.dev/api');
+function getBaseUrl() {
+    $urls = [
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api',
+        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api'
+    ];
+    return $urls[array_rand($urls)];
+}
+
 define('API_AUTH_HEADER', 'X-Pentest-Auth: authorized-pentest-2026');
 
 function apiRequest($endpoint, $params = []) {
-    $url = API_BASE . '/' . $endpoint;
+    $url = getBaseUrl() . '/' . $endpoint;
     if (!empty($params)) {
         $url .= '?' . http_build_query($params);
     }
