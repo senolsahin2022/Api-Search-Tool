@@ -1,8 +1,8 @@
 <?php
 $currentPage = 'home';
-$pageTitle = 'TwitExplorer - Sosyal Medya Trendlerini Keşfet';
-$pageDescription = 'Güncel sosyal medya trendlerini keşfet, popüler konuları takip et ve en çok konuşulan hashtag\'leri bul.';
-$pageKeywords = 'twitter trendler, gündem, popüler konular, sosyal medya, hashtag';
+$pageTitle = __('meta_title');
+$pageDescription = __('meta_desc');
+$pageKeywords = __('meta_keywords');
 $canonicalUrl = '/';
 
 $trends = getTrends();
