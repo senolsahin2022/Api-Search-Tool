@@ -48,7 +48,25 @@ $linkedText = preg_replace(
     <div class="tweet-text"><?= $linkedText ?></div>
     <?php if ($mediaUrl): ?>
         <div class="tweet-media">
-            <img src="<?= e($mediaUrl) ?>" alt="Medya içeriği" loading="lazy">
+            <?php 
+            $is_video = false;
+            if (!empty($tweet['media']) && is_array($tweet['media'])) {
+                foreach ($tweet['media'] as $m) {
+                    if (isset($m['type']) && ($m['type'] === 'video' || $m['type'] === 'animated_gif')) {
+                        $is_video = true;
+                        break;
+                    }
+                }
+            }
+            ?>
+            <?php if ($is_video): ?>
+                <video controls preload="metadata" poster="<?= e($mediaUrl) ?>">
+                    <source src="<?= e($mediaUrl) ?>" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            <?php else: ?>
+                <img src="<?= e($mediaUrl) ?>" alt="Medya içeriği" loading="lazy">
+            <?php endif; ?>
         </div>
     <?php endif; ?>
     <div class="tweet-stats">
