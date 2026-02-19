@@ -57,17 +57,34 @@ require __DIR__ . '/../includes/header.php';
                             $type = $media['type'] ?? 'image';
                             
                             echo '<div class="media-item-card shadow-sm">';
-                            if ($type === 'video' || $type === 'animated_gif') {
-                                echo '<div class="video-container">';
-                                echo '<video controls preload="metadata" class="w-100 rounded">';
-                                echo '<source src="'.e($mediaUrl).'" type="video/mp4">';
+                            if ($type === 'video' || $type === 'animated_gif' || !empty($media['video_info']) || !empty($tweetData['video_info'])) {
+                                // Extract video variants to find the best mp4
+                                $videoUrl = $mediaUrl; // Fallback
+                                $variants = $media['video_info']['variants'] ?? $tweetData['video_info']['variants'] ?? [];
+                                if (!empty($variants)) {
+                                    $maxBitrate = -1;
+                                    foreach ($variants as $variant) {
+                                        if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4' && isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
+                                            $maxBitrate = $variant['bitrate'];
+                                            $videoUrl = $variant['url'];
+                                        }
+                                    }
+                                }
+                                
+                                echo '<div class="video-container" style="margin-bottom: 20px;">';
+                                echo '<video controls preload="metadata" class="w-100 rounded shadow" style="max-height: 500px; background: #000; display: block; width: 100%;" poster="'.e($media['url'] ?? $media['media_url_https'] ?? '').'">';
+                                echo '<source src="'.e($videoUrl).'" type="video/mp4">';
+                                echo 'Your browser does not support the video tag.';
                                 echo '</video>';
                                 echo '</div>';
                                 echo '<div class="media-info">';
                                 echo '<span class="badge badge-video"><i class="fa-solid fa-video"></i> MP4 Video</span>';
-                                echo '<a href="'.e($mediaUrl).'" class="btn btn-download-source mt-3" target="_blank" download>';
+                                echo '<div style="display: flex; gap: 10px; margin-top: 15px;">';
+                                echo '<a href="'.e($videoUrl).'" class="btn btn-download-source" target="_blank" download style="flex: 1; justify-content: center; display: flex; align-items: center; gap: 8px;">';
                                 echo '<i class="fa-solid fa-cloud-arrow-down"></i> ' . e(__('download_btn')) . ' (Video)';
                                 echo '</a>';
+                                echo '<a href="'.e($videoUrl).'" class="btn" target="_blank" style="background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text); display: flex; align-items: center; justify-content: center; width: 50px;"><i class="fa-solid fa-up-right-from-square"></i></a>';
+                                echo '</div>';
                                 echo '</div>';
                             } else {
                                 echo '<div class="image-container">';
@@ -97,29 +114,29 @@ require __DIR__ . '/../includes/header.php';
 
     <div class="faq-section mt-5 animate-up">
         <h2 class="section-title"><?= e(__('video_downloader_title')) ?> - FAQ</h2>
-        <div class="faq-grid">
-            <div class="faq-card shadow-sm">
+        <div class="faq-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="faq-card shadow-sm" style="padding: 20px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">
                 <div class="faq-header">
-                    <h3><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q1')) ?></h3>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--primary);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q1')) ?></h3>
                 </div>
                 <div class="faq-body">
-                    <p><?= e(__('faq_a1')) ?></p>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-secondary);"><?= e(__('faq_a1')) ?></p>
                 </div>
             </div>
-            <div class="faq-card shadow-sm">
+            <div class="faq-card shadow-sm" style="padding: 20px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">
                 <div class="faq-header">
-                    <h3><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q2')) ?></h3>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--primary);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q2')) ?></h3>
                 </div>
                 <div class="faq-body">
-                    <p><?= e(__('faq_a2')) ?></p>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-secondary);"><?= e(__('faq_a2')) ?></p>
                 </div>
             </div>
-            <div class="faq-card shadow-sm">
+            <div class="faq-card shadow-sm" style="padding: 20px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">
                 <div class="faq-header">
-                    <h3><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q3')) ?></h3>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--primary);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q3')) ?></h3>
                 </div>
                 <div class="faq-body">
-                    <p><?= e(__('faq_a3')) ?></p>
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-secondary);"><?= e(__('faq_a3')) ?></p>
                 </div>
             </div>
         </div>
