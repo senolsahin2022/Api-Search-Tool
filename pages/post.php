@@ -45,18 +45,18 @@ require __DIR__ . '/../includes/header.php';
 
     <div class="faq-section" style="margin-top: 40px;">
         <h2><?= e($authorName) ?> Tweeti Hakkında SSS</h2>
-        <div class="faq-grid">
-            <div class="faq-item">
-                <h3>Bu tweeti nasıl indirebilirim?</h3>
-                <p>Tweet içerisindeki videoları veya resimleri indirmek için üst menüdeki "Video İndirici" sayfasını kullanabilirsiniz.</p>
+        <div class="faq-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="faq-item card shadow-sm" style="padding: 20px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
+                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--accent);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q1')) ?></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;"><?= e(__('faq_a1')) ?></p>
             </div>
-            <div class="faq-item">
-                <h3>Tweet içeriği güncel mi?</h3>
-                <p>Evet, TwitExplorer verileri doğrudan kaynaktan anlık olarak çekmektedir.</p>
+            <div class="faq-item card shadow-sm" style="padding: 20px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
+                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--accent);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q2')) ?></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;"><?= e(__('faq_a2')) ?></p>
             </div>
-            <div class="faq-item">
-                <h3>Paylaşım yapabilir miyim?</h3>
-                <p>Tweet kartının altındaki paylaşım butonlarını kullanarak bu içeriği X, Facebook veya WhatsApp üzerinden paylaşabilirsiniz.</p>
+            <div class="faq-item card shadow-sm" style="padding: 20px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
+                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--accent);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q3')) ?></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;"><?= e(__('faq_a3')) ?></p>
             </div>
         </div>
     </div>

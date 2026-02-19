@@ -6,90 +6,150 @@ $canonicalUrl = '/downloader';
 require __DIR__ . '/../includes/header.php';
 ?>
 
-<section class="hero">
-    <div class="container">
-        <h1><?= e($pageTitle) ?></h1>
-        <p><?= e($pageDescription) ?></p>
-        
-        <div class="search-container" style="max-width: 600px; margin: 30px auto;">
-            <form action="/downloader" method="POST" class="search-form">
-                <input type="text" name="url" placeholder="https://x.com/kullanici/status/2023151190113222658" required class="search-input">
-                <button type="submit" class="search-button"><?= e(__('download_btn')) ?></button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<div class="container">
-    <div style="margin-bottom: 20px;">
-        <button onclick="window.history.back()" class="btn btn-secondary" style="background: var(--bg-card); color: var(--text); border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer;">
-            <i class="fa-solid fa-arrow-left"></i> Geri Dön
-        </button>
-    </div>
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['url'])) {
-        $url = $_POST['url'];
-        // Extract ID from URL
-        preg_match('/status\/(\d+)/', $url, $matches);
-        $tweetId = $matches[1] ?? null;
-
-        if ($tweetId) {
-            $tweet = getTweet($tweetId);
-            $tweetData = $tweet['data'] ?? $tweet['tweet'] ?? $tweet['result'] ?? $tweet;
+<div class="downloader-page">
+    <section class="hero hero-small">
+        <div class="container">
+            <h1 class="animate-up"><?= e($pageTitle) ?></h1>
+            <p class="animate-up" style="animation-delay: 0.1s;"><?= e($pageDescription) ?></p>
             
-            if ($tweetData) {
-                echo '<div class="download-results" style="margin-top: 40px;">';
-                echo '<h3>İçerik Detayları</h3>';
-                
-                // Show tweet text
-                if (!empty($tweetData['content'] ?? $tweetData['text'])) {
-                    echo '<div class="card" style="padding: 20px; margin-bottom: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;">';
-                    echo '<p style="font-size: 1.1rem; line-height: 1.6;">' . e($tweetData['content'] ?? $tweetData['text']) . '</p>';
-                    echo '</div>';
-                }
+            <div class="search-container animate-up" style="animation-delay: 0.2s; max-width: 700px; margin: 30px auto;">
+                <form action="/downloader" method="POST" class="search-form shadow-lg">
+                    <input type="text" name="url" placeholder="https://x.com/kullanici/status/2023151190113222658" required class="search-input">
+                    <button type="submit" class="search-button">
+                        <i class="fa-solid fa-download"></i> <?= e(__('download_btn')) ?>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-                if (!empty($tweetData['media'])) {
-                    echo '<div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">';
+    <div class="container py-5">
+        <div style="margin-bottom: 30px;">
+            <button onclick="window.history.back()" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> <?= e(__('back_home')) ?>
+            </button>
+        </div>
+
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['url'])) {
+            $url = $_POST['url'];
+            preg_match('/status\/(\d+)/', $url, $matches);
+            $tweetId = $matches[1] ?? null;
+
+            if ($tweetId) {
+                $tweet = getTweet($tweetId);
+                $tweetData = $tweet['data'] ?? $tweet['tweet'] ?? $tweet['result'] ?? $tweet;
+                
+                if ($tweetData) {
+                    echo '<div class="download-results animate-up">';
+                    echo '<h2 class="section-title"><i class="fa-solid fa-circle-check"></i> ' . e(__('search_results')) . '</h2>';
                     
-                    foreach ($tweetData['media'] as $media) {
-                        $mediaUrl = is_array($media) ? ($media['url'] ?? $media['media_url_https'] ?? '') : $media;
-                        $type = $media['type'] ?? 'image';
-                        
-                        echo '<div class="card" style="padding: 15px; text-align: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;">';
-                        if ($type === 'video' || $type === 'animated_gif') {
-                            echo '<div style="background: #000; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 15px;">';
-                            echo '<i class="fa-solid fa-video" style="font-size: 3rem; color: var(--accent);"></i>';
+                    // Tweet Content Card
+                    echo '<div class="content-preview-card shadow-sm">';
+                    if (!empty($tweetData['content'] ?? $tweetData['text'])) {
+                        echo '<div class="tweet-content-text">' . e($tweetData['content'] ?? $tweetData['text']) . '</div>';
+                    }
+                    
+                    if (!empty($tweetData['media'])) {
+                        echo '<div class="media-grid">';
+                        foreach ($tweetData['media'] as $media) {
+                            $mediaUrl = is_array($media) ? ($media['url'] ?? $media['media_url_https'] ?? '') : $media;
+                            $type = $media['type'] ?? 'image';
+                            
+                            echo '<div class="media-item-card shadow-sm">';
+                            if ($type === 'video' || $type === 'animated_gif') {
+                                echo '<div class="video-container">';
+                                echo '<video controls preload="metadata" class="w-100 rounded">';
+                                echo '<source src="'.e($mediaUrl).'" type="video/mp4">';
+                                echo '</video>';
+                                echo '</div>';
+                                echo '<div class="media-info">';
+                                echo '<span class="badge badge-video"><i class="fa-solid fa-video"></i> MP4 Video</span>';
+                                echo '<a href="'.e($mediaUrl).'" class="btn btn-download-source mt-3" target="_blank" download>';
+                                echo '<i class="fa-solid fa-cloud-arrow-down"></i> ' . e(__('download_btn')) . ' (Video)';
+                                echo '</a>';
+                                echo '</div>';
+                            } else {
+                                echo '<div class="image-container">';
+                                echo '<img src="'.e($mediaUrl).'" alt="Media Content" class="w-100 rounded">';
+                                echo '</div>';
+                                echo '<div class="media-info">';
+                                echo '<span class="badge badge-image"><i class="fa-solid fa-image"></i> HD Image</span>';
+                                echo '<a href="'.e($mediaUrl).'" class="btn btn-download-source mt-3" target="_blank" download>';
+                                echo '<i class="fa-solid fa-cloud-arrow-down"></i> ' . e(__('download_btn')) . ' (Image)';
+                                echo '</a>';
+                                echo '</div>';
+                            }
                             echo '</div>';
-                            echo '<p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--text-muted);">Video Dosyası</p>';
-                            echo '<a href="'.e($mediaUrl).'" class="btn btn-primary" target="_blank" style="width: 100%;"><i class="fa-solid fa-link"></i> Kaynak Link (İndir)</a>';
-                        } else {
-                            echo '<img src="'.e($mediaUrl).'" style="width: 100%; border-radius: 10px; margin-bottom: 15px; height: 200px; object-fit: cover;">';
-                            echo '<a href="'.e($mediaUrl).'" class="btn btn-primary" target="_blank" style="width: 100%;"><i class="fa-solid fa-image"></i> Resim Link (İndir)</a>';
                         }
                         echo '</div>';
                     }
+                    echo '</div>'; // End Content Card
                     echo '</div>';
                 } else {
-                    echo '<div class="error-page" style="margin-top: 40px;">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <p>Bu tweette indirilebilir medya bulunamadı, sadece metin içeriği görüntülendi.</p>
-                    </div>';
+                    echo '<div class="alert alert-danger animate-up"><i class="fa-solid fa-circle-exclamation"></i> ' . e(__('user_not_found_text')) . '</div>';
                 }
-                echo '</div>';
             } else {
-                echo '<div class="error-page" style="margin-top: 40px;">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                    <p>Tweet verileri alınamadı. Lütfen URL\'yi kontrol edin.</p>
-                </div>';
+                echo '<div class="alert alert-warning animate-up"><i class="fa-solid fa-circle-info"></i> Invalid URL. Please enter a valid status link.</div>';
             }
-        } else {
-            echo '<div class="error-page" style="margin-top: 40px;">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                <p>Geçersiz Tweet URL\'si. Lütfen geçerli bir durum linki girin.</p>
-            </div>';
         }
-    }
-    ?>
+        ?>
+
+    <div class="faq-section mt-5 animate-up">
+        <h2 class="section-title"><?= e(__('video_downloader_title')) ?> - FAQ</h2>
+        <div class="faq-grid">
+            <div class="faq-card shadow-sm">
+                <div class="faq-header">
+                    <h3><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q1')) ?></h3>
+                </div>
+                <div class="faq-body">
+                    <p><?= e(__('faq_a1')) ?></p>
+                </div>
+            </div>
+            <div class="faq-card shadow-sm">
+                <div class="faq-header">
+                    <h3><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q2')) ?></h3>
+                </div>
+                <div class="faq-body">
+                    <p><?= e(__('faq_a2')) ?></p>
+                </div>
+            </div>
+            <div class="faq-card shadow-sm">
+                <div class="faq-header">
+                    <h3><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q3')) ?></h3>
+                </div>
+                <div class="faq-body">
+                    <p><?= e(__('faq_a3')) ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<style>
+.downloader-page { background: var(--bg-body); min-height: 100vh; }
+.hero-small { padding: 60px 0; background: var(--gradient-dark); border-bottom: 1px solid var(--border); }
+.btn-back { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); padding: 10px 20px; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
+.btn-back:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateX(-5px); }
+.content-preview-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 30px; margin-top: 20px; }
+.tweet-content-text { font-size: 1.25rem; line-height: 1.6; margin-bottom: 30px; color: var(--text); }
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+.media-item-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 15px; overflow: hidden; padding: 15px; }
+.btn-download-source { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--gradient-1); color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 600; text-decoration: none; width: 100%; transition: transform 0.2s; }
+.btn-download-source:hover { transform: translateY(-2px); opacity: 0.9; }
+.badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 10px; }
+.badge-video { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+.badge-image { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+.section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; color: var(--text); }
+.w-100 { width: 100%; }
+.rounded { border-radius: 12px; }
+.py-5 { padding-top: 3rem; padding-bottom: 3rem; }
+.mt-5 { margin-top: 3rem; }
+.mt-3 { margin-top: 1rem; }
+.shadow-sm { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.shadow-lg { box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+</style>
 
     <div class="faq-section" style="margin-top: 60px;">
         <h2><?= e(__('video_downloader_title')) ?> Hakkında Sıkça Sorulan Sorular</h2>
