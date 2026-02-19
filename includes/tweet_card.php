@@ -51,21 +51,34 @@ $linkedText = preg_replace(
         <div class="tweet-media" onclick="window.location.href='/status/<?= e($tweetId) ?>'">
             <?php 
             $is_video = false;
+            $videoUrl = '';
             if (!empty($tweet['media']) && is_array($tweet['media'])) {
                 foreach ($tweet['media'] as $m) {
                     if (isset($m['type']) && ($m['type'] === 'video' || $m['type'] === 'animated_gif')) {
                         $is_video = true;
+                        // Try to find the best MP4 variant
+                        $variants = $m['video_info']['variants'] ?? [];
+                        $maxBitrate = -1;
+                        foreach ($variants as $variant) {
+                            if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4' && isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
+                                $maxBitrate = $variant['bitrate'];
+                                $videoUrl = $variant['url'];
+                            }
+                        }
+                        if (!$videoUrl && !empty($variants)) {
+                            $videoUrl = $variants[0]['url'] ?? '';
+                        }
                         break;
                     }
                 }
             }
             ?>
-            <?php if ($is_video): ?>
-                <video controls preload="metadata" poster="<?= e($mediaUrl) ?>">
-                    <source src="<?= e($mediaUrl) ?>" type="video/mp4">
+            <?php if ($is_video && $videoUrl): ?>
+                <video controls preload="metadata" poster="<?= e($mediaUrl) ?>" style="width: 100%; border-radius: var(--radius-sm);">
+                    <source src="<?= e($videoUrl) ?>" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-            <?php else: ?>
+            <?php elseif ($mediaUrl): ?>
                 <img src="<?= e($mediaUrl) ?>" alt="Medya içeriği" loading="lazy">
             <?php endif; ?>
         </div>

@@ -59,7 +59,7 @@ require __DIR__ . '/../includes/header.php';
                             echo '<div class="media-item-card shadow-sm">';
                             if ($type === 'video' || $type === 'animated_gif' || !empty($media['video_info']) || !empty($tweetData['video_info'])) {
                                 // Extract video variants to find the best mp4
-                                $videoUrl = $mediaUrl; // Fallback
+                                $videoUrl = ''; 
                                 
                                 // Check for video_info in media object or root tweetData
                                 $videoInfo = $media['video_info'] ?? $tweetData['video_info'] ?? null;
@@ -72,8 +72,15 @@ require __DIR__ . '/../includes/header.php';
                                             $videoUrl = $variant['url'];
                                         }
                                     }
+                                    // Fallback to first variant if no bitrate match found
+                                    if (!$videoUrl && !empty($videoInfo['variants'])) {
+                                        $videoUrl = $videoInfo['variants'][0]['url'] ?? '';
+                                    }
                                 }
                                 
+                                // Final fallback to mediaUrl if still empty
+                                if (!$videoUrl) $videoUrl = $mediaUrl;
+
                                 echo '<div class="video-container" style="margin-bottom: 20px;">';
                                 echo '<video controls preload="metadata" class="w-100 rounded shadow" style="max-height: 500px; background: #000; display: block; width: 100%;" poster="'.e($media['url'] ?? $media['media_url_https'] ?? '').'">';
                                 echo '<source src="'.e($videoUrl).'" type="video/mp4">';
