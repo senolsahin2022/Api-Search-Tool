@@ -52,11 +52,14 @@ $linkedText = preg_replace(
             <?php 
             $is_video = false;
             $videoUrl = '';
-            if (!empty($tweet['media']) && is_array($tweet['media'])) {
-                foreach ($tweet['media'] as $m) {
-                    if (isset($m['type']) && ($m['type'] === 'video' || $m['type'] === 'animated_gif')) {
+            
+            // Check for video in media array (extended_entities equivalent)
+            $mediaItems = $tweet['media'] ?? $tweet['extended_entities']['media'] ?? [];
+            if (!empty($mediaItems) && is_array($mediaItems)) {
+                foreach ($mediaItems as $m) {
+                    if (isset($m['type']) && ($m['type'] === 'video' || $m['type'] === 'animated_gif' || !empty($m['video_info']))) {
                         $is_video = true;
-                        // Try to find the best MP4 variant
+                        // Try to find the best MP4 variant from the media item itself
                         $variants = $m['video_info']['variants'] ?? [];
                         $maxBitrate = -1;
                         foreach ($variants as $variant) {
@@ -66,15 +69,36 @@ $linkedText = preg_replace(
                             }
                         }
                         if (!$videoUrl && !empty($variants)) {
-                            $videoUrl = $variants[0]['url'] ?? '';
+                            // Fallback to first MP4 or first variant
+                            foreach ($variants as $v) {
+                                if (isset($v['content_type']) && $v['content_type'] === 'video/mp4') {
+                                    $videoUrl = $v['url'];
+                                    break;
+                                }
+                            }
+                            if (!$videoUrl) $videoUrl = $variants[0]['url'] ?? '';
                         }
                         break;
                     }
                 }
             }
+            
+            // Global check for video_info if not found in media items (some API structures)
+            if (!$videoUrl && !empty($tweet['video_info']['variants'])) {
+                $is_video = true;
+                $variants = $tweet['video_info']['variants'];
+                $maxBitrate = -1;
+                foreach ($variants as $variant) {
+                    if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4' && isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
+                        $maxBitrate = $variant['bitrate'];
+                        $videoUrl = $variant['url'];
+                    }
+                }
+                if (!$videoUrl) $videoUrl = $variants[0]['url'] ?? '';
+            }
             ?>
             <?php if ($is_video && $videoUrl): ?>
-                <video controls preload="metadata" poster="<?= e($mediaUrl) ?>" style="width: 100%; border-radius: var(--radius-sm);">
+                <video controls preload="metadata" poster="<?= e($mediaUrl) ?>" style="width: 100%; border-radius: var(--radius-sm); max-height: 500px; background: #000;">
                     <source src="<?= e($videoUrl) ?>" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
