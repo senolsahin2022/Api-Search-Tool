@@ -81,7 +81,7 @@ require __DIR__ . '/../includes/header.php';
                             if ($videoInfo && isset($videoInfo['variants'])) {
                                 $maxBitrate = -1;
                                 foreach ($videoInfo['variants'] as $variant) {
-                                    if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4') {
+                                    if (isset($variant['content_type']) && ($variant['content_type'] === 'video/mp4' || strpos($variant['url'], '.mp4') !== false)) {
                                         if (isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
                                             $maxBitrate = $variant['bitrate'];
                                             $videoUrl = $variant['url'];
@@ -95,6 +95,15 @@ require __DIR__ . '/../includes/header.php';
                             // CHECK IF THE URL ITSELF IS A VIDEO (some APIs return video URL directly in media_url)
                             if (!$videoUrl && (strpos($mediaUrl, '.mp4') !== false || strpos($mediaUrl, '.m3u8') !== false)) {
                                 $videoUrl = $mediaUrl;
+                            }
+
+                            // LAST RESORT: Recursive search for any .mp4 URL in the entire tweetData
+                            if (!$videoUrl) {
+                                array_walk_recursive($tweetData, function($val, $key) use (&$videoUrl) {
+                                    if (is_string($val) && strpos($val, '.mp4') !== false && !$videoUrl) {
+                                        $videoUrl = $val;
+                                    }
+                                });
                             }
 
                             if ($videoUrl) {
