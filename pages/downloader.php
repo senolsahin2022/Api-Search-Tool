@@ -61,24 +61,26 @@ require __DIR__ . '/../includes/header.php';
                                 // Extract video variants to find the best mp4
                                 $videoUrl = ''; 
                                 
-                                // Check for video_info in media object or root tweetData
+                                // Specific check for the structure: media > video_info > variants
                                 $videoInfo = $media['video_info'] ?? $tweetData['video_info'] ?? null;
                                 
                                 if ($videoInfo && isset($videoInfo['variants'])) {
                                     $maxBitrate = -1;
+                                    $bestMp4 = '';
                                     foreach ($videoInfo['variants'] as $variant) {
-                                        if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4' && isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
-                                            $maxBitrate = $variant['bitrate'];
-                                            $videoUrl = $variant['url'];
+                                        if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4') {
+                                            if (isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
+                                                $maxBitrate = $variant['bitrate'];
+                                                $bestMp4 = $variant['url'];
+                                            } elseif (!$bestMp4) {
+                                                $bestMp4 = $variant['url'];
+                                            }
                                         }
                                     }
-                                    // Fallback to first variant if no bitrate match found
-                                    if (!$videoUrl && !empty($videoInfo['variants'])) {
-                                        $videoUrl = $videoInfo['variants'][0]['url'] ?? '';
-                                    }
+                                    $videoUrl = $bestMp4;
                                 }
                                 
-                                // Final fallback to mediaUrl if still empty
+                                // Final fallback
                                 if (!$videoUrl) $videoUrl = $mediaUrl;
 
                                 echo '<div class="video-container" style="margin-bottom: 20px;">';
