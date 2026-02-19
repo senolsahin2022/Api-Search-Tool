@@ -54,23 +54,28 @@ require __DIR__ . '/../includes/header.php';
                         echo '<div class="media-grid">';
                         foreach ($tweetData['media'] as $media) {
                             $mediaUrl = is_array($media) ? ($media['url'] ?? $media['media_url_https'] ?? '') : $media;
-                            $type = $media['type'] ?? 'image';
-                            
-                            echo '<div class="media-item-card shadow-sm">';
                             
                             // Extract video variants
                             $videoUrl = '';
                             $videoInfo = null;
                             
-                            // Check all possible locations for video_info
+                            // DEEP SEARCH for video_info in the entire media object and tweetData
+                            // Twitter API structures can be very nested
                             if (isset($media['video_info'])) {
                                 $videoInfo = $media['video_info'];
                             } elseif (isset($media['entities']['media'][0]['video_info'])) {
                                 $videoInfo = $media['entities']['media'][0]['video_info'];
+                            } elseif (isset($media['extended_entities']['media'][0]['video_info'])) {
+                                $videoInfo = $media['extended_entities']['media'][0]['video_info'];
                             } elseif (isset($tweetData['video_info'])) {
                                 $videoInfo = $tweetData['video_info'];
                             } elseif (isset($tweetData['extended_entities']['media'][0]['video_info'])) {
                                 $videoInfo = $tweetData['extended_entities']['media'][0]['video_info'];
+                            }
+
+                            // If we still don't have videoInfo, check if the media object itself IS the video_info (some proxies do this)
+                            if (!$videoInfo && isset($media['variants'])) {
+                                $videoInfo = $media;
                             }
 
                             if ($videoInfo && isset($videoInfo['variants'])) {
@@ -85,6 +90,11 @@ require __DIR__ . '/../includes/header.php';
                                         }
                                     }
                                 }
+                            }
+
+                            // CHECK IF THE URL ITSELF IS A VIDEO (some APIs return video URL directly in media_url)
+                            if (!$videoUrl && (strpos($mediaUrl, '.mp4') !== false || strpos($mediaUrl, '.m3u8') !== false)) {
+                                $videoUrl = $mediaUrl;
                             }
 
                             if ($videoUrl) {
