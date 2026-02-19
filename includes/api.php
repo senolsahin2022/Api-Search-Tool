@@ -58,7 +58,25 @@ function getHashtag($tag) {
 }
 
 function getTweet($id) {
-    return apiRequest('tweet', ['id' => $id]);
+    $url = "https://xx.senolsahin2022.workers.dev/?id=" . urlencode($id);
+    
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTPHEADER => [API_AUTH_HEADER],
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode !== 200 || $response === false) {
+        return null;
+    }
+
+    return json_decode($response, true);
 }
 
 function getTrends() {
