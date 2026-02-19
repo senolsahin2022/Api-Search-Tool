@@ -59,8 +59,7 @@ require __DIR__ . '/../includes/header.php';
                             $videoUrl = '';
                             $videoInfo = null;
                             
-                            // DEEP SEARCH for video_info in the entire media object and tweetData
-                            // Twitter API structures can be very nested
+                            // Check all possible locations for video_info
                             if (isset($media['video_info'])) {
                                 $videoInfo = $media['video_info'];
                             } elseif (isset($media['entities']['media'][0]['video_info'])) {
@@ -71,37 +70,41 @@ require __DIR__ . '/../includes/header.php';
                                 $videoInfo = $tweetData['video_info'];
                             } elseif (isset($tweetData['extended_entities']['media'][0]['video_info'])) {
                                 $videoInfo = $tweetData['extended_entities']['media'][0]['video_info'];
+                            } elseif (isset($tweetData['data']['entities']['media'][0]['video_info'])) {
+                                $videoInfo = $tweetData['data']['entities']['media'][0]['video_info'];
                             }
 
-                            // If we still don't have videoInfo, check if the media object itself IS the video_info (some proxies do this)
-                            if (!$videoInfo && isset($media['variants'])) {
-                                $videoInfo = $media;
+                            // If we still don't have videoInfo, check for any 'variants' key anywhere in media
+                            if (!$videoInfo) {
+                                array_walk_recursive($media, function($val, $key) use (&$videoInfo) {
+                                    if ($key === 'variants' && is_array($val) && !$videoInfo) {
+                                        $videoInfo = ['variants' => $val];
+                                    }
+                                });
                             }
 
                             if ($videoInfo && isset($videoInfo['variants'])) {
                                 $maxBitrate = -1;
                                 foreach ($videoInfo['variants'] as $variant) {
-                                    if (isset($variant['content_type']) && ($variant['content_type'] === 'video/mp4' || strpos($variant['url'], '.mp4') !== false)) {
+                                    if (isset($variant['content_type']) && ($variant['content_type'] === 'video/mp4' || strpos($variant['url'] ?? '', '.mp4') !== false)) {
                                         if (isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
                                             $maxBitrate = $variant['bitrate'];
                                             $videoUrl = $variant['url'];
                                         } elseif (!$videoUrl) {
-                                            $videoUrl = $variant['url'];
+                                            $videoUrl = $variant['url'] ?? '';
                                         }
                                     }
                                 }
-                            }
-
-                            // CHECK IF THE URL ITSELF IS A VIDEO (some APIs return video URL directly in media_url)
-                            if (!$videoUrl && (strpos($mediaUrl, '.mp4') !== false || strpos($mediaUrl, '.m3u8') !== false)) {
-                                $videoUrl = $mediaUrl;
                             }
 
                             // LAST RESORT: Recursive search for any .mp4 URL in the entire tweetData
                             if (!$videoUrl) {
                                 array_walk_recursive($tweetData, function($val, $key) use (&$videoUrl) {
                                     if (is_string($val) && strpos($val, '.mp4') !== false && !$videoUrl) {
-                                        $videoUrl = $val;
+                                        // Ignore tiny thumbnails or images that happen to have .mp4 in name
+                                        if (strpos($val, 'video') !== false || strpos($val, 'ext_tw_video') !== false || strpos($val, 'amplify_video') !== false) {
+                                            $videoUrl = $val;
+                                        }
                                     }
                                 });
                             }
