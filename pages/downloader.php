@@ -57,36 +57,37 @@ require __DIR__ . '/../includes/header.php';
                             $type = $media['type'] ?? 'image';
                             
                             echo '<div class="media-item-card shadow-sm">';
-                            if ($type === 'video' || $type === 'animated_gif' || !empty($media['video_info']) || !empty($tweetData['video_info']) || !empty($media['entities']['media'][0]['video_info'])) {
-                                // Extract video variants to find the best mp4
-                                $videoUrl = ''; 
-                                
-                                // Specific check for all possible video_info locations based on common Twitter API structures
-                                $videoInfo = $media['video_info'] ?? 
-                                             $media['entities']['media'][0]['video_info'] ?? 
-                                             $tweetData['video_info'] ?? 
-                                             $tweetData['extended_entities']['media'][0]['video_info'] ?? 
-                                             null;
-                                
-                                if ($videoInfo && isset($videoInfo['variants'])) {
-                                    $maxBitrate = -1;
-                                    $bestMp4 = '';
-                                    foreach ($videoInfo['variants'] as $variant) {
-                                        if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4') {
-                                            if (isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
-                                                $maxBitrate = $variant['bitrate'];
-                                                $bestMp4 = $variant['url'];
-                                            } elseif (!$bestMp4) {
-                                                $bestMp4 = $variant['url'];
-                                            }
+                            
+                            // Extract video variants
+                            $videoUrl = '';
+                            $videoInfo = null;
+                            
+                            // Check all possible locations for video_info
+                            if (isset($media['video_info'])) {
+                                $videoInfo = $media['video_info'];
+                            } elseif (isset($media['entities']['media'][0]['video_info'])) {
+                                $videoInfo = $media['entities']['media'][0]['video_info'];
+                            } elseif (isset($tweetData['video_info'])) {
+                                $videoInfo = $tweetData['video_info'];
+                            } elseif (isset($tweetData['extended_entities']['media'][0]['video_info'])) {
+                                $videoInfo = $tweetData['extended_entities']['media'][0]['video_info'];
+                            }
+
+                            if ($videoInfo && isset($videoInfo['variants'])) {
+                                $maxBitrate = -1;
+                                foreach ($videoInfo['variants'] as $variant) {
+                                    if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4') {
+                                        if (isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
+                                            $maxBitrate = $variant['bitrate'];
+                                            $videoUrl = $variant['url'];
+                                        } elseif (!$videoUrl) {
+                                            $videoUrl = $variant['url'];
                                         }
                                     }
-                                    $videoUrl = $bestMp4;
                                 }
-                                
-                                // Final fallback
-                                if (!$videoUrl) $videoUrl = $mediaUrl;
+                            }
 
+                            if ($videoUrl) {
                                 echo '<div class="video-container" style="margin-bottom: 20px;">';
                                 echo '<video controls preload="metadata" class="w-100 rounded shadow" style="max-height: 500px; background: #000; display: block; width: 100%;" poster="'.e($media['url'] ?? $media['media_url_https'] ?? '').'">';
                                 echo '<source src="'.e($videoUrl).'" type="video/mp4">';
