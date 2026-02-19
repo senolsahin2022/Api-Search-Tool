@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../includes/api.php';
+
 $pageTitle = __('video_downloader_title');
 $pageDescription = __('video_downloader_desc');
 $canonicalUrl = '/downloader';
