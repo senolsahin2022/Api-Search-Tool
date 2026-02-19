@@ -61,7 +61,12 @@ $translations = [
         'day_ago' => 'gün önce',
         'hour_ago' => 'saat önce',
         'minute_ago' => 'dakika önce',
-        'just_now' => 'az önce'
+        'just_now' => 'az önce',
+        'video_downloader' => 'Video İndirici',
+        'video_downloader_title' => 'X (Twitter) Video İndirici',
+        'video_downloader_desc' => 'X (Twitter) videolarını ve GIF\'lerini yüksek kalitede indirin.',
+        'download_btn' => 'İndir',
+        'enter_url' => 'Tweet URL\'sini girin...'
     ],
     'en' => [
         'home' => 'Trends',
@@ -123,7 +128,12 @@ $translations = [
         'day_ago' => 'days ago',
         'hour_ago' => 'hours ago',
         'minute_ago' => 'minutes ago',
-        'just_now' => 'just now'
+        'just_now' => 'just now',
+        'video_downloader' => 'Video Downloader',
+        'video_downloader_title' => 'X (Twitter) Video Downloader',
+        'video_downloader_desc' => 'Download X (Twitter) videos and GIFs in high quality.',
+        'download_btn' => 'Download',
+        'enter_url' => 'Enter tweet URL...'
     ],
     'ar' => [
         'home' => 'التريندات',
@@ -183,7 +193,12 @@ $translations = [
         'day_ago' => 'يوم مضى',
         'hour_ago' => 'ساعة مضت',
         'minute_ago' => 'دقيقة مضت',
-        'just_now' => 'الآن'
+        'just_now' => 'الآن',
+        'video_downloader' => 'تحميل الفيديو',
+        'video_downloader_title' => 'أداة تحميل فيديو X (Twitter)',
+        'video_downloader_desc' => 'قم بتحميل فيديوهات وصور GIF من X (Twitter) بجودة عالية.',
+        'download_btn' => 'تحميل',
+        'enter_url' => 'أدخل رابط التغريدة...'
     ],
     'zh' => [
         'home' => '趋势',
@@ -243,7 +258,12 @@ $translations = [
         'day_ago' => '天前',
         'hour_ago' => '小时前',
         'minute_ago' => '分钟前',
-        'just_now' => '刚刚'
+        'just_now' => '刚刚',
+        'video_downloader' => '视频下载器',
+        'video_downloader_title' => 'X (Twitter) 视频下载器',
+        'video_downloader_desc' => '以高质量下载 X (Twitter) 视频和 GIF。',
+        'download_btn' => '下载',
+        'enter_url' => '输入推文链接...'
     ],
     'ru' => [
         'home' => 'Тренды',
@@ -303,7 +323,12 @@ $translations = [
         'day_ago' => 'дн. назад',
         'hour_ago' => 'ч. назад',
         'minute_ago' => 'мин. назад',
-        'just_now' => 'только что'
+        'just_now' => 'только что',
+        'video_downloader' => 'Загрузчик видео',
+        'video_downloader_title' => 'Загрузчик видео из X (Twitter)',
+        'video_downloader_desc' => 'Скачивайте видео и GIF из X (Twitter) в высоком качестве.',
+        'download_btn' => 'Скачать',
+        'enter_url' => 'Введите URL твита...'
     ],
     'fa' => [
         'home' => 'داغ‌ترین‌ها',
@@ -363,7 +388,12 @@ $translations = [
         'day_ago' => 'روز پیش',
         'hour_ago' => 'ساعت پیش',
         'minute_ago' => 'دقیقه پیش',
-        'just_now' => 'همین الان'
+        'just_now' => 'همین الان',
+        'video_downloader' => 'دانلودر ویدیو',
+        'video_downloader_title' => 'دانلودر ویدیو X (Twitter)',
+        'video_downloader_desc' => 'ویدیوها و GIFهای X (Twitter) را با کیفیت بالا دانلود کنید.',
+        'download_btn' => 'دانلود',
+        'enter_url' => 'آدرس توییت را وارد کنید...'
     ]
 ];
 

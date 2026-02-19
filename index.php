@@ -19,6 +19,9 @@ switch (true) {
     case $requestUri === '/search':
         require __DIR__ . '/pages/search.php';
         break;
+    case $requestUri === '/downloader':
+        require __DIR__ . '/pages/downloader.php';
+        break;
     case preg_match('#^/user/([a-zA-Z0-9_]+)$#', $requestUri, $m) === 1:
         $username = $m[1];
         require __DIR__ . '/pages/user.php';
