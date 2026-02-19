@@ -27,6 +27,10 @@ switch (true) {
         $tag = $m[1];
         require __DIR__ . '/pages/hashtag.php';
         break;
+    case preg_match('#^/status/([0-9]+)$#', $requestUri, $m) === 1:
+        $tweetId = $m[1];
+        require __DIR__ . '/pages/post.php';
+        break;
     case $requestUri === '/sitemap.xml':
         header('Content-Type: application/xml');
         require __DIR__ . '/sitemap.xml.php';

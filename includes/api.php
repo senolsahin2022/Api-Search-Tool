@@ -57,6 +57,10 @@ function getHashtag($tag) {
     return apiRequest('hashtag', ['tag' => $tag]);
 }
 
+function getTweet($id) {
+    return apiRequest('tweet', ['id' => $id]);
+}
+
 function getTrends() {
     return apiRequest('trends');
 }
