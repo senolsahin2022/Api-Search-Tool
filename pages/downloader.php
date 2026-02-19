@@ -59,56 +59,40 @@ require __DIR__ . '/../includes/header.php';
                             $videoUrl = '';
                             $videoInfo = null;
                             
-                            // 1. Check for specific structure: video > variants > 4 > src
-                            if (isset($media['video']['variants'][4]['src'])) {
-                                $videoUrl = $media['video']['variants'][4]['src'];
-                            } elseif (isset($media['video']['variants'])) {
-                                // Fallback: search within variants for mp4 or highest bitrate
-                                $maxBitrate = -1;
-                                foreach ($media['video']['variants'] as $v) {
-                                    if (isset($v['src']) && strpos($v['src'], '.mp4') !== false) {
-                                        $videoUrl = $v['src'];
-                                        break; // Found one
+                            // 1. Root video object (Based on user reference)
+                            if (isset($tweetData['video']['variants'])) {
+                                foreach ($tweetData['video']['variants'] as $variant) {
+                                    if (isset($variant['src']) && strpos($variant['src'], '.mp4') !== false) {
+                                        $videoUrl = $variant['src']; // Last one is usually highest quality
                                     }
                                 }
                             }
-                            
-                            // 2. Original Deep Search as fallback
-                            if (!$videoUrl) {
-                                if (isset($media['video_info'])) {
-                                    $videoInfo = $media['video_info'];
-                                } elseif (isset($media['entities']['media'][0]['video_info'])) {
-                                    $videoInfo = $media['entities']['media'][0]['video_info'];
-                                } elseif (isset($media['extended_entities']['media'][0]['video_info'])) {
-                                    $videoInfo = $media['extended_entities']['media'][0]['video_info'];
-                                } elseif (isset($tweetData['video_info'])) {
-                                    $videoInfo = $tweetData['video_info'];
-                                } elseif (isset($tweetData['extended_entities']['media'][0]['video_info'])) {
-                                    $videoInfo = $tweetData['extended_entities']['media'][0]['video_info'];
-                                } elseif (isset($tweetData['data']['entities']['media'][0]['video_info'])) {
-                                    $videoInfo = $tweetData['data']['entities']['media'][0]['video_info'];
-                                }
 
-                                if ($videoInfo && isset($videoInfo['variants'])) {
-                                    $maxBitrate = -1;
-                                    foreach ($videoInfo['variants'] as $variant) {
-                                        if (isset($variant['content_type']) && ($variant['content_type'] === 'video/mp4' || strpos($variant['url'] ?? '', '.mp4') !== false)) {
-                                            if (isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
+                            // 2. mediaDetails fallback (Based on user reference)
+                            if (!$videoUrl && isset($tweetData['mediaDetails'])) {
+                                foreach ($tweetData['mediaDetails'] as $mDet) {
+                                    if (isset($mDet['video_info']['variants'])) {
+                                        $maxBitrate = -1;
+                                        foreach ($mDet['video_info']['variants'] as $variant) {
+                                            if (
+                                                isset($variant['content_type']) &&
+                                                $variant['content_type'] === 'video/mp4' &&
+                                                isset($variant['bitrate']) &&
+                                                $variant['bitrate'] > $maxBitrate
+                                            ) {
                                                 $maxBitrate = $variant['bitrate'];
                                                 $videoUrl = $variant['url'];
-                                            } elseif (!$videoUrl) {
-                                                $videoUrl = $variant['url'] ?? '';
                                             }
                                         }
                                     }
                                 }
                             }
 
-                            // 3. LAST RESORT: Recursive search for any .mp4 URL in the entire tweetData
+                            // 3. Deep fallback (Recursive)
                             if (!$videoUrl) {
                                 array_walk_recursive($tweetData, function($val, $key) use (&$videoUrl) {
                                     if (is_string($val) && strpos($val, '.mp4') !== false && !$videoUrl) {
-                                        if (strpos($val, 'video') !== false || strpos($val, 'ext_tw_video') !== false || strpos($val, 'amplify_video') !== false) {
+                                        if (strpos($val, 'video') !== false || strpos($val, 'ext_tw_video') !== false) {
                                             $videoUrl = $val;
                                         }
                                     }

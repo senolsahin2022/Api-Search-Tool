@@ -8,12 +8,14 @@ if (empty($tweetId)) {
 $tweet = getTweet($tweetId);
 $tweetData = $tweet['data'] ?? $tweet['tweet'] ?? $tweet['result'] ?? $tweet;
 
-$content = $tweetData['content'] ?? $tweetData['text'] ?? '';
-$authorName = $tweetData['author']['name'] ?? 'Twitter';
+$content = $tweetData['content'] ?? $tweetData['text'] ?? $tweetData['full_text'] ?? '';
+$author = $tweetData['author'] ?? $tweetData['user'] ?? [];
+$authorName = $author['name'] ?? 'Twitter';
 
-$pageTitle = $authorName . ' Tweet - TwitExplorer';
-$pageDescription = mb_substr(strip_tags($content), 0, 160);
-$pageKeywords = __('meta_keywords') . ', tweet detail, ' . $authorName;
+$cleanContent = strip_tags($content);
+$pageTitle = e($authorName) . ' (@' . e($author['handle'] ?? $author['screen_name'] ?? '') . ') Tweet - TwitExplorer';
+$pageDescription = e(mb_substr($cleanContent, 0, 160)) . '...';
+$pageKeywords = e($authorName) . ', tweet, x explorer, ' . e(__('meta_keywords'));
 $canonicalUrl = '/status/' . $tweetId;
 
 require __DIR__ . '/../includes/header.php';
