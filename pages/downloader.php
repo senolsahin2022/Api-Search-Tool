@@ -57,12 +57,16 @@ require __DIR__ . '/../includes/header.php';
                             $type = $media['type'] ?? 'image';
                             
                             echo '<div class="media-item-card shadow-sm">';
-                            if ($type === 'video' || $type === 'animated_gif' || !empty($media['video_info']) || !empty($tweetData['video_info'])) {
+                            if ($type === 'video' || $type === 'animated_gif' || !empty($media['video_info']) || !empty($tweetData['video_info']) || !empty($media['entities']['media'][0]['video_info'])) {
                                 // Extract video variants to find the best mp4
                                 $videoUrl = ''; 
                                 
-                                // Specific check for the structure: media > video_info > variants
-                                $videoInfo = $media['video_info'] ?? $tweetData['video_info'] ?? null;
+                                // Specific check for all possible video_info locations based on common Twitter API structures
+                                $videoInfo = $media['video_info'] ?? 
+                                             $media['entities']['media'][0]['video_info'] ?? 
+                                             $tweetData['video_info'] ?? 
+                                             $tweetData['extended_entities']['media'][0]['video_info'] ?? 
+                                             null;
                                 
                                 if ($videoInfo && isset($videoInfo['variants'])) {
                                     $maxBitrate = -1;
