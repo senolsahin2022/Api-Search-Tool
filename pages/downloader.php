@@ -13,9 +13,9 @@ require __DIR__ . '/../includes/header.php';
             <p class="animate-up" style="animation-delay: 0.1s;"><?= e($pageDescription) ?></p>
             
             <div class="search-container animate-up" style="animation-delay: 0.2s; max-width: 700px; margin: 30px auto;">
-                <form action="/downloader" method="POST" class="search-form shadow-lg">
-                    <input type="text" name="url" placeholder="https://x.com/kullanici/status/2023151190113222658" required class="search-input">
-                    <button type="submit" class="search-button">
+                <form action="/downloader" method="POST" class="downloader-page-form shadow-lg">
+                    <input type="text" name="url" placeholder="https://x.com/kullanici/status/2023151190113222658" required class="downloader-page-input">
+                    <button type="submit" class="downloader-page-button">
                         <i class="fa-solid fa-download"></i> <?= e(__('download_btn')) ?>
                     </button>
                 </form>
@@ -60,10 +60,13 @@ require __DIR__ . '/../includes/header.php';
                             if ($type === 'video' || $type === 'animated_gif' || !empty($media['video_info']) || !empty($tweetData['video_info'])) {
                                 // Extract video variants to find the best mp4
                                 $videoUrl = $mediaUrl; // Fallback
-                                $variants = $media['video_info']['variants'] ?? $tweetData['video_info']['variants'] ?? [];
-                                if (!empty($variants)) {
+                                
+                                // Check for video_info in media object or root tweetData
+                                $videoInfo = $media['video_info'] ?? $tweetData['video_info'] ?? null;
+                                
+                                if ($videoInfo && isset($videoInfo['variants'])) {
                                     $maxBitrate = -1;
-                                    foreach ($variants as $variant) {
+                                    foreach ($videoInfo['variants'] as $variant) {
                                         if (isset($variant['content_type']) && $variant['content_type'] === 'video/mp4' && isset($variant['bitrate']) && $variant['bitrate'] > $maxBitrate) {
                                             $maxBitrate = $variant['bitrate'];
                                             $videoUrl = $variant['url'];
