@@ -35,9 +35,9 @@ $linkedText = preg_replace(
         <?php else: ?>
             <div class="tweet-avatar" style="background:var(--gradient-1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem"><?= e(mb_substr($name, 0, 1)) ?></div>
         <?php endif; ?>
-        <div class="tweet-user-info" onclick="event.stopPropagation()">
+        <div class="tweet-user-info">
             <div class="tweet-name">
-                <a href="/user/<?= e($screenName) ?>"><?= e($name) ?></a>
+                <a href="/user/<?= e($screenName) ?>" onclick="event.stopPropagation()"><?= e($name) ?></a>
                 <?php if ($verified): ?><i class="fa-solid fa-circle-check verified"></i><?php endif; ?>
             </div>
             <div class="tweet-handle">@<?= e($screenName) ?></div>
@@ -46,9 +46,9 @@ $linkedText = preg_replace(
             <span class="tweet-time"><?= timeAgo($createdAt) ?></span>
         <?php endif; ?>
     </div>
-    <div class="tweet-text" onclick="event.stopPropagation()"><?= $linkedText ?></div>
+    <div class="tweet-text" onclick="window.location.href='/status/<?= e($tweetId) ?>'"><?= $linkedText ?></div>
     <?php if ($mediaUrl): ?>
-        <div class="tweet-media" onclick="event.stopPropagation()">
+        <div class="tweet-media" onclick="window.location.href='/status/<?= e($tweetId) ?>'">
             <?php 
             $is_video = false;
             if (!empty($tweet['media']) && is_array($tweet['media'])) {
