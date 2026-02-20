@@ -73,9 +73,7 @@ require __DIR__ . '/../includes/header.php';
                     if ($tweetData) {
                         if (isset($tweetData['tweet'])) $tweetData = $tweetData['tweet'];
                         
-                        $legacy = $tweetData['legacy'] ?? [];
-                        $core = $tweetData['core'] ?? $tweetData['user_results']['result']['core'] ?? [];
-                        $avatar = $tweetData['avatar'] ?? $tweetData['user_results']['result']['avatar'] ?? [];
+                        $legacy = $tweetData['legacy'] ?? $tweetData ?? [];
                         
                         // User information removed for fallback endpoint as requested
                         $user = [
@@ -84,19 +82,19 @@ require __DIR__ . '/../includes/header.php';
                             'profile_image_url_https' => ''
                         ];
 
-                        // Ensure we have a valid tweet structure even if legacy is partially empty
+                        // Ensure we have a valid tweet structure
                         $tweets[] = [
-                            'id' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
-                            'id_str' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
-                            'full_text' => $legacy['full_text'] ?? '',
-                            'created_at' => $legacy['created_at'] ?? '',
+                            'id' => $legacy['id_str'] ?? $tweetData['rest_id'] ?? $tweetData['id_str'] ?? '',
+                            'id_str' => $legacy['id_str'] ?? $tweetData['rest_id'] ?? $tweetData['id_str'] ?? '',
+                            'full_text' => $legacy['full_text'] ?? $legacy['text'] ?? $tweetData['full_text'] ?? $tweetData['text'] ?? '',
+                            'created_at' => $legacy['created_at'] ?? $tweetData['created_at'] ?? '',
                             'user' => $user,
-                            'favorite_count' => $legacy['favorite_count'] ?? 0,
-                            'retweet_count' => $legacy['retweet_count'] ?? 0,
-                            'reply_count' => $legacy['reply_count'] ?? 0,
-                            'quote_count' => $legacy['quote_count'] ?? 0,
-                            'entities' => $legacy['entities'] ?? [],
-                            'extended_entities' => $legacy['extended_entities'] ?? []
+                            'favorite_count' => $legacy['favorite_count'] ?? $tweetData['favorite_count'] ?? 0,
+                            'retweet_count' => $legacy['retweet_count'] ?? $tweetData['retweet_count'] ?? 0,
+                            'reply_count' => $legacy['reply_count'] ?? $tweetData['reply_count'] ?? 0,
+                            'quote_count' => $legacy['quote_count'] ?? $tweetData['quote_count'] ?? 0,
+                            'entities' => $legacy['entities'] ?? $tweetData['entities'] ?? [],
+                            'extended_entities' => $legacy['extended_entities'] ?? $tweetData['extended_entities'] ?? []
                         ];
                     }
                 }
