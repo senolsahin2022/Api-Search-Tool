@@ -14,6 +14,11 @@ require __DIR__ . '/../includes/header.php';
     <h1><?= e(__('hero_title')) ?></h1>
     <p><?= e(__('hero_subtitle')) ?></p>
     
+    <div style="margin-top: 20px;">
+        <a href="https://twitter.com/intent/tweet?button_hashtag=x&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #x</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+
     <div class="bypass-info" style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: left;">
         <div class="trend-card" style="cursor: default; background: rgba(29, 155, 240, 0.1); border-color: var(--primary);">
             <div class="trend-name"><i class="fa-solid fa-shield-halved"></i> <?= e(__('bypass_title')) ?></div>
