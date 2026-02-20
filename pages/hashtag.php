@@ -11,8 +11,13 @@ $results = getHashtag($tag);
 $using_fallback = false;
 $fallback_status = '';
 
-// Fallback logic moved directly to hashtag page
-if (empty($results) || (isset($results['data']) && empty($results['data'])) || (isset($results['results']) && empty($results['results']))) {
+// Debugging: What did we get from 1st endpoint?
+$is_empty = empty($results) || 
+           (isset($results['data']) && empty($results['data'])) || 
+           (isset($results['results']) && empty($results['results'])) ||
+           (isset($results['tweets']) && empty($results['tweets']));
+
+if ($is_empty) {
     $using_fallback = true;
     $url = "https://hashtag.senolsahin2022.workers.dev/?q=" . urlencode($tag);
     $ch = curl_init();
