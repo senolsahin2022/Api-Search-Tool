@@ -76,11 +76,11 @@ require __DIR__ . '/../includes/header.php';
                         $legacy = $tweetData['legacy'] ?? [];
                         $core = $tweetData['core'] ?? [];
                         
-                        // Handle the structure the user found: "core": { "name": "...", "screen_name": "..." }
+                        // Handle the structure the user found: "avatar": { "image_url": "..." }, "core": { "name": "...", "screen_name": "..." }
                         $user = [
-                            'name' => $core['name'] ?? $core['user_results']['result']['legacy']['name'] ?? $core['user_results']['result']['name'] ?? 'User',
-                            'screen_name' => $core['screen_name'] ?? $core['user_results']['result']['legacy']['screen_name'] ?? $core['user_results']['result']['screen_name'] ?? $core['user_results']['result']['handle'] ?? 'user',
-                            'profile_image_url_https' => $core['profile_image_url_https'] ?? $core['user_results']['result']['legacy']['profile_image_url_https'] ?? $core['user_results']['result']['profile_image_url_https'] ?? ''
+                            'name' => $core['name'] ?? $userResult['core']['name'] ?? $userResult['name'] ?? 'User',
+                            'screen_name' => $core['screen_name'] ?? $userResult['core']['screen_name'] ?? $userResult['screen_name'] ?? $userResult['handle'] ?? 'user',
+                            'profile_image_url_https' => $userResult['avatar']['image_url'] ?? $core['profile_image_url_https'] ?? $userResult['profile_image_url_https'] ?? ''
                         ];
 
                         if (!empty($legacy)) {
