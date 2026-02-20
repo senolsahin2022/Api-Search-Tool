@@ -50,11 +50,6 @@ require __DIR__ . '/../includes/header.php';
 <h1 class="page-title"><span style="color:var(--primary)">#</span><?= e($tag) ?></h1>
 <p class="page-subtitle"><?= e(__('hashtag_subtitle')) ?></p>
 
-        <details style="width: 100%;">
-            <summary style="cursor: pointer; color: #ffa500; font-size: 0.9rem; opacity: 0.8;">API Ham Verisini Gör (Debug)</summary>
-            <pre style="background: #15202b; color: #8899a6; padding: 15px; border-radius: 8px; margin-top: 10px; overflow-x: auto; font-size: 0.8rem; border: 1px solid #38444d; max-height: 400px;"><?php echo htmlspecialchars(json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?></pre>
-        </details>
-
 <?php if (!empty($results) && is_array($results)):
     $tweets = [];
     
@@ -81,30 +76,29 @@ require __DIR__ . '/../includes/header.php';
                         $legacy = $tweetData['legacy'] ?? [];
                         $core = $tweetData['core'] ?? [];
                         
-                        // User results can be nested or direct
-                        $userResult = $core['user_results']['result'] ?? $tweetData['user_results']['result'] ?? [];
-                        if (isset($userResult['tweet'])) $userResult = $userResult['tweet'];
-                        if (isset($userResult['result'])) $userResult = $userResult['result'];
-                        
-                        $user = $userResult['legacy'] ?? [];
-                        
-                        // If legacy user is empty, check top level properties in userResult
-                        if (empty($user) && isset($userResult['screen_name'])) {
-                            $user = $userResult;
-                        }
+                        // Handle the structure the user found: "core": { "name": "...", "screen_name": "..." }
+                        $user = [
+                            'name' => $core['name'] ?? $core['user_results']['result']['legacy']['name'] ?? $core['user_results']['result']['name'] ?? 'User',
+                            'screen_name' => $core['screen_name'] ?? $core['user_results']['result']['legacy']['screen_name'] ?? $core['user_results']['result']['screen_name'] ?? $core['user_results']['result']['handle'] ?? 'user',
+                            'profile_image_url_https' => $core['profile_image_url_https'] ?? $core['user_results']['result']['legacy']['profile_image_url_https'] ?? $core['user_results']['result']['profile_image_url_https'] ?? ''
+                        ];
 
                         if (!empty($legacy)) {
                             // Map to exactly what tweet_card.php expects
                             $tweets[] = [
+                                'id' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
                                 'id_str' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
                                 'full_text' => $legacy['full_text'] ?? '',
                                 'created_at' => $legacy['created_at'] ?? '',
-                                'user' => [
-                                    'name' => $user['name'] ?? $userResult['name'] ?? 'User',
-                                    'screen_name' => $user['screen_name'] ?? $userResult['screen_name'] ?? $userResult['handle'] ?? 'user',
-                                    'profile_image_url_https' => $user['profile_image_url_https'] ?? $userResult['profile_image_url_https'] ?? ''
-                                ],
+                                'user' => $user,
                                 'favorite_count' => $legacy['favorite_count'] ?? 0,
+                                'retweet_count' => $legacy['retweet_count'] ?? 0,
+                                'reply_count' => $legacy['reply_count'] ?? 0,
+                                'quote_count' => $legacy['quote_count'] ?? 0,
+                                'entities' => $legacy['entities'] ?? [],
+                                'extended_entities' => $legacy['extended_entities'] ?? []
+                            ];
+                        }
                                 'retweet_count' => $legacy['retweet_count'] ?? 0,
                                 'reply_count' => $legacy['reply_count'] ?? 0,
                                 'quote_count' => $legacy['quote_count'] ?? 0,
