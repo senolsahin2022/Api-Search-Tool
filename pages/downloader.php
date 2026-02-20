@@ -199,23 +199,33 @@ require __DIR__ . '/../includes/header.php';
 .shadow-lg { box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 </style>
 
-    <div class="faq-section" style="margin-top: 60px;">
-        <h2><?= e(__('video_downloader_title')) ?> Hakkında Sıkça Sorulan Sorular</h2>
-        <div class="faq-grid">
-            <div class="faq-item">
-                <h3>X (Twitter) videolarını nasıl indirebilirim?</h3>
-                <p>İndirmek istediğiniz videonun bulunduğu tweet linkini yukarıdaki kutucuğa yapıştırın ve "İndir" butonuna basın. Ardından karşınıza çıkan indirme butonlarını kullanarak videoyu cihazınıza kaydedebilirsiniz.</p>
-            </div>
-            <div class="faq-item">
-                <h3>Hangi formatları destekliyorsunuz?</h3>
-                <p>MP4 video formatını ve yüksek kaliteli JPG/PNG resim formatlarını destekliyoruz. Ayrıca GIF'leri de video olarak indirebilirsiniz.</p>
-            </div>
-            <div class="faq-item">
-                <h3>Ücretli mi?</h3>
-                <p>Hayır, TwitExplorer Video İndirici tamamen ücretsizdir ve herhangi bir sınırlama yoktur.</p>
-            </div>
-        </div>
-    </div>
-</div>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "<?= addslashes(__('faq_q1')) ?>",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<?= addslashes(__('faq_a1')) ?>"
+        }
+      }, {
+        "@type": "Question",
+        "name": "<?= addslashes(__('faq_q2')) ?>",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<?= addslashes(__('faq_a2')) ?>"
+        }
+      }, {
+        "@type": "Question",
+        "name": "<?= addslashes(__('faq_q3')) ?>",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<?= addslashes(__('faq_a3')) ?>"
+        }
+      }]
+    }
+    </script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

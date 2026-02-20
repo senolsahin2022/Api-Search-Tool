@@ -45,23 +45,55 @@ require __DIR__ . '/../includes/header.php';
     }
     ?>
 
-    <div class="faq-section" style="margin-top: 40px;">
-        <h2><?= e($authorName) ?> Tweeti Hakkında SSS</h2>
-        <div class="faq-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-            <div class="faq-item card shadow-sm" style="padding: 20px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--accent);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q1')) ?></h3>
-                <p style="font-size: 0.95rem; line-height: 1.5;"><?= e(__('faq_a1')) ?></p>
-            </div>
-            <div class="faq-item card shadow-sm" style="padding: 20px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--accent);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q2')) ?></h3>
-                <p style="font-size: 0.95rem; line-height: 1.5;"><?= e(__('faq_a2')) ?></p>
-            </div>
-            <div class="faq-item card shadow-sm" style="padding: 20px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
-                <h3 style="font-size: 1.1rem; margin-bottom: 10px; color: var(--accent);"><i class="fa-solid fa-circle-question"></i> <?= e(__('faq_q3')) ?></h3>
-                <p style="font-size: 0.95rem; line-height: 1.5;"><?= e(__('faq_a3')) ?></p>
-            </div>
+    <!-- FAQ Section for SEO -->
+    <section class="faq-section" style="margin-top: 40px; padding: 20px; background: var(--card-bg); border-radius: var(--radius-md); border: 1px solid var(--border);">
+        <h2 style="margin-bottom: 20px; font-size: 1.5rem; color: var(--primary);"><?= e($authorName) ?> <?= e(__('faq_title')) ?></h2>
+        
+        <div class="faq-item" style="margin-bottom: 15px;">
+            <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q1_post'), $author['handle'] ?? $author['screen_name'] ?? 'user') ?></h3>
+            <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a1_post'), $author['handle'] ?? $author['screen_name'] ?? 'user') ?></p>
         </div>
-    </div>
+
+        <div class="faq-item" style="margin-bottom: 15px;">
+            <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q2_post'), $author['handle'] ?? $author['screen_name'] ?? 'user') ?></h3>
+            <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a2_post'), $author['handle'] ?? $author['screen_name'] ?? 'user') ?></p>
+        </div>
+
+        <div class="faq-item" style="margin-bottom: 15px;">
+            <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q3_post'), $author['handle'] ?? $author['screen_name'] ?? 'user') ?></h3>
+            <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a3_post'), $author['handle'] ?? $author['screen_name'] ?? 'user') ?></p>
+        </div>
+    </section>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "<?= addslashes(sprintf(__('faq_q1_post'), $author['handle'] ?? $author['screen_name'] ?? 'user')) ?>",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<?= addslashes(sprintf(__('faq_a1_post'), $author['handle'] ?? $author['screen_name'] ?? 'user')) ?>"
+        }
+      }, {
+        "@type": "Question",
+        "name": "<?= addslashes(sprintf(__('faq_q2_post'), $author['handle'] ?? $author['screen_name'] ?? 'user')) ?>",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<?= addslashes(sprintf(__('faq_a2_post'), $author['handle'] ?? $author['screen_name'] ?? 'user')) ?>"
+        }
+      }, {
+        "@type": "Question",
+        "name": "<?= addslashes(sprintf(__('faq_q3_post'), $author['handle'] ?? $author['screen_name'] ?? 'user')) ?>",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<?= addslashes(sprintf(__('faq_a3_post'), $author['handle'] ?? $author['screen_name'] ?? 'user')) ?>"
+        }
+      }]
+    }
+    </script>
 </div>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
