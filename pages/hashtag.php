@@ -82,8 +82,12 @@ require __DIR__ . '/../includes/header.php';
                         
                         $legacy = $tweetData['legacy'] ?? [];
                         $core = $tweetData['core'] ?? [];
+                        
+                        // User results can be nested or direct
                         $userResult = $core['user_results']['result'] ?? [];
                         if (isset($userResult['tweet'])) $userResult = $userResult['tweet'];
+                        if (isset($userResult['result'])) $userResult = $userResult['result'];
+                        
                         $user = $userResult['legacy'] ?? [];
                         
                         if (!empty($legacy)) {
@@ -93,9 +97,9 @@ require __DIR__ . '/../includes/header.php';
                                 'full_text' => $legacy['full_text'] ?? '',
                                 'created_at' => $legacy['created_at'] ?? '',
                                 'user' => [
-                                    'name' => $user['name'] ?? 'User',
-                                    'screen_name' => $user['screen_name'] ?? $user['handle'] ?? 'user',
-                                    'profile_image_url_https' => $user['profile_image_url_https'] ?? ''
+                                    'name' => $user['name'] ?? $userResult['name'] ?? 'User',
+                                    'screen_name' => $user['screen_name'] ?? $userResult['screen_name'] ?? $userResult['handle'] ?? 'user',
+                                    'profile_image_url_https' => $user['profile_image_url_https'] ?? $userResult['profile_image_url_https'] ?? ''
                                 ],
                                 'favorite_count' => $legacy['favorite_count'] ?? 0,
                                 'retweet_count' => $legacy['retweet_count'] ?? 0,
