@@ -107,6 +107,8 @@ require __DIR__ . '/../includes/header.php';
     <div class="tweet-list">
         <?php foreach ($tweets as $tweet):
             if (empty($tweet)) continue;
+            // Add a flag to indicate if we should hide the header
+            $tweet['hide_header'] = $using_fallback;
             require __DIR__ . '/../includes/tweet_card.php';
         endforeach; ?>
     </div>

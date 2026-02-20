@@ -29,6 +29,7 @@ $linkedText = preg_replace(
 );
 ?>
 <article class="tweet-card" onclick="window.location.href='/status/<?= e($tweetId) ?>'" style="cursor: pointer;">
+    <?php if (empty($tweet['hide_header'])): ?>
     <div class="tweet-header">
         <?php if ($avatar): ?>
             <img src="<?= e($avatar) ?>" alt="<?= e($name) ?>" class="tweet-avatar" loading="lazy">
@@ -46,6 +47,7 @@ $linkedText = preg_replace(
             <span class="tweet-time"><?= timeAgo($createdAt) ?></span>
         <?php endif; ?>
     </div>
+    <?php endif; ?>
     <div class="tweet-text" onclick="window.location.href='/status/<?= e($tweetId) ?>'"><?= $linkedText ?></div>
     <?php if ($mediaUrl): ?>
         <div class="tweet-media" onclick="window.location.href='/status/<?= e($tweetId) ?>'">
