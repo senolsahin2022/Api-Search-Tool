@@ -79,27 +79,25 @@ require __DIR__ . '/../includes/header.php';
                         
                         // Handle the structure the user found: "avatar": { "image_url": "..." }, "core": { "name": "...", "screen_name": "..." }
                         $user = [
-                            'name' => $core['name'] ?? $legacy['name'] ?? 'User',
-                            'screen_name' => $core['screen_name'] ?? $legacy['screen_name'] ?? 'user',
-                            'profile_image_url_https' => $avatar['image_url'] ?? $legacy['profile_image_url_https'] ?? ''
+                            'name' => $core['name'] ?? $tweetData['user_results']['result']['legacy']['name'] ?? $tweetData['user_results']['result']['name'] ?? 'User',
+                            'screen_name' => $core['screen_name'] ?? $tweetData['user_results']['result']['legacy']['screen_name'] ?? $tweetData['user_results']['result']['screen_name'] ?? $tweetData['user_results']['result']['handle'] ?? 'user',
+                            'profile_image_url_https' => $avatar['image_url'] ?? $tweetData['user_results']['result']['legacy']['profile_image_url_https'] ?? $tweetData['user_results']['result']['profile_image_url_https'] ?? ''
                         ];
 
-                        if (!empty($legacy)) {
-                            // Map to exactly what tweet_card.php expects
-                            $tweets[] = [
-                                'id' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
-                                'id_str' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
-                                'full_text' => $legacy['full_text'] ?? '',
-                                'created_at' => $legacy['created_at'] ?? '',
-                                'user' => $user,
-                                'favorite_count' => $legacy['favorite_count'] ?? 0,
-                                'retweet_count' => $legacy['retweet_count'] ?? 0,
-                                'reply_count' => $legacy['reply_count'] ?? 0,
-                                'quote_count' => $legacy['quote_count'] ?? 0,
-                                'entities' => $legacy['entities'] ?? [],
-                                'extended_entities' => $legacy['extended_entities'] ?? []
-                            ];
-                        }
+                        // Ensure we have a valid tweet structure even if legacy is partially empty
+                        $tweets[] = [
+                            'id' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
+                            'id_str' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
+                            'full_text' => $legacy['full_text'] ?? '',
+                            'created_at' => $legacy['created_at'] ?? '',
+                            'user' => $user,
+                            'favorite_count' => $legacy['favorite_count'] ?? 0,
+                            'retweet_count' => $legacy['retweet_count'] ?? 0,
+                            'reply_count' => $legacy['reply_count'] ?? 0,
+                            'quote_count' => $legacy['quote_count'] ?? 0,
+                            'entities' => $legacy['entities'] ?? [],
+                            'extended_entities' => $legacy['extended_entities'] ?? []
+                        ];
                     }
                 }
             }
