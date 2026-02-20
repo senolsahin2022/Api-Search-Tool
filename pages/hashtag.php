@@ -99,7 +99,7 @@ require __DIR__ . '/../includes/header.php';
                                 'created_at' => $legacy['created_at'] ?? '',
                                 'user' => [
                                     'name' => $user['name'] ?? 'User',
-                                    'screen_name' => $user['screen_name'] ?? 'user',
+                                    'screen_name' => $user['screen_name'] ?? $user['handle'] ?? 'user',
                                     'profile_image_url_https' => $user['profile_image_url_https'] ?? ''
                                 ],
                                 'favorite_count' => $legacy['favorite_count'] ?? 0,
