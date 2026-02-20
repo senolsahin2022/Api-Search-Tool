@@ -99,13 +99,6 @@ require __DIR__ . '/../includes/header.php';
                                 'extended_entities' => $legacy['extended_entities'] ?? []
                             ];
                         }
-                                'retweet_count' => $legacy['retweet_count'] ?? 0,
-                                'reply_count' => $legacy['reply_count'] ?? 0,
-                                'quote_count' => $legacy['quote_count'] ?? 0,
-                                'entities' => $legacy['entities'] ?? [],
-                                'extended_entities' => $legacy['extended_entities'] ?? []
-                            ];
-                        }
                     }
                 }
             }
