@@ -50,12 +50,10 @@ require __DIR__ . '/../includes/header.php';
 <h1 class="page-title"><span style="color:var(--primary)">#</span><?= e($tag) ?></h1>
 <p class="page-subtitle"><?= e(__('hashtag_subtitle')) ?></p>
 
-<?php if ($using_fallback && $fallback_status !== 'success'): ?>
-    <div style="padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; background: rgba(249, 24, 128, 0.1); border: 1px solid rgba(249, 24, 128, 0.3);">
-        <i class="fa-solid fa-triangle-exclamation" style="color: #f91880;"></i>
-        <span style="color: #f91880; font-weight: 600;">HATA: Her iki endpointten de veri alınamadı! ❌</span>
-    </div>
-<?php endif; ?>
+        <details style="width: 100%;">
+            <summary style="cursor: pointer; color: #ffa500; font-size: 0.9rem; opacity: 0.8;">API Ham Verisini Gör (Debug)</summary>
+            <pre style="background: #15202b; color: #8899a6; padding: 15px; border-radius: 8px; margin-top: 10px; overflow-x: auto; font-size: 0.8rem; border: 1px solid #38444d; max-height: 400px;"><?php echo htmlspecialchars(json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?></pre>
+        </details>
 
 <?php if (!empty($results) && is_array($results)):
     $tweets = [];
@@ -84,12 +82,17 @@ require __DIR__ . '/../includes/header.php';
                         $core = $tweetData['core'] ?? [];
                         
                         // User results can be nested or direct
-                        $userResult = $core['user_results']['result'] ?? [];
+                        $userResult = $core['user_results']['result'] ?? $tweetData['user_results']['result'] ?? [];
                         if (isset($userResult['tweet'])) $userResult = $userResult['tweet'];
                         if (isset($userResult['result'])) $userResult = $userResult['result'];
                         
                         $user = $userResult['legacy'] ?? [];
                         
+                        // If legacy user is empty, check top level properties in userResult
+                        if (empty($user) && isset($userResult['screen_name'])) {
+                            $user = $userResult;
+                        }
+
                         if (!empty($legacy)) {
                             // Map to exactly what tweet_card.php expects
                             $tweets[] = [
