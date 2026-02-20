@@ -74,13 +74,14 @@ require __DIR__ . '/../includes/header.php';
                         if (isset($tweetData['tweet'])) $tweetData = $tweetData['tweet'];
                         
                         $legacy = $tweetData['legacy'] ?? [];
-                        $core = $tweetData['core'] ?? [];
+                        $core = $tweetData['core'] ?? $tweetData['user_results']['result']['core'] ?? [];
+                        $avatar = $tweetData['avatar'] ?? $tweetData['user_results']['result']['avatar'] ?? [];
                         
                         // Handle the structure the user found: "avatar": { "image_url": "..." }, "core": { "name": "...", "screen_name": "..." }
                         $user = [
-                            'name' => $core['name'] ?? $userResult['core']['name'] ?? $userResult['name'] ?? 'User',
-                            'screen_name' => $core['screen_name'] ?? $userResult['core']['screen_name'] ?? $userResult['screen_name'] ?? $userResult['handle'] ?? 'user',
-                            'profile_image_url_https' => $userResult['avatar']['image_url'] ?? $core['profile_image_url_https'] ?? $userResult['profile_image_url_https'] ?? ''
+                            'name' => $core['name'] ?? $legacy['name'] ?? 'User',
+                            'screen_name' => $core['screen_name'] ?? $legacy['screen_name'] ?? 'user',
+                            'profile_image_url_https' => $avatar['image_url'] ?? $legacy['profile_image_url_https'] ?? ''
                         ];
 
                         if (!empty($legacy)) {
