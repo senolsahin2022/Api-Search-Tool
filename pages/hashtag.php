@@ -75,11 +75,11 @@ require __DIR__ . '/../includes/header.php';
                         
                         $legacy = $tweetData['legacy'] ?? $tweetData ?? [];
                         
-                        // User information removed for fallback endpoint as requested
+                        // Handle the structure the user found: "avatar": { "image_url": "..." }, "core": { "name": "...", "screen_name": "..." }
                         $user = [
-                            'name' => 'User',
-                            'screen_name' => 'user',
-                            'profile_image_url_https' => ''
+                            'name' => $core['name'] ?? $tweetData['user_results']['result']['legacy']['name'] ?? $tweetData['user_results']['result']['name'] ?? 'User',
+                            'screen_name' => $core['screen_name'] ?? $tweetData['user_results']['result']['legacy']['screen_name'] ?? $tweetData['user_results']['result']['screen_name'] ?? $tweetData['user_results']['result']['handle'] ?? 'user',
+                            'profile_image_url_https' => $avatar['image_url'] ?? $tweetData['user_results']['result']['legacy']['profile_image_url_https'] ?? $tweetData['user_results']['result']['profile_image_url_https'] ?? ''
                         ];
 
                         // Ensure we have a valid tweet structure
