@@ -50,15 +50,10 @@ require __DIR__ . '/../includes/header.php';
 <h1 class="page-title"><span style="color:var(--primary)">#</span><?= e($tag) ?></h1>
 <p class="page-subtitle"><?= e(__('hashtag_subtitle')) ?></p>
 
-<?php if ($using_fallback): ?>
-    <div style="padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; background: rgba(255, 165, 0, 0.1); border: 1px solid rgba(255, 165, 0, 0.3);">
-        <?php if ($fallback_status === 'success'): ?>
-            <i class="fa-solid fa-info-circle" style="color: #ffa500;"></i>
-            <span style="color: #ffa500; font-weight: 600;">1. Endpoint başarısız oldu, 2. Endpointten veriler başarıyla çekildi. ✅</span>
-        <?php else: ?>
-            <i class="fa-solid fa-triangle-exclamation" style="color: #f91880;"></i>
-            <span style="color: #f91880; font-weight: 600;">HATA: Her iki endpointten de veri alınamadı! ❌</span>
-        <?php endif; ?>
+<?php if ($using_fallback && $fallback_status !== 'success'): ?>
+    <div style="padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; background: rgba(249, 24, 128, 0.1); border: 1px solid rgba(249, 24, 128, 0.3);">
+        <i class="fa-solid fa-triangle-exclamation" style="color: #f91880;"></i>
+        <span style="color: #f91880; font-weight: 600;">HATA: Her iki endpointten de veri alınamadı! ❌</span>
     </div>
 <?php endif; ?>
 
