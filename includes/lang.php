@@ -66,7 +66,15 @@ $translations = [
         'video_downloader_title' => 'X (Twitter) Video İndirici',
         'video_downloader_desc' => 'X (Twitter) videolarını ve GIF\'lerini yüksek kalitede indirin.',
         'download_btn' => 'İndir',
-        'enter_url' => 'Tweet URL\'sini girin...'
+        'enter_url' => 'Tweet URL\'sini girin...',
+        'hashtag' => 'Hashtag',
+        'search' => 'Ara',
+        'trending' => 'Trendler',
+        'faq_title' => 'Sıkça Sorulan Sorular',
+        'faq_q1_hashtag' => '#%s hashtag\'i nedir?',
+        'faq_a1_hashtag' => '#%s hashtag\'i, X (Twitter) üzerinde bu konuyla ilgili yapılan en güncel paylaşımları ve tartışmaları içerir.',
+        'faq_q2_hashtag' => '#%s paylaşımlarını nasıl görebilirim?',
+        'faq_a2_hashtag' => 'TwitExplorer üzerinden #%s hashtag\'ine sahip tüm açık paylaşımları VPN gerekmeden anlık olarak takip edebilirsiniz.'
     ],
     'en' => [
         'home' => 'Trends',
