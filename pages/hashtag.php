@@ -9,6 +9,25 @@ if (empty($tag)) {
 
 $results = getHashtag($tag);
 
+// Fallback logic moved directly to hashtag page
+if (empty($results) || (isset($results['data']) && empty($results['data'])) || (isset($results['results']) && empty($results['results']))) {
+    $url = "https://hashtag.senolsahin2022.workers.dev/?q=" . urlencode($tag);
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTPHEADER => ['X-Pentest-Auth: authorized-pentest-2026'],
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($httpCode === 200 && $response) {
+        $results = json_decode($response, true);
+    }
+}
+
 $pageTitle = sprintf(__('hashtag_title'), $tag);
 $pageDescription = sprintf(__('hashtag_desc'), $tag);
 $pageKeywords = $tag . ', hashtag, twitter, sosyal medya, paylaşımlar';
