@@ -70,7 +70,6 @@ require __DIR__ . '/../includes/header.php';
         foreach ($instructions as $inst) {
             if (isset($inst['entries'])) {
                 foreach ($inst['entries'] as $entry) {
-                    // Check for normal tweet or thread
                     $tweetData = null;
                     if (isset($entry['content']['itemContent']['tweet_results']['result'])) {
                         $tweetData = $entry['content']['itemContent']['tweet_results']['result'];
@@ -79,39 +78,29 @@ require __DIR__ . '/../includes/header.php';
                     }
 
                     if ($tweetData) {
-                        // Handle possible nested 'tweet' object for some results
                         if (isset($tweetData['tweet'])) $tweetData = $tweetData['tweet'];
                         
                         $legacy = $tweetData['legacy'] ?? [];
                         $core = $tweetData['core'] ?? [];
                         $userResult = $core['user_results']['result'] ?? [];
-                        if (isset($userResult['tweet'])) $userResult = $userResult['tweet']; // sometimes nested
+                        if (isset($userResult['tweet'])) $userResult = $userResult['tweet'];
                         $user = $userResult['legacy'] ?? [];
                         
                         if (!empty($legacy)) {
+                            // Map to exactly what tweet_card.php expects
                             $tweets[] = [
-                                'id' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
                                 'id_str' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
-                                'text' => $legacy['full_text'] ?? '',
                                 'full_text' => $legacy['full_text'] ?? '',
                                 'created_at' => $legacy['created_at'] ?? '',
-                                'author' => [
-                                    'name' => $user['name'] ?? 'Twitter User',
-                                    'handle' => $user['screen_name'] ?? 'user',
+                                'user' => [
+                                    'name' => $user['name'] ?? 'User',
                                     'screen_name' => $user['screen_name'] ?? 'user',
-                                    'image' => $user['profile_image_url_https'] ?? '',
-                                    'profile_image_url_https' => $user['profile_image_url_https'] ?? '',
-                                    'verified' => $user['verified'] ?? false
-                                ],
-                                'engagement' => [
-                                    'likes' => $legacy['favorite_count'] ?? 0,
-                                    'retweets' => $legacy['retweet_count'] ?? 0,
-                                    'replies' => $legacy['reply_count'] ?? 0,
-                                    'quotes' => $legacy['quote_count'] ?? 0
+                                    'profile_image_url_https' => $user['profile_image_url_https'] ?? ''
                                 ],
                                 'favorite_count' => $legacy['favorite_count'] ?? 0,
                                 'retweet_count' => $legacy['retweet_count'] ?? 0,
                                 'reply_count' => $legacy['reply_count'] ?? 0,
+                                'quote_count' => $legacy['quote_count'] ?? 0,
                                 'entities' => $legacy['entities'] ?? [],
                                 'extended_entities' => $legacy['extended_entities'] ?? []
                             ];
