@@ -77,17 +77,19 @@ require __DIR__ . '/../includes/header.php';
                         $tweetData = $entry['content']['timelineModule']['items'][0]['item']['itemContent']['tweet_results']['result'];
                     }
 
-                    if ($tweetData) {
-                        if (isset($tweetData['tweet'])) $tweetData = $tweetData['tweet'];
-                        
-                        $legacy = $tweetData['legacy'] ?? $tweetData ?? [];
-                        
-                        // Handle the structure the user found: "avatar": { "image_url": "..." }, "core": { "name": "...", "screen_name": "..." }
-                        $user = [
-                            'name' => $core['name'] ?? $tweetData['user_results']['result']['legacy']['name'] ?? $tweetData['user_results']['result']['name'] ?? 'User',
-                            'screen_name' => $core['screen_name'] ?? $tweetData['user_results']['result']['legacy']['screen_name'] ?? $tweetData['user_results']['result']['screen_name'] ?? $tweetData['user_results']['result']['handle'] ?? 'user',
-                            'profile_image_url_https' => $avatar['image_url'] ?? $tweetData['user_results']['result']['legacy']['profile_image_url_https'] ?? $tweetData['user_results']['result']['profile_image_url_https'] ?? ''
-                        ];
+                        if ($tweetData) {
+                            if (isset($tweetData['tweet'])) $tweetData = $tweetData['tweet'];
+                            
+                            $legacy = $tweetData['legacy'] ?? $tweetData ?? [];
+                            $core = $tweetData['core'] ?? [];
+                            $avatar = $tweetData['avatar'] ?? [];
+                            
+                            // Handle the structure the user found: "avatar": { "image_url": "..." }, "core": { "name": "...", "screen_name": "..." }
+                            $user = [
+                                'name' => $core['name'] ?? $tweetData['user_results']['result']['legacy']['name'] ?? $tweetData['user_results']['result']['name'] ?? 'User',
+                                'screen_name' => $core['screen_name'] ?? $tweetData['user_results']['result']['legacy']['screen_name'] ?? $tweetData['user_results']['result']['screen_name'] ?? $tweetData['user_results']['result']['handle'] ?? 'user',
+                                'profile_image_url_https' => $avatar['image_url'] ?? $tweetData['user_results']['result']['legacy']['profile_image_url_https'] ?? $tweetData['user_results']['result']['profile_image_url_https'] ?? ''
+                            ];
 
                         // Ensure we have a valid tweet structure
                         $tweets[] = [
