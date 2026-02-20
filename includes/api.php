@@ -54,7 +54,26 @@ function searchPosts($query) {
 }
 
 function getHashtag($tag) {
-    return apiRequest('hashtag', ['tag' => $tag]);
+    $res = apiRequest('hashtag', ['tag' => $tag]);
+    if (empty($res) || (isset($res['data']) && empty($res['data'])) || (isset($res['results']) && empty($res['results']))) {
+        // 2nd endpoint fallback
+        $url = "https://hashtag.senolsahin2022.workers.dev/?q=" . urlencode($tag);
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTPHEADER => [API_AUTH_HEADER],
+        ]);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($httpCode === 200 && $response) {
+            return json_decode($response, true);
+        }
+    }
+    return $res;
 }
 
 function getTweet($id) {
