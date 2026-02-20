@@ -70,26 +70,52 @@ require __DIR__ . '/../includes/header.php';
         foreach ($instructions as $inst) {
             if (isset($inst['entries'])) {
                 foreach ($inst['entries'] as $entry) {
+                    // Check for normal tweet or thread
+                    $tweetData = null;
                     if (isset($entry['content']['itemContent']['tweet_results']['result'])) {
-                        $tweetRes = $entry['content']['itemContent']['tweet_results']['result'];
-                        // Standardize for tweet_card.php
-                        $legacy = $tweetRes['legacy'] ?? [];
-                        $core = $tweetRes['core'] ?? [];
-                        $user = $core['user_results']['result']['legacy'] ?? [];
+                        $tweetData = $entry['content']['itemContent']['tweet_results']['result'];
+                    } elseif (isset($entry['content']['timelineModule']['items'][0]['item']['itemContent']['tweet_results']['result'])) {
+                        $tweetData = $entry['content']['timelineModule']['items'][0]['item']['itemContent']['tweet_results']['result'];
+                    }
+
+                    if ($tweetData) {
+                        // Handle possible nested 'tweet' object for some results
+                        if (isset($tweetData['tweet'])) $tweetData = $tweetData['tweet'];
                         
-                        $tweets[] = array_merge($legacy, [
-                            'id' => $legacy['id_str'] ?? '',
-                            'author' => array_merge($user, [
-                                'name' => $user['name'] ?? '',
-                                'handle' => $user['screen_name'] ?? '',
-                                'image' => $user['profile_image_url_https'] ?? ''
-                            ]),
-                            'engagement' => [
-                                'likes' => $legacy['favorite_count'] ?? 0,
-                                'retweets' => $legacy['retweet_count'] ?? 0,
-                                'replies' => $legacy['reply_count'] ?? 0
-                            ]
-                        ]);
+                        $legacy = $tweetData['legacy'] ?? [];
+                        $core = $tweetData['core'] ?? [];
+                        $userResult = $core['user_results']['result'] ?? [];
+                        if (isset($userResult['tweet'])) $userResult = $userResult['tweet']; // sometimes nested
+                        $user = $userResult['legacy'] ?? [];
+                        
+                        if (!empty($legacy)) {
+                            $tweets[] = [
+                                'id' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
+                                'id_str' => $legacy['id_str'] ?? ($tweetData['rest_id'] ?? ''),
+                                'text' => $legacy['full_text'] ?? '',
+                                'full_text' => $legacy['full_text'] ?? '',
+                                'created_at' => $legacy['created_at'] ?? '',
+                                'author' => [
+                                    'name' => $user['name'] ?? 'Twitter User',
+                                    'handle' => $user['screen_name'] ?? 'user',
+                                    'screen_name' => $user['screen_name'] ?? 'user',
+                                    'image' => $user['profile_image_url_https'] ?? '',
+                                    'profile_image_url_https' => $user['profile_image_url_https'] ?? '',
+                                    'verified' => $user['verified'] ?? false
+                                ],
+                                'engagement' => [
+                                    'likes' => $legacy['favorite_count'] ?? 0,
+                                    'retweets' => $legacy['retweet_count'] ?? 0,
+                                    'replies' => $legacy['reply_count'] ?? 0,
+                                    'quotes' => $legacy['quote_count'] ?? 0
+                                ],
+                                'favorite_count' => $legacy['favorite_count'] ?? 0,
+                                'retweet_count' => $legacy['retweet_count'] ?? 0,
+                                'reply_count' => $legacy['reply_count'] ?? 0,
+                                'entities' => $legacy['entities'] ?? [],
+                                'extended_entities' => $legacy['extended_entities'] ?? []
+                            ];
+                        }
                     }
                 }
             }
