@@ -95,11 +95,8 @@ require __DIR__ . '/../includes/header.php';
     <div class="tweet-list">
         <?php foreach ($tweets as $tweet):
             if (empty($tweet)) continue;
-            // Add a flag to indicate if we should hide the header
-            $tweet['hide_header'] = $using_fallback;
-            if ($using_fallback) {
-                $tweet['user'] = []; // Clear user data to be sure
-            }
+            // The user wants author info to be visible even for fallback
+            $tweet['hide_header'] = false; 
             require __DIR__ . '/../includes/tweet_card.php';
         endforeach; ?>
     </div>
