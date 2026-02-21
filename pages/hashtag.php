@@ -97,6 +97,9 @@ require __DIR__ . '/../includes/header.php';
             if (empty($tweet)) continue;
             // Add a flag to indicate if we should hide the header
             $tweet['hide_header'] = $using_fallback;
+            if ($using_fallback) {
+                $tweet['user'] = []; // Clear user data to be sure
+            }
             require __DIR__ . '/../includes/tweet_card.php';
         endforeach; ?>
     </div>

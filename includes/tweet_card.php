@@ -29,7 +29,7 @@ $linkedText = preg_replace(
 );
 ?>
 <article class="tweet-card" onclick="window.location.href='/status/<?= e($tweetId) ?>'" style="cursor: pointer;">
-    <?php if (empty($tweet['hide_header'])): ?>
+    <?php if (empty($tweet['hide_header']) && !empty($author['screen_name'])): ?>
     <div class="tweet-header">
         <?php if ($avatar): ?>
             <img src="<?= e($avatar) ?>" alt="<?= e($name) ?>" class="tweet-avatar" loading="lazy">
