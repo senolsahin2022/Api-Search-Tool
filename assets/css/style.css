@@ -677,6 +677,53 @@ body {
     font-size: 0.85rem;
 }
 
+/* Cookie Consent */
+.cookie-consent {
+    position: fixed;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 15px 0;
+    z-index: 1000;
+    transition: bottom 0.5s ease;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+}
+
+.cookie-consent.show {
+    bottom: 0;
+}
+
+.cookie-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cookie-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.cookie-content a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.btn-sm {
+    padding: 8px 20px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    .cookie-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 .tag-link {
     display: inline-block;
     background: rgba(29,155,240,0.1);

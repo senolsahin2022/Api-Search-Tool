@@ -74,7 +74,10 @@ $translations = [
         'faq_q1_hashtag' => '#%s hashtag\'i nedir?',
         'faq_a1_hashtag' => '#%s hashtag\'i, X (Twitter) üzerinde bu konuyla ilgili yapılan en güncel paylaşımları ve tartışmaları içerir.',
         'faq_q2_hashtag' => '#%s paylaşımlarını nasıl görebilirim?',
-        'faq_a2_hashtag' => 'TwitExplorer üzerinden #%s hashtag\'ine sahip tüm açık paylaşımları VPN gerekmeden anlık olarak takip edebilirsiniz.'
+        'faq_a2_hashtag' => 'TwitExplorer üzerinden #%s hashtag\'ine sahip tüm açık paylaşımları VPN gerekmeden anlık olarak takip edebilirsiniz.',
+        'cookie_text' => 'Bu site, deneyiminizi iyileştirmek, trafiği analiz etmek ve reklamları kişiselleştirmek için çerezleri kullanır.',
+        'cookie_link' => 'Daha fazla bilgi al.',
+        'cookie_accept' => 'Kabul Et'
     ],
     'en' => [
         'home' => 'Trends',
@@ -155,7 +158,10 @@ $translations = [
         'faq_q2_post' => 'Can I view @%s tweets without a VPN?',
         'faq_a2_post' => 'Absolutely! TwitExplorer allows you to view @%s and all other user tweets even if access is restricted.',
         'faq_q3_post' => 'How can I download @%s videos?',
-        'faq_a3_post' => 'You can use our "Video Downloader" tool by pasting the tweet URL of @%s to save videos in high quality.'
+        'faq_a3_post' => 'You can use our "Video Downloader" tool by pasting the tweet URL of @%s to save videos in high quality.',
+        'cookie_text' => 'This site uses cookies to improve your experience, analyze traffic and personalize ads.',
+        'cookie_link' => 'Learn more.',
+        'cookie_accept' => 'Accept'
     ],
     'ar' => [
         'home' => 'التريندات',

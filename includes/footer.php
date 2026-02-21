@@ -28,6 +28,30 @@
             </div>
         </div>
     </footer>
+
+    <!-- Cookie Consent Popup -->
+    <div id="cookie-consent" class="cookie-consent">
+        <div class="container">
+            <div class="cookie-content">
+                <p><?= e(__('cookie_text')) ?> <a href="/privacy"><?= e(__('cookie_link')) ?></a></p>
+                <div class="cookie-buttons">
+                    <button id="cookie-accept" class="btn btn-primary btn-sm"><?= e(__('cookie_accept')) ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/assets/js/app.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!localStorage.getItem('cookieConsent')) {
+            document.getElementById('cookie-consent').classList.add('show');
+        }
+        document.getElementById('cookie-accept').addEventListener('click', function() {
+            localStorage.setItem('cookieConsent', 'true');
+            document.getElementById('cookie-consent').classList.remove('show');
+        });
+    });
+    </script>
 </body>
 </html>
