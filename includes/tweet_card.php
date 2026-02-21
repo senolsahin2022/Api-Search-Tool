@@ -113,7 +113,7 @@ $linkedText = preg_replace(
         <?php if ($views): ?><span class="tweet-stat"><i class="fa-solid fa-chart-simple"></i> <?= formatNumber($views) ?></span><?php endif; ?>
     </div>
     <div class="share-buttons" onclick="event.stopPropagation()" style="margin-top: 15px; display: flex; gap: 10px; border-top: 1px solid var(--border); padding-top: 10px;">
-        <?php $baseUrl = getDomain(); ?>
+        <?php $baseUrl = 'https://freedom-x.net'; ?>
         <a href="https://twitter.com/intent/tweet?text=<?= urlencode($text) ?>&url=<?= urlencode($baseUrl . '/status/' . $tweetId) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem; background: #000; color: #fff;"><i class="fa-brands fa-x-twitter"></i> Paylaş</a>
         <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($baseUrl . '/status/' . $tweetId) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem; background: #1877f2; color: #fff;"><i class="fa-brands fa-facebook"></i> Facebook</a>
         <a href="https://wa.me/?text=<?= urlencode($text . ' ' . $baseUrl . '/status/' . $tweetId) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem; background: #25d366; color: #fff;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>

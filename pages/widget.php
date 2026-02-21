@@ -110,7 +110,7 @@ if (isset($_GET['embed'])):
 </div>
 
 <script>
-const baseUrl = '<?= $baseUrl ?>';
+const baseUrl = 'https://freedom-x.net';
 function updateWidget() {
     const tag = document.getElementById('w-tag').value || 'trending';
     const limit = document.getElementById('w-limit').value;
