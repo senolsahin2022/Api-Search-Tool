@@ -2,7 +2,7 @@ RewriteEngine On
 RewriteBase /
 
 # Block unwanted bots and scrapers
-RewriteCond %{HTTP_USER_AGENT} .*MJ12bot.* [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} MJ12bot [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} (DotBot|AhrefsBot|SemrushBot|PetalBot) [NC]
 RewriteRule ^ - [F,L]
 
