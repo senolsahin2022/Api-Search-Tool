@@ -10,7 +10,7 @@
                     <h4><?= e(__('quick_access')) ?></h4>
                     <ul>
                         <li><a href="/"><?= e(__('home')) ?></a></li>
-                        <li><a href="/search?q=gündem">Gündem</a></li>
+                        <li><a href="/widget">Widget Oluşturucu</a></li>
                         <li><a href="/hashtag/trending">Popüler Hashtag'ler</a></li>
                     </ul>
                 </div>
