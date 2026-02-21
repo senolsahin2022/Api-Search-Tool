@@ -29,7 +29,7 @@ $linkedText = preg_replace(
 );
 ?>
 <article class="tweet-card" onclick="window.location.href='/status/<?= e($tweetId) ?>'" style="cursor: pointer;">
-    <?php if (empty($tweet['hide_header']) && !empty($author['screen_name'])): ?>
+    <?php if (empty($tweet['hide_header']) && !empty($screenName)): ?>
     <div class="tweet-header">
         <?php if ($avatar): ?>
             <img src="<?= e($avatar) ?>" alt="<?= e($name) ?>" class="tweet-avatar" loading="lazy">
@@ -55,13 +55,11 @@ $linkedText = preg_replace(
             $is_video = false;
             $videoUrl = '';
             
-            // Check for video in media array (extended_entities equivalent)
             $mediaItems = $tweet['media'] ?? $tweet['extended_entities']['media'] ?? [];
             if (!empty($mediaItems) && is_array($mediaItems)) {
                 foreach ($mediaItems as $m) {
                     if (isset($m['type']) && ($m['type'] === 'video' || $m['type'] === 'animated_gif' || !empty($m['video_info']))) {
                         $is_video = true;
-                        // Try to find the best MP4 variant from the media item itself
                         $variants = $m['video_info']['variants'] ?? [];
                         $maxBitrate = -1;
                         foreach ($variants as $variant) {
@@ -71,7 +69,6 @@ $linkedText = preg_replace(
                             }
                         }
                         if (!$videoUrl && !empty($variants)) {
-                            // Fallback to first MP4 or first variant
                             foreach ($variants as $v) {
                                 if (isset($v['content_type']) && $v['content_type'] === 'video/mp4') {
                                     $videoUrl = $v['url'];
@@ -85,7 +82,6 @@ $linkedText = preg_replace(
                 }
             }
             
-            // Global check for video_info if not found in media items (some API structures)
             if (!$videoUrl && !empty($tweet['video_info']['variants'])) {
                 $is_video = true;
                 $variants = $tweet['video_info']['variants'];
@@ -117,6 +113,7 @@ $linkedText = preg_replace(
         <?php if ($views): ?><span class="tweet-stat"><i class="fa-solid fa-chart-simple"></i> <?= formatNumber($views) ?></span><?php endif; ?>
     </div>
     <div class="share-buttons" onclick="event.stopPropagation()" style="margin-top: 15px; display: flex; gap: 10px; border-top: 1px solid var(--border); padding-top: 10px;">
+        <?php $baseUrl = getDomain(); ?>
         <a href="https://twitter.com/intent/tweet?text=<?= urlencode($text) ?>&url=<?= urlencode($baseUrl . '/status/' . $tweetId) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem; background: #000; color: #fff;"><i class="fa-brands fa-x-twitter"></i> Paylaş</a>
         <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($baseUrl . '/status/' . $tweetId) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem; background: #1877f2; color: #fff;"><i class="fa-brands fa-facebook"></i> Facebook</a>
         <a href="https://wa.me/?text=<?= urlencode($text . ' ' . $baseUrl . '/status/' . $tweetId) ?>" target="_blank" class="tag-link" style="font-size: 0.75rem; background: #25d366; color: #fff;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>

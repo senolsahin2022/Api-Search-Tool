@@ -111,3 +111,11 @@ function formatNumber($num) {
 function e($str) {
     return htmlspecialchars($str ?? '', ENT_QUOTES, 'UTF-8');
 }
+
+function getDomain() {
+    $domain = getenv('REPL_SLUG') . '.' . getenv('REPL_OWNER') . '.repl.co';
+    if (empty(getenv('REPL_SLUG'))) {
+        $domain = $_SERVER['HTTP_HOST'] ?? 'localhost:5000';
+    }
+    return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $domain;
+}
