@@ -8,6 +8,52 @@ if (empty($username)) {
 }
 
 $userData = getUser($username);
+$using_fallback = false;
+
+if (empty($userData) || empty($userData['tweets'])) {
+    $url = "https://hashtag.senolsahin2022.workers.dev/?q=" . urlencode($username);
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTPHEADER => ['X-Pentest-Auth: authorized-pentest-2026'],
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode === 200 && $response) {
+        $fbData = json_decode($response, true);
+        if (isset($fbData['payload']) && is_array($fbData['payload'])) {
+            $tweets = [];
+            foreach ($fbData['payload'] as $item) {
+                $author = $item['author'] ?? [];
+                $extra = $item['extra'] ?? [];
+                $tweets[] = [
+                    'id_str' => $item['vendorId'] ?? '',
+                    'full_text' => $item['caption'] ?? '',
+                    'created_at' => $item['publishedAt'] ?? '',
+                    'author' => [
+                        'name' => $author['name'] ?? 'User',
+                        'handle' => $author['username'] ?? 'user',
+                        'image' => $author['profilePictureUrl'] ?? '',
+                        'followers' => $author['followersCount'] ?? 0,
+                        'verified' => $author['isVerifiedProfile'] ?? false
+                    ],
+                    'favorite_count' => $item['likesCount'] ?? 0,
+                    'retweet_count' => $extra['repostCount'] ?? 0,
+                    'reply_count' => $extra['replyCount'] ?? 0
+                ];
+            }
+            if (!empty($tweets)) {
+                $userData = ['tweets' => $tweets];
+                $using_fallback = true;
+            }
+        }
+    }
+}
 
 $pageTitle = sprintf(__('user_title'), $username);
 $pageDescription = sprintf(__('user_desc'), $username);
