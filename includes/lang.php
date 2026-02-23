@@ -1,5 +1,14 @@
 <?php
 
+function __($key, $lang = null) {
+    global $translations;
+    $lang = $lang ?: ($_GET['lang'] ?? $_SESSION['lang'] ?? 'tr');
+    if (!isset($translations[$lang])) {
+        $lang = 'tr';
+    }
+    return $translations[$lang][$key] ?? $key;
+}
+
 $translations = [
     'tr' => [
         'home' => 'Trendler',
