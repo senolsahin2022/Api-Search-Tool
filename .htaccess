@@ -8,38 +8,11 @@ RewriteCond %{HTTP_USER_AGENT} (MJ12bot|DotBot|AhrefsBot|SemrushBot|PetalBot|BLE
 RewriteRule ^ - [F,L]
 
 # ============================================
-# BLOCK SUSPICIOUS FILE EXTENSIONS & PATHS
-# ============================================
-RewriteCond %{REQUEST_URI} \.(php|asp|aspx|jsp|cgi|pl|py|sh|bash|exe|dll|bat|cmd|sql|bak|old|orig|swp|env|ini|log|config|yml|yaml|json|xml|git|svn|htaccess|htpasswd|DS_Store)$ [NC]
-RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
-RewriteCond %{REQUEST_URI} !^/sitemap\.xml$ [NC]
-RewriteCond %{REQUEST_URI} !^/robots\.txt$ [NC]
-RewriteRule ^ - [F,L]
-
-# Block wp-admin, wp-login, wp-content, wp-includes (WordPress attacks)
-RewriteCond %{REQUEST_URI} (wp-admin|wp-login|wp-content|wp-includes|wp-config|xmlrpc|administrator|admin\.php|phpmyadmin|pma|myadmin) [NC]
-RewriteRule ^ - [F,L]
-
-# Block common hack/scan paths
-RewriteCond %{REQUEST_URI} (\.git|\.svn|\.env|\.htpasswd|cgi-bin|etc/passwd|proc/self|boot\.ini|win\.ini) [NC]
-RewriteRule ^ - [F,L]
-
-# Block paths with encoded characters (directory traversal)
-RewriteCond %{THE_REQUEST} (\.\./|\.\.\\) [NC]
-RewriteRule ^ - [F,L]
-
-# Block query string injection attempts
-RewriteCond %{QUERY_STRING} (union|select|insert|drop|delete|update|alter|create|exec|execute|xp_|sp_|0x|base64|concat|char\(|information_schema|benchmark|sleep\() [NC]
-RewriteRule ^ - [F,L]
-
-# ============================================
-# ALLOWED URL PATTERNS - 403 FOR EVERYTHING ELSE
+# ALLOWED URL PATTERNS
 # ============================================
 
 # Allow assets (css, js, images, fonts)
-RewriteCond %{REQUEST_URI} ^/assets/ [NC]
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^ - [L]
+RewriteRule ^assets/ - [L]
 
 # Allow favicon and standard files
 RewriteRule ^(favicon\.ico|apple-touch-icon\.png)$ - [L]
@@ -47,20 +20,42 @@ RewriteRule ^(favicon\.ico|apple-touch-icon\.png)$ - [L]
 # Allow robots.txt and sitemap.xml
 RewriteRule ^(robots\.txt|sitemap\.xml)$ index.php [L]
 
-# Allow exact valid routes
+# Allow homepage
 RewriteRule ^$ index.php [L]
+
+# Allow static pages
 RewriteRule ^(search|downloader|widget)$ index.php [L]
 
-# Allow /user/{username} pattern (all languages)
-RewriteRule ^user/.+$ index.php [L]
+# Allow /user/{anything}
+RewriteRule ^user/ index.php [L]
 
-# Allow /hashtag/{tag} pattern (all languages: TR, EN, AR, ZH, RU, FA)
-RewriteRule ^hashtag/.+$ index.php [L]
+# Allow /hashtag/{anything}
+RewriteRule ^hashtag/ index.php [L]
 
-# Allow /status/{id} pattern
+# Allow /status/{digits}
 RewriteRule ^status/[0-9]+$ index.php [L]
 
 # ============================================
-# BLOCK EVERYTHING ELSE WITH 403 FORBIDDEN
+# SECURITY - BLOCK EVERYTHING ELSE
+# ============================================
+
+# Block WordPress attack paths
+RewriteCond %{REQUEST_URI} (wp-admin|wp-login|wp-content|wp-includes|wp-config|xmlrpc|administrator|admin\.php|phpmyadmin|pma|myadmin) [NC]
+RewriteRule ^ - [F,L]
+
+# Block hack/scan paths
+RewriteCond %{REQUEST_URI} (\.git|\.svn|\.env|\.htpasswd|cgi-bin|etc/passwd|proc/self|boot\.ini|win\.ini) [NC]
+RewriteRule ^ - [F,L]
+
+# Block directory traversal
+RewriteCond %{THE_REQUEST} (\.\./|\.\.\\) [NC]
+RewriteRule ^ - [F,L]
+
+# Block SQL injection in query strings
+RewriteCond %{QUERY_STRING} (union.*select|insert.*into|drop.*table|delete.*from|update.*set|alter.*table|exec|execute|xp_|sp_|0x|base64|concat|char\(|information_schema|benchmark|sleep\() [NC]
+RewriteRule ^ - [F,L]
+
+# ============================================
+# BLOCK EVERYTHING ELSE WITH 403
 # ============================================
 RewriteRule ^ - [F,L]
