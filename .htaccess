@@ -1,19 +1,84 @@
 RewriteEngine On
 RewriteBase /
 
-# Force HTTPS via Cloudflare (Flexible SSL)
+# ============================================
+# SECURITY HEADERS
+# ============================================
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+</IfModule>
+
+# ============================================
+# FORCE HTTPS (Cloudflare Flexible SSL)
+# ============================================
 RewriteCond %{HTTP:X-Forwarded-Proto} =http
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Block unwanted bots and scrapers
-RewriteCond %{HTTP_USER_AGENT} MJ12bot [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} (DotBot|AhrefsBot|SemrushBot|PetalBot) [NC]
+# ============================================
+# BLOCK MALICIOUS BOTS & SCRAPERS
+# ============================================
+RewriteCond %{HTTP_USER_AGENT} (MJ12bot|DotBot|AhrefsBot|SemrushBot|PetalBot|BLEXBot|DataForSeoBot|Bytespider|GPTBot|CCBot|ClaudeBot|anthropic-ai|Sogou|YandexBot/3) [NC]
 RewriteRule ^ - [F,L]
 
-# Assets are served directly
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
+# ============================================
+# BLOCK SUSPICIOUS FILE EXTENSIONS & PATHS
+# ============================================
+RewriteCond %{REQUEST_URI} \.(php|asp|aspx|jsp|cgi|pl|py|sh|bash|exe|dll|bat|cmd|sql|bak|old|orig|swp|env|ini|log|config|yml|yaml|json|xml|git|svn|htaccess|htpasswd|DS_Store)$ [NC]
+RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+RewriteCond %{REQUEST_URI} !^/sitemap\.xml$ [NC]
+RewriteCond %{REQUEST_URI} !^/robots\.txt$ [NC]
+RewriteRule ^ - [F,L]
+
+# Block wp-admin, wp-login, wp-content, wp-includes (WordPress attacks)
+RewriteCond %{REQUEST_URI} (wp-admin|wp-login|wp-content|wp-includes|wp-config|xmlrpc|administrator|admin\.php|phpmyadmin|pma|myadmin) [NC]
+RewriteRule ^ - [F,L]
+
+# Block common hack/scan paths
+RewriteCond %{REQUEST_URI} (\.git|\.svn|\.env|\.htpasswd|cgi-bin|etc/passwd|proc/self|boot\.ini|win\.ini) [NC]
+RewriteRule ^ - [F,L]
+
+# Block paths with encoded characters (directory traversal)
+RewriteCond %{THE_REQUEST} (\.\./|\.\.\\) [NC]
+RewriteRule ^ - [F,L]
+
+# Block query string injection attempts
+RewriteCond %{QUERY_STRING} (union|select|insert|drop|delete|update|alter|create|exec|execute|xp_|sp_|0x|base64|concat|char\(|information_schema|benchmark|sleep\() [NC]
+RewriteRule ^ - [F,L]
+
+# ============================================
+# ALLOWED URL PATTERNS - 403 FOR EVERYTHING ELSE
+# ============================================
+
+# Allow assets (css, js, images, fonts)
+RewriteCond %{REQUEST_URI} ^/assets/ [NC]
+RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
 
-# Everything else goes to index.php
-RewriteRule ^ index.php [L]
+# Allow favicon and standard files
+RewriteRule ^(favicon\.ico|apple-touch-icon\.png)$ - [L]
+
+# Allow robots.txt and sitemap.xml
+RewriteRule ^(robots\.txt|sitemap\.xml)$ index.php [L]
+
+# Allow exact valid routes
+RewriteRule ^$ index.php [L]
+RewriteRule ^(search|downloader|widget)$ index.php [L]
+
+# Allow /user/{username} pattern
+RewriteRule ^user/[a-zA-Z0-9_]+$ index.php [L]
+
+# Allow /hashtag/{tag} pattern (with Turkish chars)
+RewriteRule ^hashtag/[a-zA-Z0-9_\x{00C0}-\x{024F}\x{011E}\x{011F}\x{00DC}\x{00FC}\x{015E}\x{015F}\x{0130}\x{0131}\x{00D6}\x{00F6}\x{00C7}\x{00E7}]+$ index.php [L]
+
+# Allow /status/{id} pattern
+RewriteRule ^status/[0-9]+$ index.php [L]
+
+# ============================================
+# BLOCK EVERYTHING ELSE WITH 403 FORBIDDEN
+# ============================================
+RewriteRule ^ - [F,L]
