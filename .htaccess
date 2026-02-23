@@ -14,9 +14,9 @@ RewriteBase /
 </IfModule>
 
 # ============================================
-# FORCE HTTPS (Cloudflare Flexible SSL)
+# FORCE HTTPS (Direct SSL on Server)
 # ============================================
-RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # ============================================

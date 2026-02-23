@@ -9,10 +9,11 @@
     <meta name="robots" content="<?= !empty($noindex) ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' ?>">
     <?php
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    $baseUrl = 'https://freedom-x.net';
     if (strpos($host, 'replit') !== false || strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false) {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         $baseUrl = $protocol . $host;
+    } else {
+        $baseUrl = 'https://' . $host;
     }
     ?>
     <link rel="canonical" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) . ($lang !== 'tr' ? (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') . 'lang=' . $lang : '') ?>">
