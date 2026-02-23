@@ -15,7 +15,7 @@ $authorName = $author['name'] ?? 'Twitter';
 $cleanContent = strip_tags($content);
 $authorHandle = $author['handle'] ?? $author['screen_name'] ?? '';
 $pageTitle = sprintf(__('post_title'), $authorHandle ?: $authorName);
-$pageDescription = sprintf(__('post_desc'), $authorHandle ?: $authorName, mb_substr($cleanContent, 0, 100));
+$pageDescription = sprintf(__('post_desc'), $authorHandle ?: $authorName, e(mb_substr($cleanContent, 0, 150)));
 $pageKeywords = e($authorName) . ', tweet, x explorer, ' . e(__('meta_keywords'));
 $canonicalUrl = '/status/' . $tweetId;
 
