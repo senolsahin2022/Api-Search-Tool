@@ -2,11 +2,16 @@
 
 function __($key, $lang = null) {
     global $translations;
-    $lang = $lang ?: ($_GET['lang'] ?? $_SESSION['lang'] ?? 'tr');
-    if (!isset($translations[$lang])) {
-        $lang = 'tr';
+    if (!$lang) {
+        global $lang;
+        $l = $lang ?? 'tr';
+    } else {
+        $l = $lang;
     }
-    return $translations[$lang][$key] ?? $key;
+    if (!isset($translations[$l])) {
+        $l = 'tr';
+    }
+    return $translations[$l][$key] ?? $key;
 }
 
 $translations = [

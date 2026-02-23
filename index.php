@@ -2,6 +2,10 @@
 
 require_once __DIR__ . '/includes/api.php';
 
+session_start();
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'tr';
+$_SESSION['lang'] = $lang;
+
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Content-Type: text/html; charset=UTF-8');
 
