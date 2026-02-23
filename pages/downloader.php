@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/api.php';
 
-$pageTitle = __('video_downloader_title');
-$pageDescription = __('video_downloader_desc');
+$pageTitle = __('video_downloader_title') . ' - TwitExplorer';
+$pageDescription = __('video_downloader_desc') . ' ' . __('hero_subtitle');
+$pageKeywords = 'video downloader, x video indir, twitter video download, ' . __('meta_keywords');
 $canonicalUrl = '/downloader';
 
 require __DIR__ . '/../includes/header.php';

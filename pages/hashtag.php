@@ -39,9 +39,9 @@ if ($is_empty) {
     }
 }
 
-$pageTitle = sprintf(__('hashtag_title'), $tag);
-$pageDescription = sprintf(__('hashtag_desc'), $tag);
-$pageKeywords = $tag . ', ' . __('hashtag') . ', twitter, X, ' . __('search') . ', ' . __('trending');
+$pageTitle = sprintf(__('hashtag_title'), $tag) . ' - TwitExplorer';
+$pageDescription = sprintf(__('hashtag_desc'), $tag) . ' ' . __('hashtag_subtitle');
+$pageKeywords = $tag . ', ' . __('hashtag') . ', twitter, X, ' . __('search') . ', ' . __('trending') . ', ' . __('meta_keywords');
 $canonicalUrl = '/hashtag/' . urlencode($tag);
 
 require __DIR__ . '/../includes/header.php';

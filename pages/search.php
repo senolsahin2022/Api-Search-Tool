@@ -24,7 +24,7 @@ if ($isHashSearch) {
 $results = searchPosts($query);
 
 $pageTitle = sprintf(__('search_title'), $query);
-$pageDescription = sprintf(__('search_desc'), $query);
+$pageDescription = sprintf(__('search_desc'), $query) . ' - ' . __('hero_subtitle');
 $pageKeywords = sprintf(__('search_keywords'), $query);
 $canonicalUrl = '/search?q=' . urlencode($query);
 

@@ -55,9 +55,9 @@ if (empty($userData) || empty($userData['tweets'])) {
     }
 }
 
-$pageTitle = sprintf(__('user_title'), $username);
-$pageDescription = sprintf(__('user_desc'), $username);
-$pageKeywords = $username . ', twitter profil, kullanıcı, sosyal medya';
+$pageTitle = sprintf(__('user_title'), $username) . ' - TwitExplorer';
+$pageDescription = sprintf(__('user_desc'), $username) . ' ' . __('hashtag_subtitle');
+$pageKeywords = $username . ', twitter profil, kullanıcı, sosyal medya, ' . __('meta_keywords');
 $canonicalUrl = '/user/' . urlencode($username);
 
 require __DIR__ . '/../includes/header.php';
