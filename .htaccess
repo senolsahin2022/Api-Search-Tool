@@ -56,6 +56,8 @@ RewriteCond %{QUERY_STRING} (union.*select|insert.*into|drop.*table|delete.*from
 RewriteRule ^ - [F,L]
 
 # ============================================
-# BLOCK EVERYTHING ELSE WITH 403
+# ROUTE ALL OTHER REQUESTS TO index.php
 # ============================================
-RewriteRule ^ - [F,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
