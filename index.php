@@ -29,11 +29,11 @@ switch (true) {
     case $requestUri === '/widget':
         require __DIR__ . '/pages/widget.php';
         break;
-    case preg_match('#^/user/([a-zA-Z0-9_]+)$#', $requestUri, $m) === 1:
+    case preg_match('#^/user/(.+)$#u', $requestUri, $m) === 1:
         $username = $m[1];
         require __DIR__ . '/pages/user.php';
         break;
-    case preg_match('#^/hashtag/([a-zA-Z0-9_ğüşıöçĞÜŞİÖÇ]+)$#u', $requestUri, $m) === 1:
+    case preg_match('#^/hashtag/(.+)$#u', $requestUri, $m) === 1:
         $tag = $m[1];
         require __DIR__ . '/pages/hashtag.php';
         break;

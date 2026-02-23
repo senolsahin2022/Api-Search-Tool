@@ -69,8 +69,8 @@ RewriteRule ^(robots\.txt|sitemap\.xml)$ index.php [L]
 RewriteRule ^$ index.php [L]
 RewriteRule ^(search|downloader|widget)$ index.php [L]
 
-# Allow /user/{username} pattern
-RewriteRule ^user/[a-zA-Z0-9_.]+$ index.php [L]
+# Allow /user/{username} pattern (all languages)
+RewriteRule ^user/.+$ index.php [L]
 
 # Allow /hashtag/{tag} pattern (all languages: TR, EN, AR, ZH, RU, FA)
 RewriteRule ^hashtag/.+$ index.php [L]
