@@ -6,7 +6,7 @@
     <title><?= e($pageTitle ?? __('meta_title')) ?></title>
     <meta name="description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta name="keywords" content="<?= e($pageKeywords ?? __('meta_keywords')) ?>">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="robots" content="<?= !empty($noindex) ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' ?>">
     <?php
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
     $baseUrl = 'https://freedom-x.net';

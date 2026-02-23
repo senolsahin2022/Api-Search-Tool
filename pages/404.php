@@ -1,8 +1,9 @@
 <?php
 $currentPage = '404';
-$pageTitle = 'Sayfa Bulunamadı - TwitExplorer';
-$pageDescription = 'Aradığınız sayfa bulunamadı.';
+$pageTitle = __('page_not_found') . ' - TwitExplorer';
+$pageDescription = __('page_not_found_text');
 $canonicalUrl = '/';
+$noindex = true;
 
 require __DIR__ . '/../includes/header.php';
 ?>
