@@ -106,13 +106,13 @@ require __DIR__ . '/../includes/header.php';
         <h2 style="margin-bottom: 20px; font-size: 1.5rem; color: var(--primary);"><?= e($tag) ?> <?= e(__('faq_title')) ?></h2>
         
         <div class="faq-item" style="margin-bottom: 15px;">
-            <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q1_hashtag'), $tag) ?></h3>
-            <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a1_hashtag'), $tag) ?></p>
+            <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q1_hashtag'), '#' . $tag) ?></h3>
+            <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a1_hashtag'), '#' . $tag) ?></p>
         </div>
 
         <div class="faq-item" style="margin-bottom: 15px;">
-            <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q2_hashtag'), $tag) ?></h3>
-            <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a2_hashtag'), $tag) ?></p>
+            <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q2_hashtag'), '#' . $tag) ?></h3>
+            <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a2_hashtag'), '#' . $tag) ?></p>
         </div>
     </section>
 
@@ -123,17 +123,17 @@ require __DIR__ . '/../includes/header.php';
       "@type": "FAQPage",
       "mainEntity": [{
         "@type": "Question",
-        "name": "<?= addslashes(sprintf(__('faq_q1_hashtag'), $tag)) ?>",
+        "name": "<?= addslashes(sprintf(__('faq_q1_hashtag'), '#' . $tag)) ?>",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "<?= addslashes(sprintf(__('faq_a1_hashtag'), $tag)) ?>"
+          "text": "<?= addslashes(sprintf(__('faq_a1_hashtag'), '#' . $tag)) ?>"
         }
       }, {
         "@type": "Question",
-        "name": "<?= addslashes(sprintf(__('faq_q2_hashtag'), $tag)) ?>",
+        "name": "<?= addslashes(sprintf(__('faq_q2_hashtag'), '#' . $tag)) ?>",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "<?= addslashes(sprintf(__('faq_a2_hashtag'), $tag)) ?>"
+          "text": "<?= addslashes(sprintf(__('faq_a2_hashtag'), '#' . $tag)) ?>"
         }
       }]
     }
