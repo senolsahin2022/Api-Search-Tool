@@ -12,7 +12,7 @@
     <link rel="canonical" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) . ($lang !== 'tr' ? (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') . 'lang=' . $lang : '') ?>">
     <meta property="og:title" content="<?= e($pageTitle ?? __('meta_title')) ?>">
     <meta property="og:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
-    <meta property="og:url" content="<?= e($baseUrl . ($canonicalUrl ?? '')) ?>">
+    <meta property="og:url" content="<?= e($baseUrl . ($canonicalUrl ?? '/')) . ($lang !== 'tr' ? (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') . 'lang=' . $lang : '') ?>">
     <meta property="og:site_name" content="TwitExplorer">
     <meta property="og:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
     <meta property="og:type" content="website">

@@ -13,8 +13,9 @@ $author = $tweetData['author'] ?? $tweetData['user'] ?? [];
 $authorName = $author['name'] ?? 'Twitter';
 
 $cleanContent = strip_tags($content);
-$pageTitle = e($authorName) . ' (@' . e($author['handle'] ?? $author['screen_name'] ?? '') . ') Tweet - TwitExplorer';
-$pageDescription = e(mb_substr($cleanContent, 0, 160)) . '...';
+$authorHandle = $author['handle'] ?? $author['screen_name'] ?? '';
+$pageTitle = sprintf(__('post_title'), $authorHandle ?: $authorName);
+$pageDescription = sprintf(__('post_desc'), $authorHandle ?: $authorName, mb_substr($cleanContent, 0, 100));
 $pageKeywords = e($authorName) . ', tweet, x explorer, ' . e(__('meta_keywords'));
 $canonicalUrl = '/status/' . $tweetId;
 
