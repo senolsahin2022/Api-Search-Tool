@@ -39,7 +39,7 @@ if ($is_empty) {
     }
 }
 
-$pageTitle = sprintf(__('hashtag_title'), $tag) . ' - TwitExplorer';
+$pageTitle = sprintf(__('hashtag_title'), $tag);
 $pageDescription = sprintf(__('hashtag_desc'), $tag) . ' ' . __('hashtag_subtitle');
 $pageKeywords = $tag . ', ' . __('hashtag') . ', twitter, X, ' . __('search') . ', ' . __('trending') . ', ' . __('meta_keywords');
 $canonicalUrl = '/hashtag/' . urlencode($tag);

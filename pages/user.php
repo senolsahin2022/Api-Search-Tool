@@ -59,7 +59,7 @@ $firstAuthor = !empty($tweets[0]['author']) ? $tweets[0]['author'] : [];
 $displayName = $firstAuthor['name'] ?? $username;
 $screenName = $firstAuthor['handle'] ?? $username;
 
-$pageTitle = sprintf(__('user_title'), $screenName) . ' - TwitExplorer';
+$pageTitle = sprintf(__('user_title'), $screenName);
 $pageDescription = sprintf(__('user_desc'), $screenName);
 $pageKeywords = $screenName . ', twitter profil, kullanıcı, sosyal medya, ' . __('meta_keywords');
 $canonicalUrl = '/user/' . urlencode($username);
@@ -78,7 +78,7 @@ if (!empty($userData) && is_array($userData)):
         $avatarLarge = '';
     }
 
-    $pageTitle = $displayName . ' (@' . $screenName . ') - TwitExplorer';
+    $pageTitle = $displayName . ' (@' . $screenName . ')';
     // Update description to be dynamic too
     $pageDescription = $displayName . ' (@' . $screenName . ') ' . __('user_desc');
 ?>
