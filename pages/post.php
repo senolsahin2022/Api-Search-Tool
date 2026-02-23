@@ -11,9 +11,9 @@ $tweetData = $tweet['data'] ?? $tweet['tweet'] ?? $tweet['result'] ?? $tweet;
 $content = $tweetData['content'] ?? $tweetData['text'] ?? $tweetData['full_text'] ?? '';
 $author = $tweetData['author'] ?? $tweetData['user'] ?? [];
 $authorName = $author['name'] ?? 'Twitter';
-
 $cleanContent = strip_tags($content);
 $authorHandle = $author['handle'] ?? $author['screen_name'] ?? '';
+
 $pageTitle = sprintf(__('post_title'), $authorHandle ?: $authorName);
 $pageDescription = sprintf(__('post_desc'), $authorHandle ?: $authorName, mb_substr($cleanContent, 0, 150));
 $pageKeywords = e($authorName) . ', tweet, x explorer, ' . e(__('meta_keywords'));

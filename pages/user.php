@@ -55,19 +55,19 @@ if (empty($userData) || empty($userData['tweets'])) {
     }
 }
 
-$pageTitle = sprintf(__('user_title'), $username) . ' - TwitExplorer';
-$pageDescription = sprintf(__('user_desc'), $username) . ' ' . __('hashtag_subtitle');
-$pageKeywords = $username . ', twitter profil, kullanıcı, sosyal medya, ' . __('meta_keywords');
+$firstAuthor = !empty($tweets[0]['author']) ? $tweets[0]['author'] : [];
+$displayName = $firstAuthor['name'] ?? $username;
+$screenName = $firstAuthor['handle'] ?? $username;
+
+$pageTitle = sprintf(__('user_title'), $screenName) . ' - TwitExplorer';
+$pageDescription = sprintf(__('user_desc'), $screenName);
+$pageKeywords = $screenName . ', twitter profil, kullanıcı, sosyal medya, ' . __('meta_keywords');
 $canonicalUrl = '/user/' . urlencode($username);
 
 require __DIR__ . '/../includes/header.php';
 
 if (!empty($userData) && is_array($userData)):
     $tweets = $userData['tweets'] ?? [];
-
-    $firstAuthor = !empty($tweets[0]['author']) ? $tweets[0]['author'] : [];
-    $displayName = $firstAuthor['name'] ?? $username;
-    $screenName = $firstAuthor['handle'] ?? $username;
     $avatar = $firstAuthor['image'] ?? '';
     $followers = $firstAuthor['followers'] ?? 0;
     $verified = $firstAuthor['verified'] ?? false;
@@ -79,6 +79,8 @@ if (!empty($userData) && is_array($userData)):
     }
 
     $pageTitle = $displayName . ' (@' . $screenName . ') - TwitExplorer';
+    // Update description to be dynamic too
+    $pageDescription = $displayName . ' (@' . $screenName . ') ' . __('user_desc');
 ?>
 
 <section class="profile-header">
