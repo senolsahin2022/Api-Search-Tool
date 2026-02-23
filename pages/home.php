@@ -1,3 +1,4 @@
+<?php
 $currentPage = 'home';
 $pageTitle = __('meta_title');
 $pageDescription = __('meta_desc');
