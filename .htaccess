@@ -2,12 +2,6 @@ RewriteEngine On
 RewriteBase /
 
 # ============================================
-# FORCE HTTPS (Direct SSL on Server)
-# ============================================
-RewriteCond %{HTTPS} off
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# ============================================
 # BLOCK MALICIOUS BOTS & SCRAPERS
 # ============================================
 RewriteCond %{HTTP_USER_AGENT} (MJ12bot|DotBot|AhrefsBot|SemrushBot|PetalBot|BLEXBot|DataForSeoBot|Bytespider|GPTBot|CCBot|ClaudeBot|anthropic-ai|Sogou|YandexBot/3) [NC]
