@@ -70,10 +70,10 @@ RewriteRule ^$ index.php [L]
 RewriteRule ^(search|downloader|widget)$ index.php [L]
 
 # Allow /user/{username} pattern
-RewriteRule ^user/[a-zA-Z0-9_]+$ index.php [L]
+RewriteRule ^user/[a-zA-Z0-9_.]+$ index.php [L]
 
-# Allow /hashtag/{tag} pattern (with Turkish chars)
-RewriteRule ^hashtag/[a-zA-Z0-9_\x{00C0}-\x{024F}\x{011E}\x{011F}\x{00DC}\x{00FC}\x{015E}\x{015F}\x{0130}\x{0131}\x{00D6}\x{00F6}\x{00C7}\x{00E7}]+$ index.php [L]
+# Allow /hashtag/{tag} pattern (all languages: TR, EN, AR, ZH, RU, FA)
+RewriteRule ^hashtag/.+$ index.php [L]
 
 # Allow /status/{id} pattern
 RewriteRule ^status/[0-9]+$ index.php [L]
