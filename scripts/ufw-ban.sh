@@ -2,7 +2,6 @@
 
 LOGFILE="/var/log/apache2/access.log"
 BANLIST="/var/log/ufw-banned.log"
-OFFSET_FILE="/var/tmp/ufw-ban-offset"
 GOOGLE_CACHE="/var/tmp/google-ip-ranges.txt"
 GOOGLE_CACHE_TTL=86400
 THRESHOLD=50
@@ -182,23 +181,6 @@ parse_log_timestamp() {
 }
 
 ban_invalid_requests() {
-    local current_offset=0
-    if [[ -f "${OFFSET_FILE}.invalid" ]]; then
-        current_offset=$(cat "${OFFSET_FILE}.invalid")
-    fi
-
-    local total_lines=$(wc -l < "$LOGFILE" 2>/dev/null || echo 0)
-
-    if (( current_offset > total_lines )); then
-        current_offset=0
-    fi
-
-    local new_lines=$(( total_lines - current_offset ))
-    if (( new_lines <= 0 )); then
-        echo "$total_lines" > "${OFFSET_FILE}.invalid"
-        return
-    fi
-
     declare -A post_ips
     declare -A invalid_ips
     declare -A invalid_reasons
@@ -216,9 +198,7 @@ ban_invalid_requests() {
             local req_path=$(echo "$line" | grep -oP '"(GET|POST|HEAD|PUT|DELETE|PATCH|OPTIONS) \K[^ ]*')
             invalid_reasons[$ip]="${req_path:-unknown}"
         fi
-    done < <(tail -n +"$((current_offset + 1))" "$LOGFILE" | grep -E '"(GET|POST|HEAD|PUT|DELETE|PATCH|OPTIONS) ')
-
-    echo "$total_lines" > "${OFFSET_FILE}.invalid"
+    done < <(grep -E '"(GET|POST|HEAD|PUT|DELETE|PATCH|OPTIONS) ' "$LOGFILE")
 
     local banned=0
 
@@ -269,23 +249,6 @@ ban_abusive_ips() {
     ban_invalid_requests
 
     declare -A ip_counts
-    declare -A ip_first_seen
-
-    local current_offset=0
-    if [[ -f "$OFFSET_FILE" ]]; then
-        current_offset=$(cat "$OFFSET_FILE")
-    fi
-
-    local total_lines=$(wc -l < "$LOGFILE" 2>/dev/null || echo 0)
-
-    if (( current_offset > total_lines )); then
-        current_offset=0
-    fi
-
-    local new_lines=$(( total_lines - current_offset ))
-    if (( new_lines <= 0 )); then
-        return
-    fi
 
     while IFS= read -r line; do
         local ip=$(echo "$line" | awk '{print $1}')
@@ -303,9 +266,7 @@ ban_abusive_ips() {
 
         ip_counts[$ip]=$(( ${ip_counts[$ip]:-0} + 1 ))
 
-    done < <(tail -n +"$((current_offset + 1))" "$LOGFILE" | grep -E "$URL_PATTERN")
-
-    echo "$total_lines" > "$OFFSET_FILE"
+    done < <(grep -E "$URL_PATTERN" "$LOGFILE")
 
     local banned=0
     local skipped=0
@@ -342,7 +303,7 @@ show_status() {
     echo "Threshold: $THRESHOLD requests / ${TIMEWINDOW}s"
     echo "Mode: $( $USE_IPSET && command -v ipset &>/dev/null && echo 'ipset' || echo 'UFW' )"
     echo "Google ranges: $(wc -l < "$GOOGLE_CACHE" 2>/dev/null || echo 'not loaded') CIDRs"
-    echo "Log offset: $(cat "$OFFSET_FILE" 2>/dev/null || echo '0') / $(wc -l < "$LOGFILE" 2>/dev/null || echo '0') lines"
+    echo "Log lines: $(wc -l < "$LOGFILE" 2>/dev/null || echo '0') (full scan mode)"
     echo ""
 
     if $USE_IPSET && command -v ipset &>/dev/null && ipset list "$IPSET_NAME" &>/dev/null; then
