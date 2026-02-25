@@ -24,7 +24,7 @@ RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), autoplay=(), fullscreen=(self), display-capture=()"
     Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-    Header set Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://pbs.twimg.com https://abs.twimg.com data:; media-src 'self' https://video.twimg.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
+    Header set Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://pbs.twimg.com https://abs.twimg.com data:; media-src 'self' https://video.twimg.com blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
     Header set X-Permitted-Cross-Domain-Policies "none"
     Header set X-Download-Options "noopen"
     Header set Cross-Origin-Embedder-Policy "unsafe-none"
@@ -142,7 +142,10 @@ RewriteRule ^\.well-known/ - [L]
 RewriteRule ^$ index.php [L]
 
 # Allow static pages (exact match)
-RewriteRule ^(search|downloader)$ index.php [L]
+RewriteRule ^(search|downloader|widget|video-proxy)$ index.php [L]
+
+# Allow widget API subpath
+RewriteRule ^widget/api$ index.php [L]
 
 # Allow /user/{safe-username} - alphanumeric + underscore only, max 30 chars
 RewriteRule ^user/[A-Za-z0-9_]{1,30}$ index.php [L]
@@ -215,7 +218,8 @@ RewriteRule ^ - [F,L]
 RewriteCond %{QUERY_STRING} (\||\`|>|<|\$\(|%24\(|\$\{|%24\{|/bin/|/usr/bin/|/sbin/|/etc/|/tmp/|/var/|/dev/|/proc/) [NC]
 RewriteRule ^ - [F,L]
 
-# Block PHP superglobals & protocol wrappers
+# Block PHP superglobals & protocol wrappers (exempt video-proxy)
+RewriteCond %{REQUEST_URI} !^/video-proxy$ [NC]
 RewriteCond %{QUERY_STRING} (mosConfig_|global\[|_REQUEST\[|_GET\[|_POST\[|_COOKIE\[|_FILES\[|_SERVER\[|_ENV\[|_SESSION\[|GLOBALS\[|HTTP_|allow_url_include|allow_url_fopen|auto_prepend_file|auto_append_file|register_globals|safe_mode|open_basedir|disable_functions|php://input|php://filter|php://output|php://fd|php://memory|php://temp|data://|expect://|phar://|zip://|compress\.zlib://|compress\.bzip2://|glob://|ogg://|rar://|zlib://|file://|ftp://|ftps://|ssh2://|dict://|ldap://|gopher://) [NC]
 RewriteRule ^ - [F,L]
 
