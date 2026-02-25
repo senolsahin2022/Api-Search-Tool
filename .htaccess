@@ -24,7 +24,7 @@ RewriteRule ^(robots\.txt|sitemap\.xml)$ index.php [L]
 RewriteRule ^$ index.php [L]
 
 # Allow static pages
-RewriteRule ^(search|downloader|widget)$ index.php [L]
+RewriteRule ^(search|downloader)$ index.php [L]
 
 # Allow /user/{anything}
 RewriteRule ^user/ index.php [L]
