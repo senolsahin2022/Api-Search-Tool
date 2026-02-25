@@ -144,7 +144,7 @@ require __DIR__ . '/../includes/header.php';
 
                                     <div class="video-container">
                                         <video controls preload="metadata" poster="<?= e($video['thumbnail']) ?>" style="width:100%;border-radius:12px;max-height:500px;background:#000;display:block;">
-                                            <source src="<?= e($video['variants'][0]['url']) ?>" type="video/mp4">
+                                            <source src="/video-proxy?url=<?= urlencode($video['variants'][0]['url']) ?>" type="video/mp4">
                                         </video>
                                     </div>
 
@@ -156,7 +156,7 @@ require __DIR__ . '/../includes/header.php';
                                             elseif ($q['bitrate'] >= 500000) $label = 'SD 480p';
                                             elseif ($q['bitrate'] > 0) $label = 'Low ' . round($q['bitrate'] / 1000) . 'k';
                                         ?>
-                                            <a href="<?= e($q['url']) ?>" target="_blank" class="dl-quality-btn <?= $qi === 0 ? 'best' : '' ?>" download>
+                                            <a href="/video-proxy?url=<?= urlencode($q['url']) ?>" class="dl-quality-btn <?= $qi === 0 ? 'best' : '' ?>" download>
                                                 <i class="fa-solid fa-cloud-arrow-down"></i>
                                                 <span><?= $label ?></span>
                                                 <?php if ($qi === 0): ?><span class="dl-best-tag">BEST</span><?php endif; ?>
