@@ -97,7 +97,7 @@ $linkedText = preg_replace(
             ?>
             <?php if ($is_video && $videoUrl): ?>
                 <video controls preload="metadata" poster="<?= e($mediaUrl) ?>" style="width: 100%; border-radius: var(--radius-sm); max-height: 500px; background: #000;">
-                    <source src="/video-proxy?url=<?= urlencode($videoUrl) ?>" type="video/mp4">
+                    <source src="/video-proxy?u=<?= urlencode(base64_encode($videoUrl)) ?>" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             <?php elseif ($mediaUrl): ?>

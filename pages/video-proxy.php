@@ -1,9 +1,16 @@
 <?php
-$url = $_GET['url'] ?? '';
+$encoded = $_GET['u'] ?? '';
 
-if (empty($url)) {
+if (empty($encoded)) {
     http_response_code(400);
-    echo 'Missing url parameter';
+    echo 'Missing parameter';
+    exit;
+}
+
+$url = base64_decode($encoded, true);
+if ($url === false || empty($url)) {
+    http_response_code(400);
+    echo 'Invalid parameter';
     exit;
 }
 
