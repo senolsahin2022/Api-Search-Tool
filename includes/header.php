@@ -21,12 +21,21 @@
     <meta property="og:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta property="og:url" content="<?= e($baseUrl . ($canonicalUrl ?? '/')) . ($lang !== 'tr' ? (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') . 'lang=' . $lang : '') ?>">
     <meta property="og:site_name" content="TwitExplorer">
-    <meta property="og:image" content="<?= e($baseUrl) ?>/assets/images/og-image.svg">
-    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= e($ogImage ?? $baseUrl . '/assets/images/og-image.png') ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="<?= e($ogType ?? 'website') ?>">
+    <?php if (!empty($ogProfile)): ?>
+    <meta property="profile:username" content="<?= e($ogProfile) ?>">
+    <?php endif; ?>
+    <?php if (!empty($articleDate)): ?>
+    <meta property="article:published_time" content="<?= e($articleDate) ?>">
+    <meta property="article:author" content="<?= e($authorName ?? '') ?>">
+    <?php endif; ?>
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= e($pageTitle ?? __('meta_title')) ?>">
     <meta name="twitter:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
-    <meta name="twitter:image" content="<?= e($baseUrl) ?>/assets/images/og-image.svg">
+    <meta name="twitter:image" content="<?= e($ogImage ?? $baseUrl . '/assets/images/og-image.png') ?>">
     
     <link rel="alternate" hreflang="tr" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=tr">
     <link rel="alternate" hreflang="en" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=en">

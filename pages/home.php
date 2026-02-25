@@ -83,13 +83,31 @@ require __DIR__ . '/../includes/header.php';
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "TwitExplorer",
-  "alternateName": "Twitter Trend Explorer",
+  "alternateName": ["Twitter Trend Explorer", "Freedom X", "X Explorer"],
   "url": "<?= $baseUrl ?>",
   "description": "<?= e(__('hero_subtitle')) ?>",
+  "inLanguage": ["tr", "en", "ar", "zh", "ru", "fa"],
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "<?= $baseUrl ?>/search?q={search_term_string}",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "<?= $baseUrl ?>/search?q={search_term_string}"
+    },
     "query-input": "required name=search_term_string"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TwitExplorer",
+    "url": "<?= $baseUrl ?>",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "<?= $baseUrl ?>/assets/images/og-image.png",
+      "width": 1200,
+      "height": 630
+    },
+    "sameAs": [
+      "https://freedom-x.net"
+    ]
   }
 }
 </script>

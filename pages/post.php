@@ -17,6 +17,13 @@ $pageTitle = sprintf(__('post_title'), $authorHandle ?: $authorName);
 $pageDescription = sprintf(__('post_desc'), $authorHandle ?: $authorName, mb_substr($cleanContent, 0, 150));
 $pageKeywords = e($authorName) . ', tweet, x explorer, ' . e(__('meta_keywords'));
 $canonicalUrl = '/status/' . $tweetId;
+$ogType = 'article';
+$articleDate = $tweetData['created_at'] ?? '';
+
+$firstMedia = $tweetData['mediaDetails'][0] ?? null;
+if ($firstMedia && !empty($firstMedia['media_url_https'])) {
+    $ogImage = $firstMedia['media_url_https'];
+}
 
 require __DIR__ . '/../includes/header.php';
 ?>

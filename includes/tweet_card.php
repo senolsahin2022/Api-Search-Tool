@@ -32,7 +32,7 @@ $linkedText = preg_replace(
     <?php if (empty($tweet['hide_header']) && !empty($screenName)): ?>
     <div class="tweet-header">
         <?php if ($avatar): ?>
-            <img src="<?= e($avatar) ?>" alt="<?= e($name) ?>" class="tweet-avatar" loading="lazy">
+            <img src="<?= e($avatar) ?>" alt="<?= e($name) ?> profil fotoğrafı" class="tweet-avatar" loading="lazy">
         <?php else: ?>
             <div class="tweet-avatar" style="background:var(--gradient-1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem"><?= e(mb_substr($name, 0, 1)) ?></div>
         <?php endif; ?>
@@ -101,7 +101,7 @@ $linkedText = preg_replace(
                     Your browser does not support the video tag.
                 </video>
             <?php elseif ($mediaUrl): ?>
-                <img src="<?= e($mediaUrl) ?>" alt="Medya içeriği" loading="lazy">
+                <img src="<?= e($mediaUrl) ?>" alt="<?= e($name) ?> tarafından paylaşılan görsel - @<?= e($screenName) ?>" loading="lazy">
             <?php endif; ?>
         </div>
     <?php endif; ?>

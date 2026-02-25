@@ -63,6 +63,8 @@ $pageTitle = sprintf(__('user_title'), $screenName);
 $pageDescription = sprintf(__('user_desc'), $screenName);
 $pageKeywords = $screenName . ', twitter profil, kullanıcı, sosyal medya, ' . __('meta_keywords');
 $canonicalUrl = '/user/' . urlencode($username);
+$ogType = 'profile';
+$ogProfile = $screenName;
 
 require __DIR__ . '/../includes/header.php';
 
