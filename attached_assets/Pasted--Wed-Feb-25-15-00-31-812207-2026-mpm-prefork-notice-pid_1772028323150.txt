@@ -1,0 +1,21 @@
+[Wed Feb 25 15:00:31.812207 2026] [mpm_prefork:notice] [pid 2018518] AH00170: caught SIGWINCH, shutting down gracefully
+[Wed Feb 25 15:00:34.037076 2026] [mpm_prefork:notice] [pid 2018704] AH00163: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Wed Feb 25 15:00:34.037185 2026] [core:notice] [pid 2018704] AH00094: Command line: '/usr/sbin/apache2'
+[Wed Feb 25 15:00:37.414834 2026] [core:alert] [pid 2018706] [client 212.156.221.208:63173] /var/www/html/.htaccess: RewriteRule: cannot compile regular expression '^hashtag/[A-Za-z0-9_\\x{0600}-\\x{06FF}\\x{4e00}-\\x{9fff}\\x{0400}-\\x{04FF}]{1,100}$'
+[Wed Feb 25 15:00:40.089245 2026] [core:alert] [pid 2018707] [client 212.156.221.208:65096] /var/www/html/.htaccess: RewriteRule: cannot compile regular expression '^hashtag/[A-Za-z0-9_\\x{0600}-\\x{06FF}\\x{4e00}-\\x{9fff}\\x{0400}-\\x{04FF}]{1,100}$'
+[Wed Feb 25 15:01:47.581491 2026] [mpm_prefork:notice] [pid 2018704] AH00170: caught SIGWINCH, shutting down gracefully
+[Wed Feb 25 15:01:49.806418 2026] [mpm_prefork:notice] [pid 2018752] AH00163: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Wed Feb 25 15:01:49.806605 2026] [core:notice] [pid 2018752] AH00094: Command line: '/usr/sbin/apache2'
+[Wed Feb 25 15:02:08.699060 2026] [core:alert] [pid 2018754] [client 212.156.221.208:62385] /var/www/html/.htaccess: RewriteRule: cannot compile regular expression '^hashtag/[A-Za-z0-9_\\x{0600}-\\x{06FF}\\x{4e00}-\\x{9fff}\\x{0400}-\\x{04FF}]{1,100}$'
+[Wed Feb 25 15:02:10.413312 2026] [core:alert] [pid 2018755] [client 212.156.221.208:65211] /var/www/html/.htaccess: RewriteRule: cannot compile regular expression '^hashtag/[A-Za-z0-9_\\x{0600}-\\x{06FF}\\x{4e00}-\\x{9fff}\\x{0400}-\\x{04FF}]{1,100}$'
+[Wed Feb 25 15:02:10.661304 2026] [core:alert] [pid 2018756] [client 45.194.92.25:59008] /var/www/html/.htaccess: RewriteRule: cannot compile regular expression '^hashtag/[A-Za-z0-9_\\x{0600}-\\x{06FF}\\x{4e00}-\\x{9fff}\\x{0400}-\\x{04FF}]{1,100}$'
+[Wed Feb 25 15:02:52.118225 2026] [mpm_prefork:notice] [pid 2018752] AH00170: caught SIGWINCH, shutting down gracefully
+[Wed Feb 25 15:02:54.320042 2026] [mpm_prefork:notice] [pid 2018790] AH00163: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Wed Feb 25 15:02:54.320186 2026] [core:notice] [pid 2018790] AH00094: Command line: '/usr/sbin/apache2'
+[Wed Feb 25 15:03:57.724925 2026] [mpm_prefork:notice] [pid 2018790] AH00170: caught SIGWINCH, shutting down gracefully
+[Wed Feb 25 15:03:57.871671 2026] [mpm_prefork:notice] [pid 2018826] AH00163: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Wed Feb 25 15:03:57.871809 2026] [core:notice] [pid 2018826] AH00094: Command line: '/usr/sbin/apache2'
+[Wed Feb 25 15:04:10.528065 2026] [mpm_prefork:notice] [pid 2018826] AH00170: caught SIGWINCH, shutting down gracefully
+[Wed Feb 25 15:04:10.680925 2026] [mpm_prefork:notice] [pid 2018890] AH00163: Apache/2.4.58 (Ubuntu) configured -- resuming normal operations
+[Wed Feb 25 15:04:10.681050 2026] [core:notice] [pid 2018890] AH00094: Command line: '/usr/sbin/apache2'
+root@vmi3007596:/var/www/html#

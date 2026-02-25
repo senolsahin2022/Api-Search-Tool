@@ -148,8 +148,8 @@ RewriteRule ^(search|downloader)$ index.php [L]
 # Allow /user/{safe-username} - alphanumeric + underscore only, max 30 chars
 RewriteRule ^user/[A-Za-z0-9_]{1,30}$ index.php [L]
 
-# Allow /hashtag/{safe-tag} - alphanumeric + underscore, max 100 chars
-RewriteRule ^hashtag/[A-Za-z0-9_\x{0600}-\x{06FF}\x{4e00}-\x{9fff}\x{0400}-\x{04FF}]{1,100}$ index.php [L]
+# Allow /hashtag/{tag}
+RewriteRule ^hashtag/.{1,100}$ index.php [L]
 
 # Allow /status/{digits only} - tweet IDs
 RewriteRule ^status/[0-9]{1,25}$ index.php [L]
