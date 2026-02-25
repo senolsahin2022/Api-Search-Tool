@@ -2,10 +2,66 @@ RewriteEngine On
 RewriteBase /
 
 # ============================================
+# SECURITY HEADERS
+# ============================================
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://pbs.twimg.com https://abs.twimg.com data:; media-src 'self' https://video.twimg.com; connect-src 'self'; frame-ancestors 'self';"
+</IfModule>
+
+# ============================================
 # BLOCK MALICIOUS BOTS & SCRAPERS
 # ============================================
-RewriteCond %{HTTP_USER_AGENT} (MJ12bot|DotBot|AhrefsBot|SemrushBot|PetalBot|BLEXBot|DataForSeoBot|Bytespider|GPTBot|CCBot|ClaudeBot|anthropic-ai|Sogou|YandexBot/3) [NC]
+RewriteCond %{HTTP_USER_AGENT} (MJ12bot|DotBot|AhrefsBot|SemrushBot|PetalBot|BLEXBot|DataForSeoBot|Bytespider|GPTBot|CCBot|ClaudeBot|anthropic-ai|Sogou|python-requests|Go-http-client|Scrapy|Wget/1|curl/7|nikto|sqlmap|nmap|masscan|ZmEu|dirbuster|gobuster|wfuzz|nuclei|httpx|ffuf|feroxbuster) [NC]
 RewriteRule ^ - [F,L]
+
+# ============================================
+# BLOCK DANGEROUS HTTP METHODS
+# ============================================
+RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|PUT|PATCH|OPTIONS|CONNECT) [NC]
+RewriteRule ^ - [F,L]
+
+# ============================================
+# BLOCK SUSPICIOUS REQUEST BODIES
+# ============================================
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP:Content-Length} ^[0-9]+$
+    RewriteCond %{REQUEST_METHOD} ^POST$
+    RewriteCond %{REQUEST_URI} !^/(search|downloader)$ [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# ============================================
+# BLOCK FILE ACCESS - SENSITIVE FILES
+# ============================================
+<FilesMatch "\.(env|git|svn|htpasswd|htaccess|ini|log|sh|sql|bak|backup|old|orig|dist|config|yml|yaml|toml|lock|json|xml|md)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<FilesMatch "^(composer|package|webpack|gulpfile|Gruntfile|Makefile|Dockerfile|Vagrantfile|\.editorconfig|\.gitignore)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# ============================================
+# PROTECT DIRECTORIES
+# ============================================
+Options -Indexes -ExecCGI -Includes
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>
 
 # ============================================
 # ALLOWED URL PATTERNS
@@ -36,24 +92,61 @@ RewriteRule ^hashtag/ index.php [L]
 RewriteRule ^status/[0-9]+$ index.php [L]
 
 # ============================================
-# SECURITY - BLOCK EVERYTHING ELSE
+# SECURITY - BLOCK ATTACK PATHS
 # ============================================
 
 # Block WordPress attack paths
-RewriteCond %{REQUEST_URI} (wp-admin|wp-login|wp-content|wp-includes|wp-config|xmlrpc|administrator|admin\.php|phpmyadmin|pma|myadmin) [NC]
+RewriteCond %{REQUEST_URI} (wp-admin|wp-login|wp-content|wp-includes|wp-config|xmlrpc|administrator|admin\.php|phpmyadmin|pma|myadmin|adminer|filemanager|cpanel|webmail) [NC]
 RewriteRule ^ - [F,L]
 
 # Block hack/scan paths
-RewriteCond %{REQUEST_URI} (\.git|\.svn|\.env|\.htpasswd|cgi-bin|etc/passwd|proc/self|boot\.ini|win\.ini) [NC]
+RewriteCond %{REQUEST_URI} (\.git|\.svn|\.env|\.htpasswd|\.htaccess|cgi-bin|etc/passwd|proc/self|boot\.ini|win\.ini|\.aws|\.ssh|\.docker|\.kube|\.npmrc|\.bash_history|\.mysql_history|id_rsa|authorized_keys) [NC]
+RewriteRule ^ - [F,L]
+
+# Block common shell/backdoor paths
+RewriteCond %{REQUEST_URI} (shell|cmd|command|exec|eval|system|passthru|popen|proc_open|pcntl_exec|base64_decode|phpinfo|c99|r57|webshell|b374k|wso|alfa|FilesMan) [NC]
+RewriteRule ^ - [F,L]
+
+# Block PHP file upload/include attempts
+RewriteCond %{REQUEST_URI} \.(php|phtml|php3|php4|php5|php7|pht|phar|phps|cgi|pl|py|jsp|asp|aspx|sh|bash)$ [NC]
+RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
 RewriteRule ^ - [F,L]
 
 # Block directory traversal
-RewriteCond %{THE_REQUEST} (\.\./|\.\.\\) [NC]
+RewriteCond %{THE_REQUEST} (\.\./|\.\.\\|%2e%2e|%252e%252e) [NC]
+RewriteRule ^ - [F,L]
+
+# Block null bytes
+RewriteCond %{THE_REQUEST} (%00|\\x00) [NC]
 RewriteRule ^ - [F,L]
 
 # Block SQL injection in query strings
-RewriteCond %{QUERY_STRING} (union.*select|insert.*into|drop.*table|delete.*from|update.*set|alter.*table|exec|execute|xp_|sp_|0x|base64|concat|char\(|information_schema|benchmark|sleep\() [NC]
+RewriteCond %{QUERY_STRING} (union[\s\+]*(all[\s\+]*)?select|insert[\s\+]*into|drop[\s\+]*table|delete[\s\+]*from|update[\s\+]*set|alter[\s\+]*table|exec|execute|xp_|sp_|0x[0-9a-f]{8,}|base64_decode|concat\s*\(|char\s*\(|information_schema|benchmark\s*\(|sleep\s*\(|load_file|outfile|dumpfile|into[\s\+]*file) [NC]
 RewriteRule ^ - [F,L]
+
+# Block XSS attacks in query strings
+RewriteCond %{QUERY_STRING} (<script|%3Cscript|javascript:|vbscript:|onload=|onerror=|onclick=|onmouseover=|onfocus=|onblur=|alert\s*\(|prompt\s*\(|confirm\s*\(|document\.cookie|document\.write|window\.location|eval\s*\() [NC]
+RewriteRule ^ - [F,L]
+
+# Block command injection in query strings
+RewriteCond %{QUERY_STRING} (;|\||\`|>|<|\$\(|%24\(|\$\{|%24\{|/bin/|/etc/|/tmp/|/var/) [NC]
+RewriteRule ^ - [F,L]
+
+# Block bad query string patterns
+RewriteCond %{QUERY_STRING} (mosConfig_|global\[|_REQUEST\[|_GET\[|_POST\[|_COOKIE\[|_FILES\[|_SERVER\[|_ENV\[|GLOBALS\[|allow_url_include|auto_prepend_file|php://input|php://filter|data://|expect://) [NC]
+RewriteRule ^ - [F,L]
+
+# ============================================
+# RATE LIMITING (via mod_evasive if available)
+# ============================================
+<IfModule mod_evasive20.c>
+    DOSHashTableSize 3097
+    DOSPageCount 5
+    DOSSiteCount 50
+    DOSPageInterval 1
+    DOSSiteInterval 1
+    DOSBlockingPeriod 600
+</IfModule>
 
 # ============================================
 # ROUTE ALL OTHER REQUESTS TO index.php
