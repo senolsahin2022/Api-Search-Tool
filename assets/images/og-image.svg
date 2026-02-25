@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <path d="M 540 240 L 570 280 L 530 320 L 545 320 L 575 290 L 595 320 L 615 320 L 590 280 L 625 240 L 610 240 L 585 270 L 565 240 Z" fill="white" transform="scale(2.5) translate(-340, -170)"/>
+  <text x="600" y="450" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="60" font-weight="800" fill="white">TwitExplorer</text>
+  <text x="600" y="510" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" fill="#71767b">Social Media Explorer</text>
+</svg>

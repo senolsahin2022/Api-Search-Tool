@@ -21,12 +21,12 @@
     <meta property="og:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
     <meta property="og:url" content="<?= e($baseUrl . ($canonicalUrl ?? '/')) . ($lang !== 'tr' ? (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') . 'lang=' . $lang : '') ?>">
     <meta property="og:site_name" content="TwitExplorer">
-    <meta property="og:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
+    <meta property="og:image" content="<?= e($baseUrl) ?>/assets/images/og-image.svg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= e($pageTitle ?? __('meta_title')) ?>">
     <meta name="twitter:description" content="<?= e($pageDescription ?? __('meta_desc')) ?>">
-    <meta name="twitter:image" content="<?= e($baseUrl) ?>/assets/images/og-image.png">
+    <meta name="twitter:image" content="<?= e($baseUrl) ?>/assets/images/og-image.svg">
     
     <link rel="alternate" hreflang="tr" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=tr">
     <link rel="alternate" hreflang="en" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=en">
@@ -36,6 +36,7 @@
     <link rel="alternate" hreflang="fa" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) . (str_contains($canonicalUrl ?? '', '?') ? '&' : '?') ?>lang=fa">
     <link rel="alternate" hreflang="x-default" href="<?= e($baseUrl . ($canonicalUrl ?? '/')) ?>">
     
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

@@ -41,7 +41,10 @@ require __DIR__ . '/../includes/header.php';
             <i class="fa-solid fa-circle-exclamation"></i>
             <h2>' . e(__('no_results')) . '</h2>
             <p>Tweet bulunamadı veya API hatası oluştu.</p>
-            <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> ' . e(__('home_btn')) . '</a>
+            <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap; margin-top:15px;">
+                <a href="https://x.com/i/status/' . e($tweetId) . '" target="_blank" rel="noopener" class="btn btn-primary"><i class="fa-brands fa-x-twitter"></i> X.com\'da Görüntüle</a>
+                <a href="/" class="btn btn-primary" style="background:var(--bg-card);"><i class="fa-solid fa-house"></i> ' . e(__('home_btn')) . '</a>
+            </div>
         </div>';
     }
     ?>

@@ -119,7 +119,7 @@ if (isset($_GET['embed'])):
 
         <div class="preview">
             <h3 style="margin-bottom: 20px;">Önizleme</h3>
-            <iframe id="w-preview" src="https://freedom-x.net/widget?type=hashtag&val=bjk&limit=5&theme=dark&embed=1" style="width: 100%; height: 500px; border: 1px solid var(--border); border-radius: 15px; background: #000;"></iframe>
+            <iframe id="w-preview" src="/widget?type=hashtag&val=bjk&limit=5&theme=dark&embed=1" style="width: 100%; height: 500px; border: 1px solid var(--border); border-radius: 15px; background: #000;"></iframe>
         </div>
     </div>
 
@@ -131,20 +131,20 @@ if (isset($_GET['embed'])):
 </div>
 
 <script>
-const baseUrl = 'https://freedom-x.net';
+const embedBase = 'https://freedom-x.net';
 function updateWidget() {
     const type = document.getElementById('w-type').value;
     const val = document.getElementById('w-val').value || (type === 'hashtag' ? 'trending' : 'twitter');
     const limit = document.getElementById('w-limit').value;
     const theme = document.getElementById('w-theme').value;
     
-    // Update label
     document.getElementById('w-val-label').textContent = type === 'hashtag' ? 'Hashtag (Sembolsüz)' : 'Kullanıcı Adı (Sembolsüz)';
     
-    const url = `${baseUrl}/widget?type=${type}&val=${encodeURIComponent(val)}&limit=${limit}&theme=${theme}&embed=1`;
-    document.getElementById('w-preview').src = url;
+    const previewUrl = `/widget?type=${type}&val=${encodeURIComponent(val)}&limit=${limit}&theme=${theme}&embed=1`;
+    document.getElementById('w-preview').src = previewUrl;
     
-    const code = `<iframe src="${url}" width="100%" height="500" frameborder="0" style="border-radius:15px; border:1px solid #2f3336;"></iframe>`;
+    const embedUrl = `${embedBase}/widget?type=${type}&val=${encodeURIComponent(val)}&limit=${limit}&theme=${theme}&embed=1`;
+    const code = `<iframe src="${embedUrl}" width="100%" height="500" frameborder="0" style="border-radius:15px; border:1px solid #2f3336;"></iframe>`;
     document.getElementById('w-code').value = code;
 }
 
