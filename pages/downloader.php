@@ -16,8 +16,8 @@ require __DIR__ . '/../includes/header.php';
             <p class="animate-up" style="animation-delay: 0.1s;"><?= e(__('video_downloader_desc')) ?></p>
             
             <div class="search-container animate-up" style="animation-delay: 0.2s; max-width: 700px; margin: 30px auto;">
-                <form action="/downloader" method="POST" class="downloader-page-form shadow-lg">
-                    <input type="text" name="url" placeholder="https://x.com/kullanici/status/2023151190113222658" required class="downloader-page-input" value="<?= e($_POST['url'] ?? '') ?>">
+                <form action="/downloader" method="GET" class="downloader-page-form shadow-lg" onsubmit="var u=this.url.value,m=u.match(/status\/(\d+)/);if(m){this.url.value=m[1];}return true;">
+                    <input type="text" name="url" placeholder="https://x.com/kullanici/status/2023151190113222658" required class="downloader-page-input" value="<?= e($_GET['url'] ?? '') ?>">
                     <button type="submit" class="downloader-page-button">
                         <i class="fa-solid fa-download"></i> <?= e(__('download_btn')) ?>
                     </button>
@@ -34,10 +34,14 @@ require __DIR__ . '/../includes/header.php';
         </div>
 
         <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['url'])) {
-            $url = $_POST['url'];
-            preg_match('/status\/(\d+)/', $url, $matches);
-            $tweetId = $matches[1] ?? null;
+        if (!empty($_GET['url'])) {
+            $url = $_GET['url'];
+            if (preg_match('/^\d+$/', $url)) {
+                $tweetId = $url;
+            } else {
+                preg_match('/status\/(\d+)/', $url, $matches);
+                $tweetId = $matches[1] ?? null;
+            }
 
             if ($tweetId) {
                 $tweetData = getTweet($tweetId);
