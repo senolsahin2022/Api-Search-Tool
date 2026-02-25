@@ -119,13 +119,15 @@ RewriteRule ^(includes|pages|scripts)/ - [F,L]
 # ALLOWED URL PATTERNS (WHITELIST)
 # ============================================
 
-# Allow assets (css, js, images, fonts only)
-RewriteCond %{REQUEST_URI} ^/assets/(css|js|images|fonts)/ [NC]
+# Allow assets (css, js, images, fonts + root level assets)
 RewriteCond %{REQUEST_URI} \.(css|js|svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|eot|otf)$ [NC]
+RewriteCond %{REQUEST_URI} ^/assets/ [NC]
 RewriteRule ^ - [L]
 
-# Block any other assets path
-RewriteRule ^assets/ - [F,L]
+# Block non-allowed file types in assets
+RewriteCond %{REQUEST_URI} ^/assets/ [NC]
+RewriteCond %{REQUEST_URI} !\.(css|js|svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|eot|otf)$ [NC]
+RewriteRule ^ - [F,L]
 
 # Allow favicon and standard files
 RewriteRule ^(favicon\.ico|favicon\.svg|apple-touch-icon\.png)$ - [L]
