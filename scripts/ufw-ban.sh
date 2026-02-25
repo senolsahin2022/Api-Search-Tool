@@ -10,7 +10,7 @@ TIMEWINDOW=60
 USE_IPSET=true
 IPSET_NAME="banned_ips"
 
-URL_PATTERN='(GET|POST|HEAD) (/|/\?[^ ]*|/search(\?[^ ]*)?|/user/[^ ]*|/hashtag/[^ ]*|/status/[0-9]+(\?[^ ]*)?|/downloader(\?[^ ]*)?|/widget(\?[^ ]*)?|/assets/[^ ]*|/favicon\.ico|/robots\.txt|/sitemap\.xml) HTTP/'
+URL_PATTERN='(GET|POST|HEAD) (/|/\?[^ ]*|/search(\?[^ ]*)?|/user/[^ ]*|/hashtag/[^ ]*|/status/[0-9]+(\?[^ ]*)?|/downloader(\?[^ ]*)?|/widget(\?[^ ]*)?|/assets/[^ ]*|/favicon\.ico|/robots\.txt|/sitemap\.xml|/\.well-known/[^ ]*) HTTP/'
 
 fetch_google_ranges() {
     local now=$(date +%s)
