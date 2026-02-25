@@ -782,6 +782,7 @@ body {
     .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     .tweet-stats { gap: 16px; }
     .promo-bar-inner { flex-direction: column; gap: 8px; text-align: center; }
+    .promo-slide { flex-direction: column; gap: 8px; text-align: center; }
     .showcase-content { grid-template-columns: 1fr !important; }
     .showcase-preview { display: flex; justify-content: center; }
     .showcase-widget-mock { max-width: 320px; }
@@ -897,6 +898,32 @@ body {
 .promo-bar-close:hover {
     color: var(--text);
     background: rgba(255, 255, 255, 0.1);
+}
+
+.promo-bar-inner { position: relative; }
+.promo-slide {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex: 1;
+    animation: promo-fade-in 0.5s ease;
+}
+.promo-slide.active { display: flex; }
+@keyframes promo-fade-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.promo-bar-badge-dl {
+    background: linear-gradient(135deg, #e74c3c, #f39c12) !important;
+    font-size: 0.8rem !important;
+    padding: 4px 10px !important;
+}
+.promo-bar-cta-dl {
+    background: linear-gradient(135deg, #e74c3c, #f39c12) !important;
+}
+.promo-bar-cta-dl:hover {
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4) !important;
 }
 
 .widget-showcase {

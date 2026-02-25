@@ -56,17 +56,31 @@
     <?php if (($currentPage ?? '') !== 'widget'): ?>
     <div class="promo-bar" id="promoBar">
         <div class="container promo-bar-inner">
-            <div class="promo-bar-content">
-                <span class="promo-bar-badge">NEW</span>
-                <span class="promo-bar-text"><i class="fa-solid fa-cube"></i> <?= e(__('promo_bar')) ?></span>
+            <div class="promo-slide active" id="promoSlide1">
+                <div class="promo-bar-content">
+                    <span class="promo-bar-badge">NEW</span>
+                    <span class="promo-bar-text"><i class="fa-solid fa-cube"></i> <?= e(__('promo_bar')) ?></span>
+                </div>
+                <div class="promo-bar-actions">
+                    <a href="/widget" class="promo-bar-cta"><?= e(__('promo_bar_cta')) ?> <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
             </div>
-            <div class="promo-bar-actions">
-                <a href="/widget" class="promo-bar-cta"><?= e(__('promo_bar_cta')) ?> <i class="fa-solid fa-arrow-right"></i></a>
-                <button class="promo-bar-close" onclick="document.getElementById('promoBar').style.display='none';sessionStorage.setItem('promoBarClosed','1');" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            <div class="promo-slide" id="promoSlide2">
+                <div class="promo-bar-content">
+                    <span class="promo-bar-badge promo-bar-badge-dl"><i class="fa-solid fa-download"></i></span>
+                    <span class="promo-bar-text"><i class="fa-solid fa-video"></i> <?= e(__('promo_bar_dl')) ?></span>
+                </div>
+                <div class="promo-bar-actions">
+                    <a href="/downloader" class="promo-bar-cta promo-bar-cta-dl"><?= e(__('promo_bar_dl_cta')) ?> <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
             </div>
+            <button class="promo-bar-close" onclick="document.getElementById('promoBar').style.display='none';sessionStorage.setItem('promoBarClosed','1');" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
         </div>
     </div>
-    <script>if(sessionStorage.getItem('promoBarClosed'))document.getElementById('promoBar').style.display='none';</script>
+    <script>
+    if(sessionStorage.getItem('promoBarClosed')){document.getElementById('promoBar').style.display='none';}
+    else{(function(){var s1=document.getElementById('promoSlide1'),s2=document.getElementById('promoSlide2'),c=0;setInterval(function(){c=1-c;s1.classList.toggle('active',c===0);s2.classList.toggle('active',c===1);},4000);})();}
+    </script>
     <?php endif; ?>
     <nav class="navbar">
         <div class="container nav-container">
