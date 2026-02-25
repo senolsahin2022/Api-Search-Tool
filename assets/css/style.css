@@ -1156,3 +1156,246 @@ body {
     justify-content: center;
     gap: 4px;
 }
+
+.dl-showcase {
+    position: relative;
+    margin-top: 60px;
+    padding: 60px 0;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.06), rgba(241, 196, 15, 0.04));
+    border: 1px solid rgba(231, 76, 60, 0.15);
+    overflow: hidden;
+}
+.dl-showcase-glow {
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(231, 76, 60, 0.12), transparent 70%);
+    pointer-events: none;
+}
+.dl-showcase-content {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 50px;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+.dl-showcase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.2), rgba(241, 196, 15, 0.15));
+    color: #e74c3c;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+}
+.dl-showcase-text h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, #e74c3c, #f39c12);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+}
+.dl-showcase-text p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+.dl-showcase-features {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+.dl-showcase-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+.dl-showcase-feature-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(241, 196, 15, 0.1));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e74c3c;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.dl-showcase-feature strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+.dl-showcase-feature span {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+.dl-showcase-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
+}
+.dl-showcase-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(231, 76, 60, 0.4);
+}
+
+.dl-mock-player {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transform: perspective(800px) rotateY(-4deg) rotateX(2deg);
+    transition: transform 0.5s ease;
+}
+.dl-mock-player:hover {
+    transform: perspective(800px) rotateY(0deg) rotateX(0deg);
+}
+.dl-mock-video-area {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.dl-mock-video-area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 4px,
+        rgba(255,255,255,0.02) 4px,
+        rgba(255,255,255,0.02) 5px
+    );
+}
+.dl-mock-play-btn {
+    width: 60px; height: 60px;
+    background: rgba(231, 76, 60, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    z-index: 1;
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.5);
+    animation: dl-pulse 2s ease infinite;
+}
+@keyframes dl-pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(231, 76, 60, 0.5); }
+    50% { transform: scale(1.08); box-shadow: 0 6px 30px rgba(231, 76, 60, 0.7); }
+}
+.dl-mock-progress {
+    position: absolute;
+    bottom: 10px; left: 12px; right: 60px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.dl-mock-progress-bar {
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(90deg, #e74c3c, #f39c12);
+    border-radius: 4px;
+    animation: dl-progress 4s ease-in-out infinite;
+}
+@keyframes dl-progress {
+    0% { width: 20%; }
+    50% { width: 65%; }
+    100% { width: 20%; }
+}
+.dl-mock-duration {
+    position: absolute;
+    bottom: 6px; right: 12px;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+.dl-mock-quality-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+.dl-mock-q {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+.dl-mock-q.best {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(241, 196, 15, 0.1));
+    color: #e74c3c;
+    border-color: rgba(231, 76, 60, 0.3);
+}
+.dl-mock-download-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(241, 196, 15, 0.05));
+}
+.dl-mock-dl-icon {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.85rem;
+}
+.dl-mock-dl-text {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--text);
+    flex: 1;
+}
+.dl-mock-dl-arrow {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    animation: dl-bounce 1.5s ease infinite;
+}
+@keyframes dl-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
+@media (max-width: 768px) {
+    .dl-showcase-content { grid-template-columns: 1fr !important; }
+    .dl-showcase-visual { order: -1; }
+    .dl-mock-player { transform: none; }
+    .dl-showcase-text h2 { font-size: 1.5rem; }
+}

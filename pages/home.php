@@ -157,6 +157,62 @@ require __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
+<section class="dl-showcase">
+    <div class="dl-showcase-glow"></div>
+    <div class="dl-showcase-content">
+        <div class="dl-showcase-visual">
+            <div class="dl-mock-player">
+                <div class="dl-mock-video-area">
+                    <div class="dl-mock-play-btn"><i class="fa-solid fa-play"></i></div>
+                    <div class="dl-mock-progress">
+                        <div class="dl-mock-progress-bar"></div>
+                    </div>
+                    <div class="dl-mock-duration">1:24</div>
+                </div>
+                <div class="dl-mock-quality-row">
+                    <span class="dl-mock-q best">HD 1080p</span>
+                    <span class="dl-mock-q">HD 720p</span>
+                    <span class="dl-mock-q">SD 480p</span>
+                </div>
+                <div class="dl-mock-download-bar">
+                    <div class="dl-mock-dl-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+                    <div class="dl-mock-dl-text"><?= e(__('dl_showcase_cta')) ?></div>
+                    <div class="dl-mock-dl-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="dl-showcase-text">
+            <div class="dl-showcase-badge"><i class="fa-solid fa-download"></i> Video Downloader</div>
+            <h2><?= e(__('dl_showcase_title')) ?></h2>
+            <p><?= e(__('dl_showcase_desc')) ?></p>
+            <div class="dl-showcase-features">
+                <div class="dl-showcase-feature">
+                    <div class="dl-showcase-feature-icon"><i class="fa-solid fa-gem"></i></div>
+                    <div>
+                        <strong><?= e(__('dl_feature_1')) ?></strong>
+                        <span><?= e(__('dl_feature_1_desc')) ?></span>
+                    </div>
+                </div>
+                <div class="dl-showcase-feature">
+                    <div class="dl-showcase-feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <div>
+                        <strong><?= e(__('dl_feature_2')) ?></strong>
+                        <span><?= e(__('dl_feature_2_desc')) ?></span>
+                    </div>
+                </div>
+                <div class="dl-showcase-feature">
+                    <div class="dl-showcase-feature-icon"><i class="fa-solid fa-film"></i></div>
+                    <div>
+                        <strong><?= e(__('dl_feature_3')) ?></strong>
+                        <span><?= e(__('dl_feature_3_desc')) ?></span>
+                    </div>
+                </div>
+            </div>
+            <a href="/downloader" class="dl-showcase-cta"><i class="fa-solid fa-download"></i> <?= e(__('dl_showcase_cta')) ?> <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
