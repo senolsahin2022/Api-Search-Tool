@@ -164,11 +164,11 @@ RewriteCond %{REQUEST_URI} (\.git|\.svn|\.hg|\.bzr|\.env|\.htpasswd|\.htaccess|\
 RewriteRule ^ - [F,L]
 
 # Block common shell/backdoor/webshell paths
-RewriteCond %{REQUEST_URI} (shell|c99|c100|r57|r99|webshell|b374k|wso|alfa|FilesMan|phpspy|phpkit|locus7|storm7|lol|symlink|cgitelnet|crystal|zehir|indoxploit|sadrazam|b4tm4n|mini\.php|mini_shell|p0wny|termux|terminal|console|backdoor|trojan|rootkit|malware|exploit|inject|payload|reverse|bind|connect|attack|hack|crack|brute|force|bypass|escalat|privesc) [NC]
+RewriteCond %{REQUEST_URI} (c99shell|c100shell|r57shell|r99shell|webshell|b374k|wso\.php|alfa\.php|FilesMan|phpspy|phpkit|locus7shell|storm7shell|cgitelnet|indoxploit|sadrazam|b4tm4n|mini_shell|p0wny-shell|backdoor\.php|trojan\.php|rootkit\.php) [NC]
 RewriteRule ^ - [F,L]
 
 # Block server info/debug endpoints
-RewriteCond %{REQUEST_URI} (phpinfo|php-info|test\.php|info\.php|debug|trace|server-status|server-info|balancer-manager|jmx-console|web-console|status|healthcheck\.php|apc\.php|opcache|memcache|redis|mongo|elastic) [NC]
+RewriteCond %{REQUEST_URI} (phpinfo|php-info|test\.php|info\.php|debug|trace|server-status|server-info|balancer-manager|jmx-console|web-console|healthcheck\.php|apc\.php|opcache|memcache|redis|mongo|elastic) [NC]
 RewriteRule ^ - [F,L]
 
 # Block API/dev tool paths
@@ -222,7 +222,7 @@ RewriteCond %{QUERY_STRING} (127\.0\.0\.1|localhost|0\.0\.0\.0|169\.254\.|10\.|1
 RewriteRule ^ - [F,L]
 
 # Block URL-encoded attack patterns
-RewriteCond %{THE_REQUEST} (%27|%22|%60|%3B|%7C|%26|%24%28|%24%7B) [NC]
+RewriteCond %{THE_REQUEST} (%27|%22|%60|%24%28|%24%7B) [NC]
 RewriteRule ^ - [F,L]
 
 # Block long query strings (>2048 chars = attack)
