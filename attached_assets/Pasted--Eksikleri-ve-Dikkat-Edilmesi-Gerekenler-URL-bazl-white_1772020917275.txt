@@ -1,0 +1,67 @@
+⚠️ Eksikleri ve Dikkat Edilmesi Gerekenler
+
+URL bazlı whitelist sınırlı:
+
+URL_PATTERN='(GET|POST|HEAD) (/|/search|/user/|/hashtag/|/status/[0-9]+|/downloader|/widget|/assets/)'
+
+Bu regex oldukça basit ve query parametrelerini (?q=OpenAI gibi) veya daha karmaşık URL’leri kapsamıyor.
+
+Örneğin /search?q=OpenAI veya /?lang=fa doğru şekilde whitelist’e düşmeyebilir.
+
+Bu yüzden bazı geçerli URL’ler yanlışlıkla engellenebilir.
+
+IP aralık kontrolü:
+
+is_google_ip fonksiyonu IPv4 CIDR’i integer’a çevirip kontrol ediyor, mantık doğru, ama GOOGLE_RANGES’de bazı yeni Google IP blokları eksik olabilir.
+
+Sürekli güncel Google IP listesi çekmek daha güvenli olur.
+
+Zaman penceresi (TIMEWINDOW) sabit:
+
+Şu anda tail -5000 ile sadece son 5000 log satırını okuyor.
+
+Çok yüksek trafikli sitelerde bazı IP’ler atlanabilir.
+
+Daha doğru tespit için log’ların timestamp ile filtrelenmesi önerilir.
+
+Firewall performansı:
+
+Çok sayıda IP engellenirse UFW tablosu dolabilir.
+
+ipset gibi yapı kullanmak daha performanslı olur.
+
+Log parse hataları:
+
+awk '{print $1}' ve diğer parsing’ler log formatına bağımlı.
+
+Apache/Nginx log formatı değişirse IP veya URL yanlış alınabilir.
+
+💡 Öneriler / İyileştirmeler
+
+URL whitelist’i geliştirmek:
+
+URL_PATTERN='(GET|POST|HEAD) (/(\?|search(\?.*)?|user/.*|hashtag/.*|status/[0-9]+|downloader|widget|assets/.*))'
+
+Böylece query parametreleri olan /search?q=OpenAI gibi URL’ler engellenmez.
+
+Google IP’lerini güncel JSON listeden almak:
+
+Google Cloud IP’lerini JSON’dan parse edip GOOGLE_RANGES’i otomatik güncellemek.
+
+Böylece whitelist sürekli güncel kalır.
+
+IP engelleme performansı:
+
+Çok sayıda engelleme için UFW yerine ipset kullanmak: 10.000+ IP’yi çok hızlı engelleyebilirsin.
+
+Cron ile düzenli çalıştırma:
+
+Dakikada bir çalışacak şekilde cron kurulmuş, bu iyi.
+
+Ama log çok büyükse, sadece yeni satırları (tail -F) analiz eden bir versiyon daha performanslı olur.
+
+Ek güvenlik:
+
+Script’i root olarak çalıştırmalısın, yoksa ufw deny çalışmaz.
+
+Deneme ortamında test edip, yanlış IP engelleme olmadığından emin ol.
