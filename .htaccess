@@ -201,6 +201,10 @@ RewriteRule ^ - [F,L]
 RewriteCond %{REQUEST_URI} (union[\s\+]*(?:all[\s\+]*)?select|insert[\s\+]*into|drop[\s\+]*(?:table|database|schema)|delete[\s\+]*from|update[\s\+]*set|alter[\s\+]*table|create[\s\+]*(?:table|database|schema|index|view|procedure|function|trigger)|truncate[\s\+]*table|exec(?:ute)?|xp_|sp_|0x[0-9a-f]{8,}|base64_decode|base64_encode|concat\s*\(|char\s*\(|chr\s*\(|ascii\s*\(|ord\s*\(|hex\s*\(|unhex\s*\(|substring\s*\(|substr\s*\(|mid\s*\(|information_schema|benchmark\s*\(|sleep\s*\(|waitfor|delay|load_file|outfile|dumpfile|into[\s\+]*(?:file|outfile|dumpfile)|group[\s\+]*by|order[\s\+]*by[\s\+]*[0-9]|having[\s\+]*[0-9]|\/\*[\s\S]*?\*\/|--[\s]|#[\s]) [NC]
 RewriteRule ^ - [F,L]
 
+# Skip ALL query string security checks for video-proxy (PHP-side whitelist handles security)
+RewriteCond %{REQUEST_URI} ^/video-proxy$ [NC]
+RewriteRule ^ - [S=10]
+
 RewriteCond %{QUERY_STRING} (union[\s\+]*(?:all[\s\+]*)?select|insert[\s\+]*into|drop[\s\+]*(?:table|database|schema)|delete[\s\+]*from|update[\s\+]*set|alter[\s\+]*table|create[\s\+]*(?:table|database)|truncate|exec(?:ute)?|xp_|sp_|0x[0-9a-f]{8,}|base64_decode|base64_encode|concat\s*\(|char\s*\(|chr\s*\(|information_schema|benchmark\s*\(|sleep\s*\(|waitfor|delay|load_file|outfile|dumpfile|into[\s\+]*file|\/\*.*?\*\/|--[\s]|#[\s]) [NC]
 RewriteRule ^ - [F,L]
 
@@ -218,8 +222,7 @@ RewriteRule ^ - [F,L]
 RewriteCond %{QUERY_STRING} (\||\`|>|<|\$\(|%24\(|\$\{|%24\{|/bin/|/usr/bin/|/sbin/|/etc/|/tmp/|/var/|/dev/|/proc/) [NC]
 RewriteRule ^ - [F,L]
 
-# Block PHP superglobals & protocol wrappers (exempt video-proxy)
-RewriteCond %{REQUEST_URI} !^/video-proxy$ [NC]
+# Block PHP superglobals & protocol wrappers
 RewriteCond %{QUERY_STRING} (mosConfig_|global\[|_REQUEST\[|_GET\[|_POST\[|_COOKIE\[|_FILES\[|_SERVER\[|_ENV\[|_SESSION\[|GLOBALS\[|HTTP_|allow_url_include|allow_url_fopen|auto_prepend_file|auto_append_file|register_globals|safe_mode|open_basedir|disable_functions|php://input|php://filter|php://output|php://fd|php://memory|php://temp|data://|expect://|phar://|zip://|compress\.zlib://|compress\.bzip2://|glob://|ogg://|rar://|zlib://|file://|ftp://|ftps://|ssh2://|dict://|ldap://|gopher://) [NC]
 RewriteRule ^ - [F,L]
 
