@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
+Allow: /user/
+Allow: /hashtag/
+Allow: /status/
+Allow: /search
+Allow: /downloader
+
+Disallow: /includes/
+Disallow: /pages/
+Disallow: /scripts/
 
 Sitemap: https://freedom-x.net/sitemap.xml
