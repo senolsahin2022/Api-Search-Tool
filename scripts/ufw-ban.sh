@@ -181,10 +181,10 @@ parse_log_timestamp() {
     date -d "$(echo "$raw" | sed 's|/| |g; s|:| |')" +%s 2>/dev/null || echo 0
 }
 
-ban_post_ips() {
+ban_invalid_requests() {
     local current_offset=0
-    if [[ -f "${OFFSET_FILE}.post" ]]; then
-        current_offset=$(cat "${OFFSET_FILE}.post")
+    if [[ -f "${OFFSET_FILE}.invalid" ]]; then
+        current_offset=$(cat "${OFFSET_FILE}.invalid")
     fi
 
     local total_lines=$(wc -l < "$LOGFILE" 2>/dev/null || echo 0)
@@ -195,20 +195,30 @@ ban_post_ips() {
 
     local new_lines=$(( total_lines - current_offset ))
     if (( new_lines <= 0 )); then
-        echo "$total_lines" > "${OFFSET_FILE}.post"
+        echo "$total_lines" > "${OFFSET_FILE}.invalid"
         return
     fi
 
     declare -A post_ips
+    declare -A invalid_ips
+    declare -A invalid_reasons
 
     while IFS= read -r line; do
         local ip=$(echo "$line" | awk '{print $1}')
-        if [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            post_ips[$ip]=1
+        if [[ ! "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            continue
         fi
-    done < <(tail -n +"$((current_offset + 1))" "$LOGFILE" | grep -E '"POST ')
 
-    echo "$total_lines" > "${OFFSET_FILE}.post"
+        if echo "$line" | grep -qE '"POST '; then
+            post_ips[$ip]=1
+        elif ! echo "$line" | grep -qE "$URL_PATTERN"; then
+            invalid_ips[$ip]=1
+            local req_path=$(echo "$line" | grep -oP '"(GET|POST|HEAD|PUT|DELETE|PATCH|OPTIONS) \K[^ ]*')
+            invalid_reasons[$ip]="${req_path:-unknown}"
+        fi
+    done < <(tail -n +"$((current_offset + 1))" "$LOGFILE" | grep -E '"(GET|POST|HEAD|PUT|DELETE|PATCH|OPTIONS) ')
+
+    echo "$total_lines" > "${OFFSET_FILE}.invalid"
 
     local banned=0
 
@@ -217,19 +227,31 @@ ban_post_ips() {
             echo "[$(date)] SKIP Google POST: $ip" >> "$BANLIST"
             continue
         fi
-
         if is_already_banned "$ip"; then
             continue
         fi
-
         ban_ip "$ip" "auto-ban: POST request"
         echo "[$(date)] BANNED (POST): $ip" >> "$BANLIST"
         logger "ufw-ban: Banned $ip for POST request"
         ((banned++))
     done
 
+    for ip in "${!invalid_ips[@]}"; do
+        if is_google_ip "$ip"; then
+            echo "[$(date)] SKIP Google INVALID: $ip (${invalid_reasons[$ip]})" >> "$BANLIST"
+            continue
+        fi
+        if is_already_banned "$ip"; then
+            continue
+        fi
+        ban_ip "$ip" "auto-ban: invalid path ${invalid_reasons[$ip]}"
+        echo "[$(date)] BANNED (INVALID PATH): $ip -> ${invalid_reasons[$ip]}" >> "$BANLIST"
+        logger "ufw-ban: Banned $ip for invalid path ${invalid_reasons[$ip]}"
+        ((banned++))
+    done
+
     if (( banned > 0 )); then
-        echo "[$(date)] POST scan: $banned IPs banned" >> "$BANLIST"
+        echo "[$(date)] Invalid request scan: $banned IPs banned" >> "$BANLIST"
     fi
 }
 
@@ -244,7 +266,7 @@ ban_abusive_ips() {
         setup_ipset
     fi
 
-    ban_post_ips
+    ban_invalid_requests
 
     declare -A ip_counts
     declare -A ip_first_seen
