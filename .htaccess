@@ -46,10 +46,8 @@ ServerSignature Off
 RewriteCond %{HTTP_USER_AGENT} (MJ12bot|DotBot|AhrefsBot|SemrushBot|PetalBot|BLEXBot|DataForSeoBot|Bytespider|GPTBot|CCBot|ClaudeBot|anthropic-ai|Sogou|python-requests|python-urllib|Go-http-client|Scrapy|Wget|curl|nikto|sqlmap|nmap|masscan|ZmEu|dirbuster|gobuster|wfuzz|nuclei|httpx|ffuf|feroxbuster|Havij|Nessus|OpenVAS|w3af|Acunetix|AppScan|WebInspect|BurpSuite|Hydra|Medusa|THC|JBoss|Jorgee|Morfeus|Toata|Voila|libwww-perl|lwp-trivial|HTTrack|clshttp|cmsScan|harvest|extract|sucker|grab|siphon|BlackWidow|CopyRightCheck|Bolt|Collector|EmailSiphon|WebLeacher|WebCopier|WebZIP|Teleport|TurnitinBot|Nutch|NetcraftSurveyAgent|Siege|ApacheBench|Pangolin|Xenu|BlinkaCrawler|backlink|spy|track|scan|attack|hack|exploit|inject|payload|pentest|vuln|wp-scan|wpscan|joomscan|droopescan|CMSmap|XSStrike|commix|tplmap) [NC]
 RewriteRule ^ - [F,L]
 
-# Block empty User-Agent
-RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
-RewriteCond %{HTTP_USER_AGENT} ^-$ [OR]
-RewriteCond %{HTTP_USER_AGENT} ^\s*$
+# Block empty User-Agent (Cloudflare health checks exempt)
+RewriteCond %{HTTP_USER_AGENT} ^-$
 RewriteRule ^ - [F,L]
 
 # ============================================
@@ -90,7 +88,7 @@ RewriteRule ^ - [F,L]
 # ============================================
 # BLOCK FILE ACCESS - SENSITIVE FILES
 # ============================================
-<FilesMatch "\.(env|git|svn|htpasswd|htaccess|ini|log|sh|sql|bak|backup|old|orig|dist|config|yml|yaml|toml|lock|json|xml|md|txt|csv|db|sqlite|sqlite3|pem|key|crt|cer|der|p12|pfx|jks|conf|cfg|cnf)$">
+<FilesMatch "\.(env|git|svn|htpasswd|htaccess|ini|log|sh|sql|bak|backup|old|orig|dist|config|yml|yaml|toml|lock|json|md|csv|db|sqlite|sqlite3|pem|key|crt|cer|der|p12|pfx|jks|conf|cfg|cnf)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
@@ -109,8 +107,7 @@ RewriteRule ^ - [F,L]
 # ============================================
 # PROTECT DIRECTORIES & SERVER CONFIG
 # ============================================
-Options -Indexes -ExecCGI -Includes -MultiViews -FollowSymLinks
-Options +SymLinksIfOwnerMatch
+Options -Indexes -ExecCGI -Includes -MultiViews +FollowSymLinks
 <IfModule mod_autoindex.c>
     IndexIgnore *
 </IfModule>
