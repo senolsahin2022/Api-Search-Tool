@@ -1,9 +1,6 @@
 RewriteEngine On
 RewriteBase /
 
-# Allow encoded slashes for video-proxy URLs
-AllowEncodedSlashes NoDecode
-
 # ============================================
 # HTTPS REDIRECT (Cloudflare Flexible SSL)
 # ============================================
