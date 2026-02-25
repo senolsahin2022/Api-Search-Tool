@@ -179,7 +179,7 @@ require __DIR__ . '/../includes/header.php';
 </style>
 
 <script>
-const WIDGET_BASE = '<?= $baseUrl ?>';
+const WIDGET_BASE = 'https://freedom-x.net';
 
 let config = {
     type: 'user',
@@ -381,7 +381,7 @@ function getHeaderSub() {
 
 async function loadPreviewData(preview, isDark, bg, bgCard, text, textSec, border) {
     try {
-        const url = `${WIDGET_BASE}/widget/api?type=${config.type}&source=${encodeURIComponent(config.source)}&count=${config.count}`;
+        const url = `${location.origin}/widget/api?type=${config.type}&source=${encodeURIComponent(config.source)}&count=${config.count}`;
         const res = await fetch(url);
         const data = await res.json();
 
