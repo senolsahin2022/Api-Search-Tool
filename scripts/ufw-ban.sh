@@ -181,6 +181,58 @@ parse_log_timestamp() {
     date -d "$(echo "$raw" | sed 's|/| |g; s|:| |')" +%s 2>/dev/null || echo 0
 }
 
+ban_post_ips() {
+    local current_offset=0
+    if [[ -f "${OFFSET_FILE}.post" ]]; then
+        current_offset=$(cat "${OFFSET_FILE}.post")
+    fi
+
+    local total_lines=$(wc -l < "$LOGFILE" 2>/dev/null || echo 0)
+
+    if (( current_offset > total_lines )); then
+        current_offset=0
+    fi
+
+    local new_lines=$(( total_lines - current_offset ))
+    if (( new_lines <= 0 )); then
+        echo "$total_lines" > "${OFFSET_FILE}.post"
+        return
+    fi
+
+    declare -A post_ips
+
+    while IFS= read -r line; do
+        local ip=$(echo "$line" | awk '{print $1}')
+        if [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            post_ips[$ip]=1
+        fi
+    done < <(tail -n +"$((current_offset + 1))" "$LOGFILE" | grep -E '"POST ')
+
+    echo "$total_lines" > "${OFFSET_FILE}.post"
+
+    local banned=0
+
+    for ip in "${!post_ips[@]}"; do
+        if is_google_ip "$ip"; then
+            echo "[$(date)] SKIP Google POST: $ip" >> "$BANLIST"
+            continue
+        fi
+
+        if is_already_banned "$ip"; then
+            continue
+        fi
+
+        ban_ip "$ip" "auto-ban: POST request"
+        echo "[$(date)] BANNED (POST): $ip" >> "$BANLIST"
+        logger "ufw-ban: Banned $ip for POST request"
+        ((banned++))
+    done
+
+    if (( banned > 0 )); then
+        echo "[$(date)] POST scan: $banned IPs banned" >> "$BANLIST"
+    fi
+}
+
 ban_abusive_ips() {
     local now=$(date +%s)
     local since=$(( now - TIMEWINDOW ))
@@ -191,6 +243,8 @@ ban_abusive_ips() {
     if $USE_IPSET; then
         setup_ipset
     fi
+
+    ban_post_ips
 
     declare -A ip_counts
     declare -A ip_first_seen
