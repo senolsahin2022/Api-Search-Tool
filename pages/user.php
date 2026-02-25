@@ -115,19 +115,41 @@ if (!empty($userData) && is_array($userData)):
     </div>
 </section>
 
-<section style="margin-top: 50px;">
-    <h2 class="section-title"><i class="fa-solid fa-circle-question"></i> @<?= e($screenName) ?> FAQ</h2>
-    <div class="faq-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
-        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
-            <div class="trend-name">@<?= e($screenName) ?> profili güncel mi?</div>
-            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Evet, bu sayfada @<?= e($screenName) ?> kullanıcısının anlık paylaşımları gösterilmektedir.</p>
-        </div>
-        <div class="trend-card" style="margin-bottom: 0; cursor: default;">
-            <div class="trend-name">@<?= e($screenName) ?> tweetlerini nasıl takip ederim?</div>
-            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">TwitExplorer üzerinden bu sayfayı yer imlerine ekleyerek X erişime kapalı olsa dahi takip edebilirsiniz.</p>
-        </div>
+<section class="faq-section" style="margin-top: 40px; padding: 20px; background: var(--card-bg); border-radius: var(--radius-md); border: 1px solid var(--border);">
+    <h2 style="margin-bottom: 20px; font-size: 1.5rem; color: var(--primary);">@<?= e($screenName) ?> <?= e(__('faq_title')) ?></h2>
+    
+    <div class="faq-item" style="margin-bottom: 15px;">
+        <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q1_user'), $screenName) ?></h3>
+        <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a1_user'), $screenName) ?></p>
+    </div>
+
+    <div class="faq-item" style="margin-bottom: 15px;">
+        <h3 style="font-size: 1.1rem; margin-bottom: 5px;"><?= sprintf(__('faq_q2_user'), $screenName) ?></h3>
+        <p style="color: var(--text-muted); line-height: 1.6;"><?= sprintf(__('faq_a2_user'), $screenName) ?></p>
     </div>
 </section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "<?= addslashes(sprintf(__('faq_q1_user'), $screenName)) ?>",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "<?= addslashes(sprintf(__('faq_a1_user'), $screenName)) ?>"
+    }
+  }, {
+    "@type": "Question",
+    "name": "<?= addslashes(sprintf(__('faq_q2_user'), $screenName)) ?>",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "<?= addslashes(sprintf(__('faq_a2_user'), $screenName)) ?>"
+    }
+  }]
+}
+</script>
 <?php endif; ?>
 
 <?php else: ?>
