@@ -58,29 +58,24 @@ function getHashtag($tag) {
 }
 
 function getTweet($id) {
-    $endpoints = [
-        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api/tweet?id=' . urlencode($id),
-        'https://autumn-bush-ac99.senolsahin2022.workers.dev/api/status?id=' . urlencode($id),
-    ];
+    $url = 'https://xx.senolsahin2022.workers.dev/?id=' . urlencode($id);
     
-    foreach ($endpoints as $url) {
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => [API_AUTH_HEADER],
-            CURLOPT_TIMEOUT => 10,
-            CURLOPT_FOLLOWLOCATION => true,
-        ]);
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        
-        if ($httpCode === 200 && $response !== false) {
-            $data = json_decode($response, true);
-            if (!empty($data) && !isset($data['error'])) {
-                return $data;
-            }
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [API_AUTH_HEADER],
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_FOLLOWLOCATION => true,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if ($httpCode === 200 && $response !== false) {
+        $data = json_decode($response, true);
+        if (!empty($data) && isset($data['id_str'])) {
+            return $data;
         }
     }
     

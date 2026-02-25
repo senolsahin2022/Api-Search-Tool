@@ -18,7 +18,7 @@ $mediaUrl = '';
 if (!empty($tweet['media']) && is_array($tweet['media'])) {
     $firstMedia = $tweet['media'][0] ?? null;
     if ($firstMedia) {
-        $mediaUrl = is_array($firstMedia) ? ($firstMedia['url'] ?? $firstMedia['media_url_https'] ?? '') : $firstMedia;
+        $mediaUrl = is_array($firstMedia) ? ($firstMedia['media_url_https'] ?? $firstMedia['url'] ?? '') : $firstMedia;
     }
 }
 
