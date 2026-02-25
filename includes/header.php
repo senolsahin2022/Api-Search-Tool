@@ -53,6 +53,21 @@
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
+    <?php if (($currentPage ?? '') !== 'widget'): ?>
+    <div class="promo-bar" id="promoBar">
+        <div class="container promo-bar-inner">
+            <div class="promo-bar-content">
+                <span class="promo-bar-badge">NEW</span>
+                <span class="promo-bar-text"><i class="fa-solid fa-cube"></i> <?= e(__('promo_bar')) ?></span>
+            </div>
+            <div class="promo-bar-actions">
+                <a href="/widget" class="promo-bar-cta"><?= e(__('promo_bar_cta')) ?> <i class="fa-solid fa-arrow-right"></i></a>
+                <button class="promo-bar-close" onclick="document.getElementById('promoBar').style.display='none';sessionStorage.setItem('promoBarClosed','1');" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+    </div>
+    <script>if(sessionStorage.getItem('promoBarClosed'))document.getElementById('promoBar').style.display='none';</script>
+    <?php endif; ?>
     <nav class="navbar">
         <div class="container nav-container">
             <a href="/" class="logo">

@@ -78,6 +78,85 @@ require __DIR__ . '/../includes/header.php';
     <?php endif; ?>
 </section>
 
+<section class="widget-showcase">
+    <div class="showcase-glow"></div>
+    <div class="showcase-content">
+        <div class="showcase-text">
+            <div class="showcase-badge"><i class="fa-solid fa-sparkles"></i> Widget Builder</div>
+            <h2><?= e(__('widget_showcase_title')) ?></h2>
+            <p><?= e(__('widget_showcase_desc')) ?></p>
+            <div class="showcase-features">
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <div>
+                        <strong><?= e(__('widget_feature_1')) ?></strong>
+                        <span><?= e(__('widget_feature_1_desc')) ?></span>
+                    </div>
+                </div>
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon"><i class="fa-solid fa-palette"></i></div>
+                    <div>
+                        <strong><?= e(__('widget_feature_2')) ?></strong>
+                        <span><?= e(__('widget_feature_2_desc')) ?></span>
+                    </div>
+                </div>
+                <div class="showcase-feature">
+                    <div class="showcase-feature-icon"><i class="fa-solid fa-code"></i></div>
+                    <div>
+                        <strong><?= e(__('widget_feature_3')) ?></strong>
+                        <span><?= e(__('widget_feature_3_desc')) ?></span>
+                    </div>
+                </div>
+            </div>
+            <a href="/widget" class="showcase-cta"><?= e(__('promo_bar_cta')) ?> <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="showcase-preview">
+            <div class="showcase-widget-mock">
+                <div class="mock-header">
+                    <div class="mock-accent-bar"></div>
+                    <div>
+                        <div class="mock-title">@elonmusk</div>
+                        <div class="mock-subtitle"><?= e(__('last_posts')) ?></div>
+                    </div>
+                </div>
+                <div class="mock-tweet">
+                    <div class="mock-avatar"></div>
+                    <div class="mock-tweet-body">
+                        <div class="mock-name-row"><span class="mock-name"></span><span class="mock-handle"></span></div>
+                        <div class="mock-text-line w100"></div>
+                        <div class="mock-text-line w80"></div>
+                        <div class="mock-text-line w60"></div>
+                        <div class="mock-stats-row"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+                <div class="mock-tweet">
+                    <div class="mock-avatar"></div>
+                    <div class="mock-tweet-body">
+                        <div class="mock-name-row"><span class="mock-name"></span><span class="mock-handle"></span></div>
+                        <div class="mock-text-line w100"></div>
+                        <div class="mock-text-line w70"></div>
+                        <div class="mock-media-block"></div>
+                        <div class="mock-stats-row"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+                <div class="mock-tweet">
+                    <div class="mock-avatar"></div>
+                    <div class="mock-tweet-body">
+                        <div class="mock-name-row"><span class="mock-name"></span><span class="mock-handle"></span></div>
+                        <div class="mock-text-line w90"></div>
+                        <div class="mock-text-line w50"></div>
+                        <div class="mock-stats-row"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+                <div class="mock-branding">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="#1d9bf0"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    TwitExplorer
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
