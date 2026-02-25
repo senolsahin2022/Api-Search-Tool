@@ -23,6 +23,12 @@ switch (true) {
     case $requestUri === '/search':
         require __DIR__ . '/pages/search.php';
         break;
+    case $requestUri === '/widget':
+        require __DIR__ . '/pages/widget.php';
+        break;
+    case $requestUri === '/widget/api':
+        require __DIR__ . '/pages/widget-api.php';
+        exit;
     case $requestUri === '/downloader':
         require __DIR__ . '/pages/downloader.php';
         break;
