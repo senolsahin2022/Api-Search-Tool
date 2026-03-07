@@ -58,7 +58,7 @@ function getHashtag($tag) {
 }
 
 function getTweet($id) {
-    $url = 'https://xx.senolsahin2022.workers.dev/?id=' . urlencode($id);
+    $url = 'https://st1.musam0298.workers.dev/?id=' . urlencode($id);
     
     $ch = curl_init();
     curl_setopt_array($ch, [
